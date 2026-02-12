@@ -914,7 +914,7 @@
             return '<div class="mission-card" onclick="openMissionDetail(\'' + mission.id + '\')">' +
                 '<div class="mission-card-header">' +
                     '<div class="mission-info">' +
-                        '<div class="mission-icon">' + (mission.icon || '\ud83c\udfaf') + '</div>' +
+                        '<div class="mission-icon">' + GN_getIconSVG(mission.icon, 24) + '</div>' +
                         '<div><div class="mission-name">' + mission.name + '</div></div>' +
                     '</div>' +
                 '</div>' +

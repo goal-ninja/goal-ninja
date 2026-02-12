@@ -1046,6 +1046,7 @@
             else if (current === 'light') next = 'dark';
             else next = 'system';
             localStorage.setItem('goalNinjaAppearance', next);
+            GN_applyTheme();
             var label = next.charAt(0).toUpperCase() + next.slice(1);
             var items = document.querySelectorAll('.settings-item');
             for (var i = 0; i < items.length; i++) {
@@ -1111,6 +1112,21 @@
 
         initProfile();
         initDefaultReminder();
+
+        // Initialize appearance label from saved setting
+        (function() {
+            var pref = localStorage.getItem('goalNinjaAppearance') || 'system';
+            var label = pref.charAt(0).toUpperCase() + pref.slice(1);
+            var items = document.querySelectorAll('.settings-item');
+            for (var i = 0; i < items.length; i++) {
+                var lbl = items[i].querySelector('.settings-label');
+                if (lbl && lbl.textContent === 'Appearance') {
+                    var val = items[i].querySelector('.settings-value');
+                    if (val) val.innerHTML = label + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
+                    break;
+                }
+            }
+        })();
     </script>
     <script>
     if ('serviceWorker' in navigator) {

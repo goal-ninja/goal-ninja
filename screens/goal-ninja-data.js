@@ -4,6 +4,34 @@
 // Functions prefixed with GN_ to avoid conflicts
 // ============================================================
 
+// --- THEME ---
+
+(function() {
+    // Inject dark mode CSS variables immediately (before paint)
+    var darkCSS = ':root[data-theme="dark"]{--bg:#121212;--card-bg:#1e1e1e;--text-primary:#f0f0f0;--text-secondary:#aaa;--text-muted:#777;--accent:#f0f0f0;--border:#333;--success:#22c55e;--success-light:#14532d;--danger:#ef4444;--danger-light:#7f1d1d;--warning:#f59e0b;--warning-light:#78350f;--pro-gradient:linear-gradient(135deg,#2a2a2a 0%,#444 100%)}:root[data-theme="dark"] body{background:#121212}:root[data-theme="dark"] .phone-frame{background:#121212;border-color:#333}:root[data-theme="dark"] input,:root[data-theme="dark"] select,:root[data-theme="dark"] textarea{background:#2a2a2a;color:#f0f0f0;border-color:#444}:root[data-theme="dark"] .bottom-nav{background:#1a1a1a;border-color:#333}:root[data-theme="dark"] .modal{background:#1e1e1e}:root[data-theme="dark"] .modal-option{border-color:#333}:root[data-theme="dark"] .modal-option.selected{border-color:#f0f0f0;background:#2a2a2a}:root[data-theme="dark"] .modal-btn.cancel{background:#2a2a2a;color:#f0f0f0}:root[data-theme="dark"] .modal-btn.primary{background:#f0f0f0;color:#1a1a1a}';
+    var style = document.createElement('style');
+    style.textContent = darkCSS;
+    document.head.appendChild(style);
+
+    function applyTheme() {
+        var pref = localStorage.getItem('goalNinjaAppearance') || 'system';
+        var isDark = false;
+        if (pref === 'dark') isDark = true;
+        else if (pref === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) isDark = true;
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    }
+
+    applyTheme();
+
+    // Listen for system theme changes
+    if (window.matchMedia) {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+    }
+
+    // Expose for profile page to call after changing setting
+    window.GN_applyTheme = applyTheme;
+})();
+
 // --- HELPERS ---
 
 function GN_getTodayDateStr() {
