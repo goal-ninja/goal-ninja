@@ -899,8 +899,7 @@
         }
 
         function buildActiveMissionCard(mission, stats) {
-            var today = GN_getTodayDateStr();
-            var todayCheckin = GN_getCheckins(mission.id).find(function(c) { return c.date === today; });
+            var todayCheckin = GN_hasCheckedInToday(mission.id);
             var checkinHTML = '';
             if (mission.status === 'paused') {
                 checkinHTML = '<button class="checkin-btn paused-btn" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Mission Paused</button>';
@@ -1020,7 +1019,7 @@
             var mission = GN_getMission(checkinMissionId);
             if (!mission) return;
             var today = GN_getTodayDateStr();
-            GN_addCheckin(checkinMissionId, today, selectedCheckinOption === 'complete');
+            GN_recordCheckin(checkinMissionId, GN_getTodayDateStr(), selectedCheckinOption === 'complete' ? 'complete' : 'missed');
             closeCheckin();
             renderMissions();
         }

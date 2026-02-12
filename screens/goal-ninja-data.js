@@ -7,8 +7,126 @@
 // --- THEME ---
 
 (function() {
-    // Inject dark mode CSS variables immediately (before paint)
-    var darkCSS = ':root[data-theme="dark"]{--bg:#121212;--card-bg:#1e1e1e;--text-primary:#f0f0f0;--text-secondary:#aaa;--text-muted:#777;--accent:#f0f0f0;--border:#333;--success:#22c55e;--success-light:#14532d;--danger:#ef4444;--danger-light:#7f1d1d;--warning:#f59e0b;--warning-light:#78350f;--pro-gradient:linear-gradient(135deg,#2a2a2a 0%,#444 100%)}:root[data-theme="dark"] body{background:#121212}:root[data-theme="dark"] .phone-frame{background:#121212;border-color:#333}:root[data-theme="dark"] input,:root[data-theme="dark"] select,:root[data-theme="dark"] textarea{background:#2a2a2a;color:#f0f0f0;border-color:#444}:root[data-theme="dark"] .bottom-nav{background:#1a1a1a;border-color:#333}:root[data-theme="dark"] .modal{background:#1e1e1e}:root[data-theme="dark"] .modal-option{border-color:#333}:root[data-theme="dark"] .modal-option.selected{border-color:#f0f0f0;background:#2a2a2a}:root[data-theme="dark"] .modal-btn.cancel{background:#2a2a2a;color:#f0f0f0}:root[data-theme="dark"] .modal-btn.primary{background:#f0f0f0;color:#1a1a1a}';
+    // Inject dark mode CSS immediately (before paint)
+    var d = ':root[data-theme="dark"]';
+    var darkCSS = [
+        // Core variables
+        d+'{--bg:#121212;--card-bg:#1e1e1e;--text-primary:#f0f0f0;--text-secondary:#aaa;--text-muted:#777;--accent:#f0f0f0;--border:#333;--success:#22c55e;--success-light:#14532d;--danger:#ef4444;--danger-light:#7f1d1d;--warning:#f59e0b;--warning-light:#78350f;--pro-gradient:linear-gradient(135deg,#2a2a2a 0%,#444 100%)}',
+        // Body and frame
+        d+' body{background:#121212;color:#f0f0f0}',
+        d+' .phone-frame{background:#121212;border-color:#333}',
+        // Forms
+        d+' input,'+d+' select,'+d+' textarea{background:#2a2a2a;color:#f0f0f0;border-color:#444}',
+        // Bottom nav
+        d+' .bottom-nav{background:#1a1a1a;border-color:#333}',
+        d+' .bottom-nav button{color:#777}',
+        d+' .bottom-nav button.active,'+d+' .bottom-nav button:hover{color:#f0f0f0}',
+        // Buttons - PRIMARY FIX: dark buttons need to invert in dark mode
+        d+' .fab{background:#f0f0f0;color:#1a1a1a}',
+        d+' .fab svg{color:#1a1a1a}',
+        d+' .checkin-btn{background:#f0f0f0;color:#1a1a1a}',
+        d+' .checkin-btn svg{color:#1a1a1a;stroke:#1a1a1a}',
+        d+' .checkin-btn.paused-btn{background:#2a2a2a;color:#777}',
+        d+' .add-btn{background:#f0f0f0;color:#1a1a1a}',
+        // Filter tabs
+        d+' .filter-tab{background:#2a2a2a;color:#aaa;border-color:#333}',
+        d+' .filter-tab.active{background:#f0f0f0;color:#1a1a1a}',
+        d+' .metric-tab{color:#aaa}',
+        d+' .metric-tab.active{color:#f0f0f0;border-color:#f0f0f0}',
+        // Cards
+        d+' .mission-card{background:#1e1e1e;border-color:#333}',
+        d+' .mission-card:hover{background:#252525}',
+        d+' .mission-name{color:#f0f0f0}',
+        d+' .mission-stat-value{color:#f0f0f0}',
+        d+' .mission-stat-label{color:#777}',
+        d+' .mission-meta{color:#777}',
+        d+' .mission-progress{background:#333}',
+        // Badges
+        d+' .completed-badge{background:#14532d;color:#4ade80}',
+        d+' .failed-badge{background:#7f1d1d;color:#fca5a5}',
+        d+' .pro-badge{background:#78350f;color:#fbbf24}',
+        // Modals
+        d+' .modal{background:#1e1e1e}',
+        d+' .modal-handle{background:#444}',
+        d+' .modal-header .modal-title{color:#f0f0f0}',
+        d+' .modal-header .modal-subtitle{color:#aaa}',
+        d+' .modal-option{border-color:#333;color:#f0f0f0}',
+        d+' .modal-option.selected{border-color:#f0f0f0;background:#2a2a2a}',
+        d+' .modal-option .option-title{color:#f0f0f0}',
+        d+' .modal-option .option-desc{color:#777}',
+        d+' .modal-btn.cancel{background:#2a2a2a;color:#f0f0f0}',
+        d+' .modal-btn.primary{background:#f0f0f0;color:#1a1a1a}',
+        d+' .option-icon.complete{background:#14532d}',
+        d+' .option-icon.missed{background:#7f1d1d}',
+        d+' .photo-upload{background:#2a2a2a;color:#aaa}',
+        // Profile / Settings
+        d+' .settings-group{background:#1e1e1e;border-color:#333}',
+        d+' .settings-item{border-color:#333}',
+        d+' .settings-label{color:#f0f0f0}',
+        d+' .settings-value{color:#aaa}',
+        d+' .settings-icon{color:#f0f0f0}',
+        d+' .settings-icon svg{color:#f0f0f0;stroke:#f0f0f0}',
+        d+' .avatar-container{background:#2a2a2a}',
+        d+' .avatar-edit{background:#f0f0f0;color:#1a1a1a}',
+        d+' .stat-card{background:#1e1e1e}',
+        d+' .stat-value{color:#f0f0f0}',
+        d+' .stat-label{color:#777}',
+        d+' .toggle-switch.active{background:#22c55e}',
+        d+' .toggle-switch{background:#444}',
+        // Activity page
+        d+' .activity-item{background:#1e1e1e;border-color:#333}',
+        d+' .activity-icon{background:#2a2a2a}',
+        d+' .activity-group-header{color:#aaa}',
+        d+' .summary-card{background:#1e1e1e}',
+        // Leaderboard
+        d+' .mascot-card{background:#1e1e1e}',
+        d+' .your-rank-card{background:#1e1e1e}',
+        d+' .podium-card{background:#1e1e1e}',
+        d+' .leaderboard-item{background:#1e1e1e;border-color:#333}',
+        // Savings / Vault
+        d+' .vault-card{background:#1e1e1e}',
+        d+' .vault-item{background:#1e1e1e}',
+        d+' .transaction-item{background:#1e1e1e;border-color:#333}',
+        // Subscription
+        d+' .plan-card{background:#1e1e1e;border-color:#333}',
+        d+' .plan-card.current{border-color:#f0f0f0}',
+        d+' .feature-item{color:#aaa}',
+        // Goal detail
+        d+' .detail-card{background:#1e1e1e}',
+        d+' .calendar-day{color:#f0f0f0}',
+        d+' .calendar-day.other-month{color:#555}',
+        d+' .danger-zone{background:#1e1e1e;border-color:#333}',
+        d+' .danger-item{border-color:#333}',
+        d+' .menu-dropdown{background:#1e1e1e;border-color:#333;box-shadow:0 4px 20px rgba(0,0,0,0.5)}',
+        d+' .menu-item{color:#f0f0f0}',
+        d+' .menu-item:hover{background:#2a2a2a}',
+        d+' .menu-item.danger{color:#ef4444}',
+        // Template / Create
+        d+' .template-card{background:#1e1e1e;border-color:#333}',
+        d+' .template-card:hover{background:#252525}',
+        d+' .selector-field{background:#2a2a2a;border-color:#444;color:#f0f0f0}',
+        d+' .step-header{color:#f0f0f0}',
+        d+' .create-btn{background:#f0f0f0;color:#1a1a1a}',
+        // Generic overrides for common hardcoded backgrounds
+        d+' [style*="background:#f3f4f6"],'+d+' [style*="background: #f3f4f6"]{background:#2a2a2a !important}',
+        d+' [style*="background:#f0f0f0"],'+d+' [style*="background: #f0f0f0"]{background:#2a2a2a !important}',
+        d+' [style*="color:#1a1a1a"],'+d+' [style*="color: #1a1a1a"]{color:#f0f0f0 !important}',
+        // Page header
+        d+' .page-header{background:#121212}',
+        d+' .page-title{color:#f0f0f0}',
+        d+' h1,'+d+' h2,'+d+' h3,'+d+' h4{color:#f0f0f0}',
+        d+' p{color:#ccc}',
+        d+' a{color:#8bb4f0}',
+        // Dropdown
+        d+' .profile-dropdown{background:#1e1e1e;border-color:#333;box-shadow:0 4px 20px rgba(0,0,0,0.5)}',
+        d+' .profile-dropdown a,'+d+' .profile-dropdown button{color:#f0f0f0}',
+        d+' .profile-dropdown a:hover,'+d+' .profile-dropdown button:hover{background:#2a2a2a}',
+        // Scroll container
+        d+' .main-content{background:#121212}',
+        d+' .scroll-container{background:#121212}',
+        // Desktop frame background
+        '@media(min-width:500px){'+d+' body{background:#000}}'
+    ].join('');
     var style = document.createElement('style');
     style.textContent = darkCSS;
     document.head.appendChild(style);
