@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+    <title>Goal Ninja</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        .loader {
+            text-align: center;
+        }
+        .loader img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            animation: float 1.5s ease-in-out infinite;
+            margin-bottom: 16px;
+        }
+        .loader p {
+            font-size: 15px;
+            color: rgba(255,255,255,0.5);
+            font-weight: 500;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <img src="./ninja-poses/ninja-action.png" alt="Goal Ninja">
+        <p>Loading...</p>
+    </div>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js');
+        }
+        window.location.href = './screens/goal-effect-home.html';
+    </script>
+</body>
+</html>

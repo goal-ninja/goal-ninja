@@ -1,0 +1,25 @@
+{
+  "name": "Goal Ninja",
+  "short_name": "Goal Ninja",
+  "description": "Turn missed habits into savings. Build streaks, earn rewards, and crush your goals.",
+  "start_url": "./screens/goal-effect-home.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#1a1a1a",
+  "background_color": "#1a1a1a",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

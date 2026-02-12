@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+    <title>Goal Ninja - Mission Templates</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b6b6b;
+            --text-muted: #999999;
+            --accent: #1a1a1a;
+            --border: #e5e5e5;
+            --success: #22c55e;
+            --success-light: #dcfce7;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        .phone-frame {
+            width: 100%;
+            height: 100vh;
+            margin: 0 auto;
+            background: var(--bg);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 500px) {
+            body {
+                background: #1a1a1a;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                padding: 20px;
+            }
+            .phone-frame {
+                max-width: 390px;
+                max-height: 844px;
+                border-radius: 40px;
+                box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+            }
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px 12px;
+            background: var(--bg);
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .back-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .search-btn {
+            width: 36px;
+            height: 36px;
+            background: var(--card-bg);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .search-btn svg {
+            width: 18px;
+            height: 18px;
+            color: var(--text-secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px 100px;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 24px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+        }
+
+        .page-subtitle {
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        /* Search Bar */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+        }
+
+        .search-bar svg {
+            width: 20px;
+            height: 20px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            background: none;
+            font-size: 16px;
+            font-family: inherit;
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .search-bar input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 28px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .section-action {
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        /* Featured Card */
+        .featured-card {
+            background: var(--text-primary);
+            color: white;
+            border-radius: 20px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .featured-card:hover {
+            transform: scale(0.98);
+        }
+
+        .featured-card::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -15%;
+            width: 180px;
+            height: 180px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
+        }
+
+        .featured-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--accent);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+
+        .featured-badge svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        .featured-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 28px;
+        }
+
+        .featured-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .featured-desc {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .featured-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 13px;
+            opacity: 0.6;
+        }
+
+        /* Create from Scratch Card */
+        .create-scratch-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--card-bg);
+            border: 2px dashed rgba(0, 0, 0, 0.15);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .create-scratch-card:hover {
+            border-color: var(--text-primary);
+            background: var(--bg);
+        }
+        .scratch-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--text-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .scratch-icon svg {
+            width: 22px;
+            height: 22px;
+            color: white;
+        }
+        .scratch-text {
+            flex: 1;
+        }
+        .scratch-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .scratch-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+        .scratch-arrow {
+            width: 20px;
+            height: 20px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        /* Category Pills */
+        .category-pills {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            margin-bottom: 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .category-pills::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-pill {
+            background: var(--card-bg);
+            border: none;
+            border-radius: 20px;
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .category-pill:hover {
+            background: var(--border);
+        }
+
+        .category-pill.active {
+            background: var(--text-primary);
+            color: white;
+        }
+
+        /* Template Grid */
+        .template-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .template-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .template-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        .template-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 22px;
+        }
+
+        .template-icon svg, .popular-icon svg, .featured-icon svg {
+            width: 22px;
+            height: 22px;
+            color: var(--text-primary);
+        }
+
+        .popular-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .featured-icon svg {
+            width: 28px;
+            height: 28px;
+            color: white;
+        }
+
+        .template-name {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .template-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .template-stats {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .template-stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: var(--text-secondary);
+            background: var(--bg);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+
+        .template-stat svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* Popular List */
+        .popular-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .popular-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .popular-card:hover {
+            transform: translateX(4px);
+        }
+
+        .popular-rank {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-muted);
+            width: 24px;
+            text-align: center;
+        }
+
+        .popular-rank.gold { color: var(--text-primary); }
+        .popular-rank.silver { color: var(--text-secondary); }
+        .popular-rank.bronze { color: var(--text-muted); }
+
+        .popular-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 24px;
+        }
+
+        .popular-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .popular-name {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .popular-meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .popular-users {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .popular-users svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in {
+            animation: fadeUp 0.4s ease-out both;
+        }
+
+        .delay-1 { animation-delay: 0.05s; }
+        .delay-2 { animation-delay: 0.1s; }
+        .delay-3 { animation-delay: 0.15s; }
+        .delay-4 { animation-delay: 0.2s; }
+        .delay-5 { animation-delay: 0.25s; }
+
+        /* Profile Dropdown */
+        .profile-dropdown {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+        }
+
+        .dropdown-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            animation: dropdownSlide 0.25s ease-out;
+        }
+
+        @keyframes dropdownSlide {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: var(--bg);
+        }
+
+        .dropdown-item svg {
+            width: 20px;
+            height: 20px;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .profile-btn {
+            width: 44px;
+            height: 44px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .profile-btn svg {
+            width: 22px;
+            height: 22px;
+            color: var(--text-secondary);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            display: flex;
+            padding: 8px 0 20px;
+            border-top: 1px solid var(--border);
+            z-index: 50;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-family: inherit;
+            padding: 4px 0;
+        }
+
+        .nav-item.active {
+            color: var(--text-primary);
+        }
+
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .nav-item span {
+            font-size: 10px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <button class="back-btn" onclick="goBack()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"/>
+                </svg>
+                Back
+            </button>
+            <div class="top-actions" style="display:flex;gap:8px;align-items:center;">
+                <button class="search-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                </button>
+                <button class="profile-btn" onclick="toggleProfileDropdown()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Page Header -->
+            <div class="page-header animate-in">
+                <h1 class="page-title">Mission Templates</h1>
+                <p class="page-subtitle">Start with a proven training regimen</p>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-bar animate-in delay-1">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input type="text" placeholder="Search missions...">
+            </div>
+
+            <!-- Create from Scratch -->
+            <div class="create-scratch-card animate-in delay-2" onclick="window.location.href='goal-effect-create-from-template.html'">
+                <div class="scratch-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                </div>
+                <div class="scratch-text">
+                    <div class="scratch-title">Create from Scratch</div>
+                    <div class="scratch-desc">Build a custom mission with your own rules</div>
+                </div>
+                <svg class="scratch-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+
+            <!-- Featured -->
+            <div class="section animate-in delay-2">
+                <div class="featured-card" onclick="useTemplate('75hard')">
+                    <div class="featured-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        Elite Challenge
+                    </div>
+                    <div class="featured-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></div>
+                    <h2 class="featured-title">75 Hard Challenge</h2>
+                    <p class="featured-desc">The ultimate mental toughness program. Follow a strict diet, exercise twice daily, read, and drink water.</p>
+                    <div class="featured-meta">
+                        <span>75 days</span>
+                        <span>•</span>
+                        <span>$10/day suggested</span>
+                        <span>•</span>
+                        <span>2.4k ninjas</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Pills -->
+            <div class="category-pills animate-in delay-3">
+                <button class="category-pill active">All</button>
+                <button class="category-pill">Health</button>
+                <button class="category-pill">Fitness</button>
+                <button class="category-pill">Productivity</button>
+                <button class="category-pill">Finance</button>
+                <button class="category-pill">Mindfulness</button>
+                <button class="category-pill">Social</button>
+            </div>
+
+            <!-- Popular Templates -->
+            <div class="section animate-in delay-4">
+                <div class="section-header">
+                    <h2 class="section-title">Most Popular</h2>
+                    <span class="section-action">See All</span>
+                </div>
+                <div class="popular-list">
+                    <div class="popular-card" onclick="useTemplate('exercise')">
+                        <span class="popular-rank gold">1</span>
+                        <div class="popular-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="4" r="2"/><path d="M15.59 13.51l-1.42 4.93L7.5 16.5l-3 5"/><path d="M9.14 9.83L5 21"/><path d="M18 2l-4.5 7.5 3.5 2-1 4.5"/></svg></div>
+                        <div class="popular-info">
+                            <div class="popular-name">Exercise Daily</div>
+                            <div class="popular-meta">30 days · $5/day</div>
+                        </div>
+                        <div class="popular-users">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            8.2k
+                        </div>
+                    </div>
+                    <div class="popular-card" onclick="useTemplate('reading')">
+                        <span class="popular-rank silver">2</span>
+                        <div class="popular-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+                        <div class="popular-info">
+                            <div class="popular-name">Read 20 Minutes</div>
+                            <div class="popular-meta">30 days · $3/day</div>
+                        </div>
+                        <div class="popular-users">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            5.7k
+                        </div>
+                    </div>
+                    <div class="popular-card" onclick="useTemplate('nosugar')">
+                        <span class="popular-rank bronze">3</span>
+                        <div class="popular-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></div>
+                        <div class="popular-info">
+                            <div class="popular-name">No Added Sugar</div>
+                            <div class="popular-meta">21 days · $5/day</div>
+                        </div>
+                        <div class="popular-users">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            4.1k
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health & Fitness -->
+            <div class="section animate-in delay-5">
+                <div class="section-header">
+                    <h2 class="section-title">Health & Fitness</h2>
+                    <span class="section-action">See All</span>
+                </div>
+                <div class="template-grid">
+                    <div class="template-card" onclick="useTemplate('10ksteps')">
+                        <div class="template-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z"/><path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z"/></svg></div>
+                        <div class="template-name">Walk 10,000 Steps</div>
+                        <div class="template-meta">30 days · $3/day</div>
+                        <div class="template-stats">
+                            <span class="template-stat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                </svg>
+                                3.2k
+                            </span>
+                        </div>
+                    </div>
+                    <div class="template-card" onclick="useTemplate('water')">
+                        <div class="template-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></div>
+                        <div class="template-name">Drink 8 Glasses Water</div>
+                        <div class="template-meta">30 days · $2/day</div>
+                        <div class="template-stats">
+                            <span class="template-stat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                </svg>
+                                2.8k
+                            </span>
+                        </div>
+                    </div>
+                    <div class="template-card" onclick="useTemplate('sleep')">
+                        <div class="template-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+                        <div class="template-name">Sleep by 11pm</div>
+                        <div class="template-meta">21 days · $5/day</div>
+                        <div class="template-stats">
+                            <span class="template-stat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                </svg>
+                                1.9k
+                            </span>
+                        </div>
+                    </div>
+                    <div class="template-card" onclick="useTemplate('noalcohol')">
+                        <div class="template-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22h8"/><path d="M12 11v11"/><path d="M20 3H4l2 8a6 6 0 0 0 12 0l2-8z"/></svg></div>
+                        <div class="template-name">No Alcohol</div>
+                        <div class="template-meta">30 days · $10/day</div>
+                        <div class="template-stats">
+                            <span class="template-stat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                </svg>
+                                2.1k
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Productivity -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Productivity</h2>
+                    <span class="section-action">See All</span>
+                </div>
+                <div class="template-grid">
+                    <div class="template-card" onclick="useTemplate('journal')">
+                        <div class="template-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+                        <div class="template-name">Daily Journaling</div>
+                        <div class="template-meta">30 days · $2/day</div>
+                        <div class="template-stats">
+                            <span class="template-stat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                </svg>
+                                3.4k
+                            </span>
+                        </div>
+                    </div>
+                    <div class="template-card" onclick="useTemplate('nosocial')">
+                        <div class="template-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/><line x1="2" y1="2" x2="22" y2="22"/></svg></div>
+                        <div class="template-name">No Social Media</div>
+                        <div class="template-meta">7 days · $5/day</div>
+                        <div class="template-stats">
+                            <span class="template-stat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                </svg>
+                                4.6k
+                            </span>
+                        </div>
+                    </div>
+                    <div class="template-card" onclick="useTemplate('meditate')">
+                        <div class="template-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 12a4 4 0 0 1-8 0"/><path d="M12 2v4"/><path d="M12 18v4"/></svg></div>
+                        <div class="template-name">Meditate 10 Min</div>
+                        <div class="template-meta">21 days · $3/day</div>
+                        <div class="template-stats">
+                            <span class="template-stat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                </svg>
+                                2.9k
+                            </span>
+                        </div>
+                    </div>
+                    <div class="template-card" onclick="useTemplate('wakeup')">
+                        <div class="template-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></div>
+                        <div class="template-name">Wake Up at 6am</div>
+                        <div class="template-meta">30 days · $5/day</div>
+                        <div class="template-stats">
+                            <span class="template-stat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                </svg>
+                                3.8k
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Finance -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Finance</h2>
+                    <span class="section-action">See All</span>
+                </div>
+                <div class="template-grid">
+                    <div class="template-card" onclick="useTemplate('nobuyweek')">
+                        <div class="template-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
+                        <div class="template-name">No-Buy Week</div>
+                        <div class="template-meta">7 days · $10/day</div>
+                        <div class="template-stats">
+                            <span class="template-stat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                </svg>
+                                1.8k
+                            </span>
+                        </div>
+                    </div>
+                    <div class="template-card" onclick="useTemplate('packlunch')">
+                        <div class="template-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg></div>
+                        <div class="template-name">Pack Lunch Daily</div>
+                        <div class="template-meta">30 days · $5/day</div>
+                        <div class="template-stats">
+                            <span class="template-stat">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                </svg>
+                                2.3k
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Dropdown -->
+        <div class="profile-dropdown" id="profileDropdown" style="display: none;">
+            <div class="dropdown-overlay" onclick="closeProfileDropdown()"></div>
+            <div class="dropdown-menu">
+                <a href="goal-effect-profile.html" class="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Profile</span>
+                </a>
+                <a href="goal-effect-activity.html" class="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    <span>Activity</span>
+                </a>
+                <a href="goal-effect-subscription.html" class="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span>Upgrade</span>
+                </a>
+                <a href="goal-effect-savings-lock.html" class="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <span>Savings Lock</span>
+                </a>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <button class="nav-item" onclick="goTo('home')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span>Home</span>
+            </button>
+            <button class="nav-item" onclick="goTo('missions')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                </svg>
+                <span>Missions</span>
+            </button>
+            <button class="nav-item" onclick="goTo('vault')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/>
+                </svg>
+                <span>Vault</span>
+            </button>
+            <button class="nav-item" onclick="goTo('leaderboard')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                </svg>
+                <span>Board</span>
+            </button>
+            <button class="nav-item active" onclick="goTo('templates')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                </svg>
+                <span>Templates</span>
+            </button>
+        </nav>
+    </div>
+
+    <script>
+
+        function toggleProfileDropdown() {
+            var dropdown = document.getElementById('profileDropdown');
+            if (dropdown.style.display === 'none' || !dropdown.style.display) {
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+            }
+        }
+
+        function closeProfileDropdown() {
+            document.getElementById('profileDropdown').style.display = 'none';
+        }
+
+        function goTo(page) {
+            if (page === 'home') {
+                window.location.href = 'goal-effect-home.html';
+            } else if (page === 'missions') {
+                window.location.href = 'goal-effect-goals-list.html';
+            } else if (page === 'vault') {
+                window.location.href = 'goal-effect-savings.html';
+            } else if (page === 'leaderboard') {
+                window.location.href = 'goal-effect-leaderboard.html';
+            } else if (page === 'templates') {
+                window.location.href = 'goal-effect-templates.html';
+            }
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        function useTemplate(templateId) {
+            window.location.href = 'goal-effect-create-from-template.html?template=' + templateId;
+        }
+
+        // Category pill selection
+        document.querySelectorAll('.category-pill').forEach(pill => {
+            pill.addEventListener('click', function() {
+                document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('../sw.js');
+    }
+    </script>
+</body>
+</html>

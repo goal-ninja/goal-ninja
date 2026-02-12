@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+    <title>Goal Ninja - Activity</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b6b6b;
+            --text-muted: #999999;
+            --accent: #1a1a1a;
+            --border: #e5e5e5;
+            --success: #22c55e;
+            --success-light: #dcfce7;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+            --info: #3b82f6;
+            --info-light: #dbeafe;
+            --purple: #8b5cf6;
+            --purple-light: #ede9fe;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .phone-frame {
+            width: 100%;
+            height: 100vh;
+            margin: 0 auto;
+            background: var(--bg);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 500px) {
+            body {
+                background: #1a1a1a;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                padding: 20px;
+            }
+            .phone-frame {
+                max-width: 390px;
+                max-height: 844px;
+                border-radius: 40px;
+                box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+            }
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px 12px;
+            background: var(--bg);
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 4px 0;
+        }
+
+        .back-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .filter-btn {
+            width: 36px;
+            height: 36px;
+            background: var(--card-bg);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .filter-btn svg {
+            width: 18px;
+            height: 18px;
+            color: var(--text-secondary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px 40px;
+        }
+
+        /* Page Header */
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .header-ninja {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+        }
+
+        .header-ninja img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .header-text {
+            flex: 1;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .page-subtitle {
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .filter-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            background: var(--card-bg);
+            color: var(--text-secondary);
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .filter-tab.active {
+            background: var(--text-primary);
+            color: white;
+        }
+
+        /* Summary Row */
+        .summary-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .summary-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 14px 12px;
+            text-align: center;
+        }
+
+        .summary-value {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .summary-value.success {
+            color: var(--text-primary);
+        }
+
+        .summary-value.warning {
+            color: var(--text-primary);
+        }
+
+        .summary-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        /* Activity Groups */
+        .activity-group {
+            margin-bottom: 24px;
+        }
+
+        .group-header {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .activity-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        /* Activity Items */
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .activity-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .activity-icon.info {
+            background: #f3f4f6;
+            color: var(--text-primary);
+        }
+
+        .activity-icon.success {
+            background: #f3f4f6;
+            color: var(--text-primary);
+        }
+
+        .activity-icon.warning {
+            background: #f3f4f6;
+            color: var(--text-primary);
+        }
+
+        .activity-icon.danger {
+            background: #f3f4f6;
+            color: var(--text-primary);
+        }
+
+        .activity-icon.muted {
+            background: #f3f4f6;
+            color: var(--text-muted);
+        }
+
+        .activity-icon.purple {
+            background: #f3f4f6;
+            color: var(--text-primary);
+        }
+
+        .activity-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .activity-title {
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .activity-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .badge {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .badge.warning {
+            background: #f3f4f6;
+            color: var(--text-secondary);
+        }
+
+        .badge.danger {
+            background: #f3f4f6;
+            color: var(--text-secondary);
+        }
+
+        .activity-amount {
+            font-size: 15px;
+            font-weight: 600;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .activity-amount.positive {
+            color: var(--success);
+        }
+
+        .activity-amount.negative {
+            color: var(--danger);
+        }
+
+        /* Load More Button */
+        .load-more-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+
+        .load-more-btn:active {
+            background: var(--bg);
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeUp 0.4s ease-out both;
+        }
+
+        .delay-1 { animation-delay: 0.05s; }
+        .delay-2 { animation-delay: 0.1s; }
+        .delay-3 { animation-delay: 0.15s; }
+        .delay-4 { animation-delay: 0.2s; }
+        .delay-5 { animation-delay: 0.25s; }
+        .delay-6 { animation-delay: 0.3s; }
+        .delay-7 { animation-delay: 0.35s; }
+        .delay-8 { animation-delay: 0.4s; }
+        .delay-9 { animation-delay: 0.45s; }
+        .delay-10 { animation-delay: 0.5s; }
+
+        /* Profile Dropdown */
+        .profile-dropdown {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+        }
+
+        .dropdown-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            animation: dropdownSlide 0.25s ease-out;
+        }
+
+        @keyframes dropdownSlide {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: var(--bg);
+        }
+
+        .dropdown-item svg {
+            width: 20px;
+            height: 20px;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .profile-btn {
+            width: 44px;
+            height: 44px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .profile-btn svg {
+            width: 22px;
+            height: 22px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <button class="back-btn" onclick="history.back()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"/>
+                </svg>
+                Back
+            </button>
+            <div style="display:flex;gap:8px;align-items:center;"><button class="filter-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" y1="6" x2="20" y2="6"/>
+                    <line x1="8" y1="12" x2="16" y2="12"/>
+                    <line x1="11" y1="18" x2="13" y2="18"/>
+                </svg>
+            </button>
+            <button class="profile-btn" onclick="toggleProfileDropdown()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </button></div>
+        </div>
+
+        <!-- Scrollable Content -->
+        <div class="main-content">
+
+            <!-- Page Header with Ninja Mascot -->
+            <div class="page-header animate-in">
+                <div class="header-ninja">
+                    <img src="../ninja-poses/ninja-action.png" alt="Goal Ninja">
+                </div>
+                <div class="header-text">
+                    <h1 class="page-title">Activity</h1>
+                    <p class="page-subtitle">Your complete history</p>
+                </div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="filter-tabs animate-in delay-1">
+                <button class="filter-tab active" onclick="setFilter(this)">All</button>
+                <button class="filter-tab" onclick="setFilter(this)">Charges</button>
+                <button class="filter-tab" onclick="setFilter(this)">Unlocks</button>
+                <button class="filter-tab" onclick="setFilter(this)">Withdrawals</button>
+                <button class="filter-tab" onclick="setFilter(this)">Goals</button>
+            </div>
+
+            <!-- Summary Row -->
+            <div class="summary-row animate-in delay-2">
+                <div class="summary-card">
+                    <div class="summary-value success">$142</div>
+                    <div class="summary-label">Total Saved</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value">$95</div>
+                    <div class="summary-label">Unlocked</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-value warning">$47</div>
+                    <div class="summary-label">Current</div>
+                </div>
+            </div>
+
+            <!-- Today -->
+            <div class="activity-group animate-in delay-3">
+                <div class="group-header">Today</div>
+                <div class="activity-card">
+                    <div class="activity-item">
+                        <div class="activity-icon info">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Completed check-in</div>
+                            <div class="activity-meta">No coffee after 2pm &middot; 9:45 PM</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon info">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Completed check-in</div>
+                            <div class="activity-meta">Read for 20 minutes &middot; 8:30 PM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Yesterday -->
+            <div class="activity-group animate-in delay-4">
+                <div class="group-header">Yesterday</div>
+                <div class="activity-card">
+                    <div class="activity-item">
+                        <div class="activity-icon success">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Missed day &mdash; savings charged</div>
+                            <div class="activity-meta">Exercise 30 minutes &middot; 11:59 PM</div>
+                        </div>
+                        <div class="activity-amount positive">+$10</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon info">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Completed check-in</div>
+                            <div class="activity-meta">No coffee after 2pm &middot; 10:15 PM</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon info">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Completed check-in</div>
+                            <div class="activity-meta">Read for 20 minutes &middot; 9:00 PM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feb 8 -->
+            <div class="activity-group animate-in delay-5">
+                <div class="group-header">Feb 8</div>
+                <div class="activity-card">
+                    <div class="activity-item">
+                        <div class="activity-icon warning">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Savings unlocked <span class="badge warning">Target Hit</span></div>
+                            <div class="activity-meta">No coffee after 2pm &middot; 12:00 AM</div>
+                        </div>
+                        <div class="activity-amount negative">-$35</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon success">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Missed day &mdash; savings charged</div>
+                            <div class="activity-meta">Journal before bed &middot; 11:59 PM</div>
+                        </div>
+                        <div class="activity-amount positive">+$5</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon info">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Completed check-in</div>
+                            <div class="activity-meta">Exercise 30 minutes &middot; 7:15 AM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jan 15 -->
+            <div class="activity-group animate-in delay-6">
+                <div class="group-header">Jan 15</div>
+                <div class="activity-card">
+                    <div class="activity-item">
+                        <div class="activity-icon muted">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Goal completed</div>
+                            <div class="activity-meta">No coffee after 2pm &middot; 30-day target &middot; 12:00 AM</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon success">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Missed day &mdash; savings charged</div>
+                            <div class="activity-meta">Read for 20 minutes &middot; 11:59 PM</div>
+                        </div>
+                        <div class="activity-amount positive">+$5</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jan 1 -->
+            <div class="activity-group animate-in delay-7">
+                <div class="group-header">Jan 1</div>
+                <div class="activity-card">
+                    <div class="activity-item">
+                        <div class="activity-icon purple">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="16"/>
+                                <line x1="8" y1="12" x2="16" y2="12"/>
+                            </svg>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">New goal started</div>
+                            <div class="activity-meta">Read for 20 minutes &middot; $5/miss &middot; 8:00 AM</div>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon purple">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="16"/>
+                                <line x1="8" y1="12" x2="16" y2="12"/>
+                            </svg>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">New goal started</div>
+                            <div class="activity-meta">Exercise 30 minutes &middot; $10/miss &middot; 8:00 AM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dec 20, 2025 -->
+            <div class="activity-group animate-in delay-8">
+                <div class="group-header">Dec 20, 2025</div>
+                <div class="activity-card">
+                    <div class="activity-item">
+                        <div class="activity-icon danger">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="19" x2="12" y2="5"/>
+                                <polyline points="5 12 12 5 19 12"/>
+                            </svg>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Early withdrawal <span class="badge danger">10% Fee</span></div>
+                            <div class="activity-meta">No coffee after 2pm &middot; 3:30 PM</div>
+                        </div>
+                        <div class="activity-amount negative">-$27</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon danger">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                <line x1="1" y1="10" x2="23" y2="10"/>
+                            </svg>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Withdrawal to bank</div>
+                            <div class="activity-meta">Transferred to checking &middot; 3:32 PM</div>
+                        </div>
+                        <div class="activity-amount negative">-$27</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon success">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-title">Missed day &mdash; savings charged</div>
+                            <div class="activity-meta">No coffee after 2pm &middot; 11:59 PM</div>
+                        </div>
+                        <div class="activity-amount positive">+$5</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More -->
+            <button class="load-more-btn animate-in delay-9" onclick="loadMore()">Load More</button>
+
+        </div>
+
+        <!-- Profile Dropdown -->
+        <div class="profile-dropdown" id="profileDropdown" style="display: none;">
+            <div class="dropdown-overlay" onclick="closeProfileDropdown()"></div>
+            <div class="dropdown-menu">
+                <a href="goal-effect-profile.html" class="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Profile</span>
+                </a>
+                <a href="goal-effect-activity.html" class="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    <span>Activity</span>
+                </a>
+                <a href="goal-effect-subscription.html" class="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span>Upgrade</span>
+                </a>
+                <a href="goal-effect-savings-lock.html" class="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <span>Savings Lock</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setFilter(el) {
+            document.querySelectorAll('.filter-tab').forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+            el.classList.add('active');
+        }
+
+        function loadMore() {
+            var btn = document.querySelector('.load-more-btn');
+            btn.textContent = 'Loading...';
+            setTimeout(function() {
+                btn.textContent = 'No more activity';
+                btn.style.opacity = '0.5';
+                btn.style.pointerEvents = 'none';
+            }, 800);
+        }
+
+        function toggleProfileDropdown() {
+            var dropdown = document.getElementById('profileDropdown');
+            if (dropdown.style.display === 'none' || !dropdown.style.display) {
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+            }
+        }
+
+        function closeProfileDropdown() {
+            document.getElementById('profileDropdown').style.display = 'none';
+        }
+    </script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('../sw.js');
+    }
+    </script>
+</body>
+</html>
