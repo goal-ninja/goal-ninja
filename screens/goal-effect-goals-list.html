@@ -918,7 +918,7 @@
                     '</div>' +
                 '</div>' +
                 '<div class="mission-stats">' +
-                    '<div class="mission-stat"><div class="mission-stat-value">' + stats.streak + '</div><div class="mission-stat-label">Streak</div></div>' +
+                    '<div class="mission-stat"><div class="mission-stat-value">' + stats.currentStreak + '</div><div class="mission-stat-label">Streak</div></div>' +
                     '<div class="mission-stat"><div class="mission-stat-value">' + stats.completionRate + '%</div><div class="mission-stat-label">Complete</div></div>' +
                     '<div class="mission-stat"><div class="mission-stat-value">' + stats.daysLeft + '</div><div class="mission-stat-label">Days Left</div></div>' +
                     '<div class="mission-stat"><div class="mission-stat-value">$' + stats.vaultAmount.toFixed(0) + '</div><div class="mission-stat-label">In Vault</div></div>' +
@@ -981,13 +981,13 @@
         function openCheckinFromList(missionId) {
             checkinMissionId = missionId;
             selectedCheckinOption = null;
-            var mission = GN_getMission(missionId);
+            var mission = GN_getMissionById(missionId);
             if (!mission) return;
 
-            document.getElementById('checkinModalIcon').textContent = mission.icon || '🎯';
+            document.getElementById('checkinModalIcon').innerHTML = GN_getIconSVG(mission.icon, 22);
             document.getElementById('checkinModalTitle').textContent = mission.name;
             document.getElementById('checkinModalSubtitle').textContent = 'Did you complete today\'s task?';
-            document.getElementById('missedPenaltyText').textContent = 'Penalty: $' + (mission.penaltyAmount || 5);
+            document.getElementById('missedPenaltyText').textContent = 'Penalty: $' + (mission.penalty || 5);
 
             document.getElementById('optionComplete').classList.remove('selected');
             document.getElementById('optionMissed').classList.remove('selected');
@@ -1009,14 +1009,14 @@
             if (option === 'complete') {
                 confirmBtn.textContent = 'Confirm Completion';
             } else {
-                var mission = GN_getMission(checkinMissionId);
-                confirmBtn.textContent = 'Confirm Missed (+$' + (mission ? mission.penaltyAmount || 5 : 5) + ')';
+                var mission = GN_getMissionById(checkinMissionId);
+                confirmBtn.textContent = 'Confirm Missed (+$' + (mission ? mission.penalty || 5 : 5) + ')';
             }
         }
 
         function confirmCheckin() {
             if (!checkinMissionId || !selectedCheckinOption) return;
-            var mission = GN_getMission(checkinMissionId);
+            var mission = GN_getMissionById(checkinMissionId);
             if (!mission) return;
             var today = GN_getTodayDateStr();
             GN_recordCheckin(checkinMissionId, GN_getTodayDateStr(), selectedCheckinOption === 'complete' ? 'complete' : 'missed');
