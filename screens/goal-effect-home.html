@@ -959,7 +959,10 @@
             document.getElementById('checkinModal').classList.add('visible');
             document.getElementById('optionComplete').classList.remove('selected');
             document.getElementById('optionMissed').classList.remove('selected');
-            document.querySelector('.modal-confirm').classList.remove('ready');
+            document.getElementById('photoUpload').style.display = 'none';
+            var confirmBtn = document.getElementById('confirmBtn');
+            confirmBtn.disabled = true;
+            confirmBtn.textContent = 'Select an option';
         }
 
         function closeCheckin() {
@@ -972,9 +975,10 @@
             selectedOption = option;
             document.getElementById('optionComplete').classList.toggle('selected', option === 'complete');
             document.getElementById('optionMissed').classList.toggle('selected', option === 'missed');
+            document.getElementById('photoUpload').style.display = option === 'complete' ? 'flex' : 'none';
 
-            var confirmBtn = document.querySelector('.modal-confirm');
-            confirmBtn.classList.add('ready');
+            var confirmBtn = document.getElementById('confirmBtn');
+            confirmBtn.disabled = false;
             if (option === 'complete') {
                 confirmBtn.textContent = 'Confirm Completion';
             } else {

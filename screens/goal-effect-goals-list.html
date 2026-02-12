@@ -467,7 +467,182 @@
             height: 24px;
             color: white;
         }
-    </style>
+    
+    /* Check-in Modal */
+    .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: flex-end;
+    }
+    .modal-overlay.active {
+        display: flex;
+    }
+    .modal {
+        background: white;
+        border-radius: 20px 20px 0 0;
+        padding: 20px;
+        width: 100%;
+        max-width: 390px;
+        animation: slideUp 0.3s ease-out;
+    }
+    .modal-handle {
+        width: 40px;
+        height: 4px;
+        background: #ddd;
+        border-radius: 2px;
+        margin: 0 auto 16px;
+    }
+    .modal-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+    .modal-header .modal-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        background: #f0f0f0;
+    }
+    .modal-header .modal-title {
+        font-weight: 700;
+        font-size: 16px;
+        color: #1a1a1a;
+    }
+    .modal-header .modal-subtitle {
+        font-size: 13px;
+        color: #999;
+        margin-top: 2px;
+    }
+    .modal-option {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px;
+        border: 2px solid #e5e5e5;
+        border-radius: 14px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .modal-option.selected {
+        border-color: #1a1a1a;
+        background: #fafafa;
+    }
+    .modal-option .option-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+    }
+    .modal-option .option-icon.complete {
+        background: #dcfce7;
+    }
+    .modal-option .option-icon.missed {
+        background: #fee2e2;
+    }
+    .modal-option .option-text .option-title {
+        font-weight: 600;
+        font-size: 15px;
+        color: #1a1a1a;
+    }
+    .modal-option .option-text .option-desc {
+        font-size: 13px;
+        color: #999;
+        margin-top: 2px;
+    }
+    .photo-upload {
+        display: none;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 16px;
+        background: #f5f5f5;
+        border-radius: 12px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #666;
+    }
+    .photo-upload svg {
+        width: 20px;
+        height: 20px;
+        color: #999;
+    }
+    .modal-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+    }
+    .modal-btn {
+        flex: 1;
+        padding: 14px;
+        border-radius: 12px;
+        border: none;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .modal-btn.cancel {
+        background: #f0f0f0;
+        color: #1a1a1a;
+    }
+    .modal-btn.primary {
+        background: #1a1a1a;
+        color: white;
+    }
+    .modal-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+    @keyframes slideUp {
+        from { transform: translateY(100%); }
+        to { transform: translateY(0); }
+    }
+    .checkin-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 10px 16px;
+        background: #1a1a1a;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 10px;
+        width: 100%;
+        transition: all 0.2s;
+    }
+    .checkin-btn:active {
+        transform: scale(0.97);
+    }
+    .checkin-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+    .checkin-btn.paused-btn {
+        background: #f0f0f0;
+        color: #999;
+        cursor: default;
+    }
+</style>
 </head>
 <body>
     <div class="phone-frame">
@@ -616,7 +791,45 @@
         </nav>
     </div>
 
-    <script src="goal-ninja-data.js"></script>
+    
+<!-- Check-in Modal -->
+<div class="modal-overlay" id="checkinModal" onclick="if(event.target===this)closeCheckin()">
+    <div class="modal">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+            <div class="modal-icon" id="checkinModalIcon">🎯</div>
+            <div>
+                <div class="modal-title" id="checkinModalTitle">Check In</div>
+                <div class="modal-subtitle" id="checkinModalSubtitle">Did you complete today's task?</div>
+            </div>
+        </div>
+        <div class="modal-option" id="optionComplete" onclick="selectCheckinOption('complete')">
+            <div class="option-icon complete">✅</div>
+            <div class="option-text">
+                <div class="option-title">Yes, I did it!</div>
+                <div class="option-desc">Keep your streak going</div>
+            </div>
+        </div>
+        <div class="modal-option" id="optionMissed" onclick="selectCheckinOption('missed')">
+            <div class="option-icon missed">❌</div>
+            <div class="option-text">
+                <div class="option-title">I missed today</div>
+                <div class="option-desc" id="missedPenaltyText">Penalty will be applied</div>
+            </div>
+        </div>
+        <div class="photo-upload" id="photoUpload" onclick="document.getElementById('photoInput').click()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span>Attach photo or video (optional)</span>
+            <input type="file" id="photoInput" accept="image/*,video/*" style="display:none">
+        </div>
+        <div class="modal-actions">
+            <button class="modal-btn cancel" onclick="closeCheckin()">Cancel</button>
+            <button class="modal-btn primary" id="confirmBtn" disabled onclick="confirmCheckin()">Select an option</button>
+        </div>
+    </div>
+</div>
+
+<script src="goal-ninja-data.js"></script>
     <script>
         function addNewMission() {
             window.location.href = 'goal-effect-create-from-template.html';
@@ -686,24 +899,33 @@
         }
 
         function buildActiveMissionCard(mission, stats) {
+            var today = GN_getTodayDateStr();
+            var todayCheckin = GN_getCheckins(mission.id).find(function(c) { return c.date === today; });
+            var checkinHTML = '';
+            if (mission.status === 'paused') {
+                checkinHTML = '<button class="checkin-btn paused-btn" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg> Mission Paused</button>';
+            } else if (todayCheckin) {
+                checkinHTML = '<button class="checkin-btn" style="background:#22c55e;" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Checked in today</button>';
+            } else {
+                checkinHTML = '<button class="checkin-btn" onclick="event.stopPropagation();openCheckinFromList(\'' + mission.id + '\')">' +
+                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Check In' +
+                    '</button>';
+            }
             return '<div class="mission-card" onclick="openMissionDetail(\'' + mission.id + '\')">' +
                 '<div class="mission-card-header">' +
                     '<div class="mission-info">' +
-                        '<div class="mission-icon">' + GN_getIconSVG(mission.icon, 24) + '</div>' +
-                        '<div>' +
-                            '<h3 class="mission-name">' + mission.name + '</h3>' +
-                            '<p class="mission-meta">Day ' + stats.dayNumber + ' of ' + mission.duration + ' &middot; <span class="penalty">$' + mission.penalty + '</span> penalty</p>' +
-                        '</div>' +
+                        '<div class="mission-icon">' + (mission.icon || '\ud83c\udfaf') + '</div>' +
+                        '<div><div class="mission-name">' + mission.name + '</div></div>' +
                     '</div>' +
-                    '<svg class="mission-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>' +
                 '</div>' +
                 '<div class="mission-stats">' +
-                    '<div class="mission-stat"><div class="mission-stat-value">' + stats.currentStreak + '</div><div class="mission-stat-label">Streak</div></div>' +
-                    '<div class="mission-stat"><div class="mission-stat-value">' + stats.completionRate + '%</div><div class="mission-stat-label">Rate</div></div>' +
+                    '<div class="mission-stat"><div class="mission-stat-value">' + stats.streak + '</div><div class="mission-stat-label">Streak</div></div>' +
+                    '<div class="mission-stat"><div class="mission-stat-value">' + stats.completionRate + '%</div><div class="mission-stat-label">Complete</div></div>' +
                     '<div class="mission-stat"><div class="mission-stat-value">' + stats.daysLeft + '</div><div class="mission-stat-label">Days Left</div></div>' +
                     '<div class="mission-stat"><div class="mission-stat-value">$' + stats.vaultAmount.toFixed(0) + '</div><div class="mission-stat-label">In Vault</div></div>' +
                 '</div>' +
                 '<div class="mission-progress"><div class="mission-progress-fill" style="width:' + stats.progress + '%"></div></div>' +
+                checkinHTML +
             '</div>';
         }
 
@@ -752,6 +974,63 @@
         function closeProfileDropdown() {
             document.getElementById('profileDropdown').style.display = 'none';
         }
+
+        // Check-in modal state
+        var checkinMissionId = null;
+        var selectedCheckinOption = null;
+
+        function openCheckinFromList(missionId) {
+            checkinMissionId = missionId;
+            selectedCheckinOption = null;
+            var mission = GN_getMission(missionId);
+            if (!mission) return;
+
+            document.getElementById('checkinModalIcon').textContent = mission.icon || '🎯';
+            document.getElementById('checkinModalTitle').textContent = mission.name;
+            document.getElementById('checkinModalSubtitle').textContent = 'Did you complete today\'s task?';
+            document.getElementById('missedPenaltyText').textContent = 'Penalty: $' + (mission.penaltyAmount || 5);
+
+            document.getElementById('optionComplete').classList.remove('selected');
+            document.getElementById('optionMissed').classList.remove('selected');
+            document.getElementById('photoUpload').style.display = 'none';
+            var confirmBtn = document.getElementById('confirmBtn');
+            confirmBtn.disabled = true;
+            confirmBtn.textContent = 'Select an option';
+
+            document.getElementById('checkinModal').classList.add('active');
+        }
+
+        function selectCheckinOption(option) {
+            selectedCheckinOption = option;
+            document.getElementById('optionComplete').classList.toggle('selected', option === 'complete');
+            document.getElementById('optionMissed').classList.toggle('selected', option === 'missed');
+            document.getElementById('photoUpload').style.display = option === 'complete' ? 'flex' : 'none';
+            var confirmBtn = document.getElementById('confirmBtn');
+            confirmBtn.disabled = false;
+            if (option === 'complete') {
+                confirmBtn.textContent = 'Confirm Completion';
+            } else {
+                var mission = GN_getMission(checkinMissionId);
+                confirmBtn.textContent = 'Confirm Missed (+$' + (mission ? mission.penaltyAmount || 5 : 5) + ')';
+            }
+        }
+
+        function confirmCheckin() {
+            if (!checkinMissionId || !selectedCheckinOption) return;
+            var mission = GN_getMission(checkinMissionId);
+            if (!mission) return;
+            var today = GN_getTodayDateStr();
+            GN_addCheckin(checkinMissionId, today, selectedCheckinOption === 'complete');
+            closeCheckin();
+            renderMissions();
+        }
+
+        function closeCheckin() {
+            document.getElementById('checkinModal').classList.remove('active');
+            checkinMissionId = null;
+            selectedCheckinOption = null;
+        }
+
     </script>
     <script>
     if ('serviceWorker' in navigator) {

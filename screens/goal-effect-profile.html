@@ -693,7 +693,7 @@
                         </div>
                         <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
                     </div>
-                    <div class="settings-item" onclick="setReminderTime()">
+                    <div class="settings-item" style="position:relative;">
                         <div class="settings-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10"/>
@@ -704,12 +704,13 @@
                             <div class="settings-label">Default Reminder Time</div>
                             <div class="settings-sublabel">For new missions</div>
                         </div>
-                        <div class="settings-value">
+                        <div class="settings-value" id="defaultReminderDisplay">
                             9:00 PM
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="9 18 15 12 9 6"/>
                             </svg>
                         </div>
+                        <input type="time" id="defaultReminderInput" value="21:00" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2;" onchange="onDefaultReminderChange(this.value)">
                     </div>
                     <div class="settings-item">
                         <div class="settings-icon">
@@ -1014,40 +1015,71 @@
             alert('This would open payment method management');
         }
 
-        function setReminderTime() {
-            alert('This would open a time picker');
+        function onDefaultReminderChange(val) {
+            if (!val) return;
+            localStorage.setItem('goalNinjaDefaultReminder', val);
+            var parts = val.split(':');
+            var h = parseInt(parts[0]);
+            var m = parts[1];
+            var ampm = h >= 12 ? 'PM' : 'AM';
+            var h12 = h % 12 || 12;
+            var chevron = ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
+            document.getElementById('defaultReminderDisplay').innerHTML = h12 + ':' + m + ' ' + ampm + chevron;
+        }
+
+        function initDefaultReminder() {
+            var saved = localStorage.getItem('goalNinjaDefaultReminder');
+            if (saved) {
+                document.getElementById('defaultReminderInput').value = saved;
+                onDefaultReminderChange(saved);
+            }
         }
 
         function manageSubscription() {
-            alert('This would open subscription management');
+            window.location.href = 'goal-effect-subscription.html';
         }
 
         function changeAppearance() {
-            alert('This would open appearance settings (Light/Dark/System)');
+            var current = localStorage.getItem('goalNinjaAppearance') || 'system';
+            var next;
+            if (current === 'system') next = 'light';
+            else if (current === 'light') next = 'dark';
+            else next = 'system';
+            localStorage.setItem('goalNinjaAppearance', next);
+            var label = next.charAt(0).toUpperCase() + next.slice(1);
+            var items = document.querySelectorAll('.settings-item');
+            for (var i = 0; i < items.length; i++) {
+                var lbl = items[i].querySelector('.settings-label');
+                if (lbl && lbl.textContent === 'Appearance') {
+                    var val = items[i].querySelector('.settings-value');
+                    if (val) val.innerHTML = label + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
+                    break;
+                }
+            }
         }
 
         function changeAppIcon() {
-            alert('This would open app icon selection');
+            alert('App icon customization will be available in the native app version.');
         }
 
         function openHelp() {
-            alert('This would open the Help Center');
+            alert('Help Center coming soon! For now, email support@goalninja.app');
         }
 
         function contactSupport() {
-            alert('This would open support chat or email');
+            window.location.href = 'mailto:support@goalninja.app?subject=Goal%20Ninja%20Support';
         }
 
         function rateApp() {
-            alert('This would open the App Store rating prompt');
+            alert('Thank you! App Store ratings will be available once we launch the native app.');
         }
 
         function openPrivacy() {
-            alert('This would open the Privacy Policy');
+            alert('Privacy Policy coming soon. We respect your privacy — all data is stored locally on your device.');
         }
 
         function openTerms() {
-            alert('This would open the Terms of Service');
+            alert('Terms of Service coming soon.');
         }
 
         function logout() {
@@ -1078,6 +1110,7 @@
         }
 
         initProfile();
+        initDefaultReminder();
     </script>
     <script>
     if ('serviceWorker' in navigator) {

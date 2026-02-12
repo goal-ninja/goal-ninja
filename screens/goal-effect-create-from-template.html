@@ -792,7 +792,7 @@
             <div class="form-section animate-in delay-4">
                 <div class="form-label">Settings</div>
                 <div class="form-card">
-                    <div class="selector-field" onclick="setReminder()">
+                    <div class="selector-field" style="position:relative;">
                         <span class="selector-label">Daily Reminder</span>
                         <span class="selector-value" id="reminderDisplay">
                             9:00 PM
@@ -800,9 +800,9 @@
                                 <polyline points="9 18 15 12 9 6"/>
                             </svg>
                         </span>
-                        <input type="time" id="reminderTimeInput" value="21:00" style="position:absolute;opacity:0;width:0;height:0;pointer-events:none;" onchange="onReminderChange(this.value)">
+                        <input type="time" id="reminderTimeInput" value="21:00" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2;" onchange="onReminderChange(this.value)">
                     </div>
-                    <div class="selector-field" onclick="setStartDate()">
+                    <div class="selector-field" style="position:relative;">
                         <span class="selector-label">Start Date</span>
                         <span class="selector-value" id="startDateDisplay">
                             Today
@@ -810,7 +810,7 @@
                                 <polyline points="9 18 15 12 9 6"/>
                             </svg>
                         </span>
-                        <input type="date" id="startDateInput" style="position:absolute;opacity:0;width:0;height:0;pointer-events:none;" onchange="onStartDateChange(this.value)">
+                        <input type="date" id="startDateInput" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2;" onchange="onStartDateChange(this.value)">
                     </div>
                 </div>
             </div>
@@ -921,11 +921,6 @@
             document.getElementById('maxPenalty').textContent = '$' + maxPenalty.toFixed(2);
         }
 
-        function setReminder() {
-            var input = document.getElementById('reminderTimeInput');
-            input.showPicker ? input.showPicker() : input.click();
-        }
-
         function onReminderChange(val) {
             if (!val) return;
             selectedReminder = val;
@@ -937,14 +932,6 @@
             document.getElementById('reminderDisplay').innerHTML = h12 + ':' + m + ' ' + ampm + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
         }
 
-        function setStartDate() {
-            var input = document.getElementById('startDateInput');
-            var today = GN_getTodayDateStr();
-            input.min = today;
-            if (!input.value) input.value = today;
-            input.showPicker ? input.showPicker() : input.click();
-        }
-
         function onStartDateChange(val) {
             if (!val) return;
             selectedStartDate = val;
@@ -952,6 +939,14 @@
             var label = val === today ? 'Today' : GN_formatDate(val);
             document.getElementById('startDateDisplay').innerHTML = label + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
         }
+
+        // Set min date for start date input on load
+        (function() {
+            var input = document.getElementById('startDateInput');
+            var today = GN_getTodayDateStr();
+            input.min = today;
+            input.value = today;
+        })();
 
         function createMission() {
             var missionName = document.getElementById('missionName').value;
