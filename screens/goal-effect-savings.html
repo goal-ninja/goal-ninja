@@ -739,22 +739,22 @@
                     </div>
                     <div class="vault-info">
                         <div class="vault-label">Total Gold</div>
-                        <div class="vault-amount">$147.00</div>
+                        <div class="vault-amount" id="vaultTotal">$0.00</div>
                         <div class="vault-subtext">From 4 active missions</div>
                     </div>
                 </div>
                 
                 <div class="vault-stats">
                     <div class="vault-stat">
-                        <div class="vault-stat-value">$28.00</div>
+                        <div class="vault-stat-value" id="lockedAmount">$0.00</div>
                         <div class="vault-stat-label">Locked</div>
                     </div>
                     <div class="vault-stat">
-                        <div class="vault-stat-value">$119.00</div>
+                        <div class="vault-stat-value" id="unlockedAmount">$0.00</div>
                         <div class="vault-stat-label">Unlocked</div>
                     </div>
                     <div class="vault-stat">
-                        <div class="vault-stat-value">12</div>
+                        <div class="vault-stat-value" id="missedDaysCount">0</div>
                         <div class="vault-stat-label">Missed Days</div>
                     </div>
                 </div>
@@ -793,51 +793,8 @@
                 <div class="section-header">
                     <span class="section-title">Gold by Mission</span>
                 </div>
-                <div class="breakdown-card">
-                    <div class="breakdown-item" onclick="openMission('mission1')">
-                        <div class="breakdown-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:#1a1a1a"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg></div>
-                        <div class="breakdown-info">
-                            <div class="breakdown-name">No coffee after 2pm</div>
-                            <div class="breakdown-meta">3 missed days · $5/day</div>
-                        </div>
-                        <div class="breakdown-amount">
-                            <div class="breakdown-value">$15.00</div>
-                            <div class="breakdown-status locked">Locked</div>
-                        </div>
-                    </div>
-                    <div class="breakdown-item" onclick="openMission('mission2')">
-                        <div class="breakdown-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:#1a1a1a"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-                        <div class="breakdown-info">
-                            <div class="breakdown-name">Read for 20 minutes</div>
-                            <div class="breakdown-meta">1 missed day · $3/day</div>
-                        </div>
-                        <div class="breakdown-amount">
-                            <div class="breakdown-value">$3.00</div>
-                            <div class="breakdown-status locked">Locked</div>
-                        </div>
-                    </div>
-                    <div class="breakdown-item" onclick="openMission('mission3')">
-                        <div class="breakdown-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:#1a1a1a"><circle cx="17" cy="4" r="2"/><path d="M15.59 13.51l-1.42 4.93L7.5 16.5l-3 5"/><path d="M9.14 9.83L5 21"/><path d="M18 2l-4.5 7.5 3.5 2-1 4.5"/></svg></div>
-                        <div class="breakdown-info">
-                            <div class="breakdown-name">Exercise 30 minutes</div>
-                            <div class="breakdown-meta">1 missed day · $10/day</div>
-                        </div>
-                        <div class="breakdown-amount">
-                            <div class="breakdown-value">$10.00</div>
-                            <div class="breakdown-status locked">Locked</div>
-                        </div>
-                    </div>
-                    <div class="breakdown-item" onclick="openMission('completed1')">
-                        <div class="breakdown-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:#1a1a1a"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/><line x1="2" y1="2" x2="22" y2="22"/></svg></div>
-                        <div class="breakdown-info">
-                            <div class="breakdown-name">No social media</div>
-                            <div class="breakdown-meta">Completed · Mission ended</div>
-                        </div>
-                        <div class="breakdown-amount">
-                            <div class="breakdown-value">$119.00</div>
-                            <div class="breakdown-status unlocked">✓ Unlocked</div>
-                        </div>
-                    </div>
+                <div class="breakdown-card" id="breakdownContainer">
+                    <div style="padding:20px;text-align:center;color:var(--text-muted);font-size:14px;">No vault activity yet</div>
                 </div>
             </div>
 
@@ -1011,18 +968,58 @@
         </nav>
     </div>
 
+    <script src="goal-ninja-data.js"></script>
     <script>
         function showInfo() {
-            alert('Your gold comes from days you miss your habits. When you hit your target completion rate, your gold unlocks. You can also withdraw early with a small fee.');
+            alert('Your gold comes from days you miss your habits. When you hit your target completion rate, your gold unlocks.');
         }
 
         function openMission(missionId) {
+            GN_setSelectedMission(missionId);
             window.location.href = 'goal-effect-goal-detail.html';
         }
 
         function initiateWithdraw() {
-            alert('This would open a withdrawal confirmation screen');
+            alert('Withdraw functionality coming soon!');
         }
+
+        function initSavings() {
+            GN_checkAndUpdateMissionStatuses();
+            var totalVault = GN_getVaultTotal();
+            var lockedVault = GN_getLockedVaultTotal();
+            var unlockedVault = GN_getUnlockedVaultTotal();
+            var overallStats = GN_getOverallStats();
+
+            document.getElementById('vaultTotal').textContent = '$' + totalVault.toFixed(2);
+            document.getElementById('lockedAmount').textContent = '$' + lockedVault.toFixed(2);
+            document.getElementById('unlockedAmount').textContent = '$' + unlockedVault.toFixed(2);
+            document.getElementById('missedDaysCount').textContent = overallStats.totalMissedDays;
+
+            var missions = GN_getMissions();
+            var container = document.getElementById('breakdownContainer');
+            var items = [];
+            for (var i = 0; i < missions.length; i++) {
+                var m = missions[i];
+                var stats = GN_getMissionStats(m.id);
+                if (stats && stats.missedDays > 0) {
+                    var isLocked = m.status === 'active' && !stats.hitTarget;
+                    items.push('<div class="breakdown-item" onclick="openMission(\'' + m.id + '\')">' +
+                        '<div class="breakdown-icon">' + GN_getIconSVG(m.icon, 22) + '</div>' +
+                        '<div class="breakdown-info">' +
+                            '<div class="breakdown-name">' + m.name + '</div>' +
+                            '<div class="breakdown-meta">' + stats.missedDays + ' missed &middot; $' + m.penalty + '/day</div>' +
+                        '</div>' +
+                        '<div class="breakdown-amount">' +
+                            '<div class="breakdown-value">$' + stats.vaultAmount.toFixed(2) + '</div>' +
+                            '<div class="breakdown-status ' + (isLocked ? '' : 'unlocked') + '">' + (isLocked ? 'Locked' : 'Unlocked') + '</div>' +
+                        '</div>' +
+                    '</div>');
+                }
+            }
+            container.innerHTML = items.length > 0 ? items.join('') : '<div style="padding:20px;text-align:center;color:var(--text-muted);font-size:14px;">No vault activity yet. Miss a day and your penalty goes here!</div>';
+        }
+
+        initSavings();
 
         function goTo(page) {
             if (page === 'home') window.location.href = 'goal-effect-home.html';

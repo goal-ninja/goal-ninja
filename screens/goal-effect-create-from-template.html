@@ -853,10 +853,12 @@
         </div>
     </div>
 
+    <script src="goal-ninja-data.js"></script>
     <script>
         var selectedPenalty = 5;
         var selectedDuration = 7;
         var selectedTarget = 80;
+        var selectedIcon = 'phone';
 
         function goBack() {
             window.history.back();
@@ -930,18 +932,15 @@
                 return;
             }
 
-            // Save to localStorage so it appears on the missions page
-            var missions = JSON.parse(localStorage.getItem('goalNinjaMissions') || '[]');
-            missions.push({
-                id: 'mission_' + Date.now(),
+            var desc = document.querySelector('textarea');
+            var newMission = GN_addMission({
                 name: missionName,
+                icon: selectedIcon || 'default',
+                description: desc ? desc.value : '',
                 penalty: selectedPenalty,
                 duration: selectedDuration,
-                target: selectedTarget,
-                createdAt: new Date().toISOString(),
-                streak: 0
+                target: selectedTarget
             });
-            localStorage.setItem('goalNinjaMissions', JSON.stringify(missions));
 
             // Show success toast
             document.getElementById('toastDesc').textContent = missionName + ' — ' + selectedDuration + ' days, $' + selectedPenalty + '/day';

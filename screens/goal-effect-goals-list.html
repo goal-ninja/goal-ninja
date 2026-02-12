@@ -523,231 +523,18 @@
             <div class="section" id="activeSection">
                 <div class="section-header">
                     <span class="section-title">Active Missions</span>
-                    <span class="section-count">4 missions</span>
+                    <span class="section-count" id="activeMissionCount">0 missions</span>
                 </div>
-
-                <!-- Mission Card 1 -->
-                <div class="mission-card" onclick="openMissionDetail('mission1')">
-                    <div class="mission-card-header">
-                        <div class="mission-info">
-                            <div class="mission-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;color:#1a1a1a"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg></div>
-                            <div>
-                                <h3 class="mission-name">No coffee after 2pm</h3>
-                                <p class="mission-meta">Day 12 of 30 · <span class="penalty">$5</span> penalty</p>
-                            </div>
-                        </div>
-                        <svg class="mission-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"/>
-                        </svg>
-                    </div>
-                    <div class="mission-stats">
-                        <div class="mission-stat">
-                            <div class="mission-stat-value">8</div>
-                            <div class="mission-stat-label">Streak</div>
-                        </div>
-                        <div class="mission-stat">
-                            <div class="mission-stat-value">75%</div>
-                            <div class="mission-stat-label">Progress</div>
-                        </div>
-                        <div class="mission-stat">
-                            <div class="mission-stat-value">18</div>
-                            <div class="mission-stat-label">Days Left</div>
-                        </div>
-                        <div class="mission-stat">
-                            <div class="mission-stat-value success">$15</div>
-                            <div class="mission-stat-label">In Vault</div>
-                        </div>
-                    </div>
-                    <div class="mission-progress">
-                        <div class="mission-progress-fill" style="width: 40%"></div>
-                    </div>
-                </div>
-
-                <!-- Mission Card 2 -->
-                <div class="mission-card" onclick="openMissionDetail('mission2')">
-                    <div class="mission-card-header">
-                        <div class="mission-info">
-                            <div class="mission-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;color:#1a1a1a"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-                            <div>
-                                <h3 class="mission-name">Read for 20 minutes</h3>
-                                <p class="mission-meta">Day 8 of 30 · <span class="penalty">$3</span> penalty</p>
-                            </div>
-                        </div>
-                        <svg class="mission-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"/>
-                        </svg>
-                    </div>
-                    <div class="mission-stats">
-                        <div class="mission-stat">
-                            <div class="mission-stat-value">5</div>
-                            <div class="mission-stat-label">Streak</div>
-                        </div>
-                        <div class="mission-stat">
-                            <div class="mission-stat-value">88%</div>
-                            <div class="mission-stat-label">Progress</div>
-                        </div>
-                        <div class="mission-stat">
-                            <div class="mission-stat-value">22</div>
-                            <div class="mission-stat-label">Days Left</div>
-                        </div>
-                        <div class="mission-stat">
-                            <div class="mission-stat-value success">$3</div>
-                            <div class="mission-stat-label">In Vault</div>
-                        </div>
-                    </div>
-                    <div class="mission-progress">
-                        <div class="mission-progress-fill" style="width: 27%"></div>
-                    </div>
-                </div>
-
-                <!-- Mission Card 3 -->
-                <div class="mission-card" onclick="openMissionDetail('mission3')">
-                    <div class="mission-card-header">
-                        <div class="mission-info">
-                            <div class="mission-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;color:#1a1a1a"><circle cx="17" cy="4" r="2"/><path d="M15.59 13.51l-1.42 4.93L7.5 16.5l-3 5"/><path d="M9.14 9.83L5 21"/><path d="M18 2l-4.5 7.5 3.5 2-1 4.5"/></svg></div>
-                            <div>
-                                <h3 class="mission-name">Exercise 30 minutes</h3>
-                                <p class="mission-meta">Day 5 of 14 · <span class="penalty">$10</span> penalty</p>
-                            </div>
-                        </div>
-                        <svg class="mission-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"/>
-                        </svg>
-                    </div>
-                    <div class="mission-stats">
-                        <div class="mission-stat">
-                            <div class="mission-stat-value">3</div>
-                            <div class="mission-stat-label">Streak</div>
-                        </div>
-                        <div class="mission-stat">
-                            <div class="mission-stat-value">80%</div>
-                            <div class="mission-stat-label">Progress</div>
-                        </div>
-                        <div class="mission-stat">
-                            <div class="mission-stat-value">9</div>
-                            <div class="mission-stat-label">Days Left</div>
-                        </div>
-                        <div class="mission-stat">
-                            <div class="mission-stat-value success">$10</div>
-                            <div class="mission-stat-label">In Vault</div>
-                        </div>
-                    </div>
-                    <div class="mission-progress">
-                        <div class="mission-progress-fill" style="width: 36%"></div>
-                    </div>
-                </div>
-
-                <!-- Mission Card 4 -->
-                <div class="mission-card" onclick="openMissionDetail('mission4')">
-                    <div class="mission-card-header">
-                        <div class="mission-info">
-                            <div class="mission-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;color:#1a1a1a"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
-                            <div>
-                                <h3 class="mission-name">Journal before bed</h3>
-                                <p class="mission-meta">Day 3 of 21 · <span class="penalty">$2</span> penalty</p>
-                            </div>
-                        </div>
-                        <svg class="mission-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"/>
-                        </svg>
-                    </div>
-                    <div class="mission-stats">
-                        <div class="mission-stat">
-                            <div class="mission-stat-value">3</div>
-                            <div class="mission-stat-label">Streak</div>
-                        </div>
-                        <div class="mission-stat">
-                            <div class="mission-stat-value">100%</div>
-                            <div class="mission-stat-label">Progress</div>
-                        </div>
-                        <div class="mission-stat">
-                            <div class="mission-stat-value">18</div>
-                            <div class="mission-stat-label">Days Left</div>
-                        </div>
-                        <div class="mission-stat">
-                            <div class="mission-stat-value success">$0</div>
-                            <div class="mission-stat-label">In Vault</div>
-                        </div>
-                    </div>
-                    <div class="mission-progress">
-                        <div class="mission-progress-fill" style="width: 14%"></div>
-                    </div>
-                </div>
+                <div id="activeMissionsContainer"></div>
             </div>
 
             <!-- Completed Missions -->
-            <div class="section" id="completedSection">
+            <div class="section" id="completedSection" style="display:none;">
                 <div class="section-header">
                     <span class="section-title">Completed</span>
-                    <span class="section-count">2 missions</span>
+                    <span class="section-count" id="completedMissionCount">0 missions</span>
                 </div>
-
-                <!-- Completed Mission -->
-                <div class="mission-card completed" onclick="openMissionDetail('completed1')">
-                    <div class="mission-card-header">
-                        <div class="mission-info">
-                            <div class="mission-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;color:#1a1a1a"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/><line x1="2" y1="2" x2="22" y2="22"/></svg></div>
-                            <div>
-                                <h3 class="mission-name">No social media</h3>
-                                <p class="mission-meta">30 days · Ended Jan 15</p>
-                            </div>
-                        </div>
-                        <span class="completed-badge">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                            Success
-                        </span>
-                    </div>
-                    <div class="mission-stats">
-                        <div class="mission-stat">
-                            <div class="mission-stat-value">87%</div>
-                            <div class="mission-stat-label">Final Rate</div>
-                        </div>
-                        <div class="mission-stat">
-                            <div class="mission-stat-value success">$20</div>
-                            <div class="mission-stat-label">Unlocked</div>
-                        </div>
-                        <div class="mission-stat">
-                            <div class="mission-stat-value">12</div>
-                            <div class="mission-stat-label">Best Streak</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Failed Mission -->
-                <div class="mission-card completed" onclick="openMissionDetail('failed1')">
-                    <div class="mission-card-header">
-                        <div class="mission-info">
-                            <div class="mission-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;color:#1a1a1a"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
-                            <div>
-                                <h3 class="mission-name">Call mom weekly</h3>
-                                <p class="mission-meta">8 weeks · Ended Dec 20</p>
-                            </div>
-                        </div>
-                        <span class="failed-badge">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <line x1="18" y1="6" x2="6" y2="18"/>
-                                <line x1="6" y1="6" x2="18" y2="18"/>
-                            </svg>
-                            Missed
-                        </span>
-                    </div>
-                    <div class="mission-stats">
-                        <div class="mission-stat">
-                            <div class="mission-stat-value">62%</div>
-                            <div class="mission-stat-label">Final Rate</div>
-                        </div>
-                        <div class="mission-stat">
-                            <div class="mission-stat-value success">$19</div>
-                            <div class="mission-stat-label">Still Saved</div>
-                        </div>
-                        <div class="mission-stat">
-                            <div class="mission-stat-value">3</div>
-                            <div class="mission-stat-label">Best Streak</div>
-                        </div>
-                    </div>
-                </div>
+                <div id="completedMissionsContainer"></div>
             </div>
         </div>
 
@@ -829,27 +616,29 @@
         </nav>
     </div>
 
+    <script src="goal-ninja-data.js"></script>
     <script>
         function addNewMission() {
             window.location.href = 'goal-effect-create-from-template.html';
         }
 
         function openMissionDetail(missionId) {
+            GN_setSelectedMission(missionId);
             window.location.href = 'goal-effect-goal-detail.html';
         }
 
         function filterMissions(filter) {
-            document.querySelectorAll('.filter-tab').forEach(tab => {
+            document.querySelectorAll('.filter-tab').forEach(function(tab) {
                 tab.classList.remove('active');
             });
             event.target.classList.add('active');
 
-            const activeSection = document.getElementById('activeSection');
-            const completedSection = document.getElementById('completedSection');
+            var activeSection = document.getElementById('activeSection');
+            var completedSection = document.getElementById('completedSection');
 
             if (filter === 'all') {
                 activeSection.style.display = 'block';
-                completedSection.style.display = 'block';
+                completedSection.style.display = completedMissionsExist ? 'block' : 'none';
             } else if (filter === 'active') {
                 activeSection.style.display = 'block';
                 completedSection.style.display = 'none';
@@ -858,6 +647,91 @@
                 completedSection.style.display = 'block';
             }
         }
+
+        var completedMissionsExist = false;
+
+        function renderMissions() {
+            GN_checkAndUpdateMissionStatuses();
+            var activeMissions = GN_getActiveMissions();
+            var completedMissions = GN_getCompletedMissions();
+            completedMissionsExist = completedMissions.length > 0;
+
+            var activeContainer = document.getElementById('activeMissionsContainer');
+            var completedContainer = document.getElementById('completedMissionsContainer');
+
+            // Update counts
+            document.getElementById('activeMissionCount').textContent = activeMissions.length + ' mission' + (activeMissions.length !== 1 ? 's' : '');
+            document.getElementById('completedMissionCount').textContent = completedMissions.length + ' mission' + (completedMissions.length !== 1 ? 's' : '');
+
+            // Render active missions
+            if (activeMissions.length === 0) {
+                activeContainer.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text-muted);"><p style="font-size:15px;margin-bottom:8px;">No active missions yet</p><p style="font-size:13px;">Tap the + button to start your first mission!</p></div>';
+            } else {
+                activeContainer.innerHTML = activeMissions.map(function(m) {
+                    var stats = GN_getMissionStats(m.id);
+                    return buildActiveMissionCard(m, stats);
+                }).join('');
+            }
+
+            // Render completed missions
+            if (completedMissions.length > 0) {
+                document.getElementById('completedSection').style.display = 'block';
+                completedContainer.innerHTML = completedMissions.map(function(m) {
+                    var stats = GN_getMissionStats(m.id);
+                    return buildCompletedMissionCard(m, stats);
+                }).join('');
+            } else {
+                document.getElementById('completedSection').style.display = 'none';
+            }
+        }
+
+        function buildActiveMissionCard(mission, stats) {
+            return '<div class="mission-card" onclick="openMissionDetail(\'' + mission.id + '\')">' +
+                '<div class="mission-card-header">' +
+                    '<div class="mission-info">' +
+                        '<div class="mission-icon">' + GN_getIconSVG(mission.icon, 24) + '</div>' +
+                        '<div>' +
+                            '<h3 class="mission-name">' + mission.name + '</h3>' +
+                            '<p class="mission-meta">Day ' + stats.dayNumber + ' of ' + mission.duration + ' &middot; <span class="penalty">$' + mission.penalty + '</span> penalty</p>' +
+                        '</div>' +
+                    '</div>' +
+                    '<svg class="mission-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>' +
+                '</div>' +
+                '<div class="mission-stats">' +
+                    '<div class="mission-stat"><div class="mission-stat-value">' + stats.currentStreak + '</div><div class="mission-stat-label">Streak</div></div>' +
+                    '<div class="mission-stat"><div class="mission-stat-value">' + stats.completionRate + '%</div><div class="mission-stat-label">Rate</div></div>' +
+                    '<div class="mission-stat"><div class="mission-stat-value">' + stats.daysLeft + '</div><div class="mission-stat-label">Days Left</div></div>' +
+                    '<div class="mission-stat"><div class="mission-stat-value">$' + stats.vaultAmount.toFixed(0) + '</div><div class="mission-stat-label">In Vault</div></div>' +
+                '</div>' +
+                '<div class="mission-progress"><div class="mission-progress-fill" style="width:' + stats.progress + '%"></div></div>' +
+            '</div>';
+        }
+
+        function buildCompletedMissionCard(mission, stats) {
+            var isSuccess = mission.status === 'completed';
+            return '<div class="mission-card completed" onclick="openMissionDetail(\'' + mission.id + '\')">' +
+                '<div class="mission-card-header">' +
+                    '<div class="mission-info">' +
+                        '<div class="mission-icon">' + GN_getIconSVG(mission.icon, 24) + '</div>' +
+                        '<div>' +
+                            '<h3 class="mission-name">' + mission.name + '</h3>' +
+                            '<p class="mission-meta">' + mission.duration + ' days</p>' +
+                        '</div>' +
+                    '</div>' +
+                    '<span class="' + (isSuccess ? 'completed-badge' : 'failed-badge') + '">' +
+                        (isSuccess ? 'Success' : 'Failed') +
+                    '</span>' +
+                '</div>' +
+                '<div class="mission-stats">' +
+                    '<div class="mission-stat"><div class="mission-stat-value">' + stats.completionRate + '%</div><div class="mission-stat-label">Final Rate</div></div>' +
+                    '<div class="mission-stat"><div class="mission-stat-value">$' + stats.vaultAmount.toFixed(0) + '</div><div class="mission-stat-label">Vault</div></div>' +
+                    '<div class="mission-stat"><div class="mission-stat-value">' + stats.bestStreak + '</div><div class="mission-stat-label">Best Streak</div></div>' +
+                '</div>' +
+            '</div>';
+        }
+
+        // Initialize on page load
+        renderMissions();
 
         function goTo(page) {
             if (page === 'home') window.location.href = 'goal-effect-home.html';

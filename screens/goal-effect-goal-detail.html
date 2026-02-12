@@ -1014,13 +1014,151 @@
         </div>
     </div>
 
+    <script src="goal-ninja-data.js"></script>
     <script>
         function goBack() {
             window.location.href = 'goal-effect-goals-list.html';
         }
 
+        function initDetail() {
+            GN_checkAndUpdateMissionStatuses();
+            var missionId = GN_getSelectedMission();
+            if (!missionId) { window.location.href = 'goal-effect-goals-list.html'; return; }
+            var mission = GN_getMissionById(missionId);
+            if (!mission) { window.location.href = 'goal-effect-goals-list.html'; return; }
+            var stats = GN_getMissionStats(missionId);
+
+            // Update header
+            document.querySelector('.mission-icon-large').innerHTML = GN_getIconSVG(mission.icon, 40);
+            document.querySelector('.mission-title').textContent = mission.name;
+            document.querySelector('.mission-subtitle').innerHTML = 'Day ' + stats.dayNumber + ' of ' + mission.duration + ' &middot; <span class="penalty">$' + mission.penalty + '</span> penalty';
+
+            // Update stats grid
+            var statValues = document.querySelectorAll('.stat-value');
+            statValues[0].textContent = stats.currentStreak;
+            statValues[1].textContent = stats.completionRate + '%';
+            statValues[2].textContent = stats.daysLeft;
+            statValues[3].textContent = '$' + stats.vaultAmount.toFixed(0);
+
+            // Update gold card
+            document.querySelector('.gold-amount').textContent = '$' + stats.vaultAmount.toFixed(2);
+            document.querySelector('.gold-label').textContent = 'From ' + stats.missedDays + ' missed day' + (stats.missedDays !== 1 ? 's' : '');
+            var goldBadge = document.querySelector('.gold-badge');
+            goldBadge.textContent = stats.hitTarget ? 'Unlocked' : 'Locked';
+            goldBadge.className = 'gold-badge' + (stats.hitTarget ? ' unlocked' : '');
+            document.querySelector('.gold-progress-value').textContent = stats.completionRate + '% of ' + mission.target + '% target';
+            var progressPct = mission.target > 0 ? Math.min(100, Math.round((stats.completionRate / mission.target) * 100)) : 0;
+            document.querySelector('.gold-progress-fill').style.width = progressPct + '%';
+            var daysNeeded = Math.max(0, Math.ceil((mission.target / 100) * mission.duration) - stats.completedDays);
+            document.querySelector('.gold-info').innerHTML = daysNeeded > 0
+                ? 'Complete <strong>' + daysNeeded + ' more day' + (daysNeeded !== 1 ? 's' : '') + '</strong> to hit your ' + mission.target + '% target and unlock your gold.'
+                : '<strong>Target reached!</strong> Your gold is unlocked.';
+
+            // Render calendar
+            renderCalendar(mission, missionId);
+
+            // Render activity
+            renderActivity(missionId, mission.penalty);
+
+            // Update settings
+            document.querySelectorAll('.settings-value')[0].innerHTML = '$' + mission.penalty + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
+            document.querySelectorAll('.settings-value')[1].innerHTML = mission.target + '% <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
+            var endDate = new Date(mission.startDate + 'T12:00:00');
+            endDate.setDate(endDate.getDate() + mission.duration);
+            document.querySelectorAll('.settings-value')[3].innerHTML = GN_formatDate(endDate.getFullYear() + '-' + String(endDate.getMonth()+1).padStart(2,'0') + '-' + String(endDate.getDate()).padStart(2,'0')) + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
+
+            // Update check-in button
+            updateCheckinButton(missionId, mission);
+        }
+
+        function renderCalendar(mission, missionId) {
+            var checkins = GN_getCheckinsForMission(missionId);
+            var today = new Date();
+            var year = today.getFullYear();
+            var month = today.getMonth();
+            var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            document.querySelector('.calendar-month').textContent = monthNames[month] + ' ' + year;
+            var firstDay = new Date(year, month, 1).getDay();
+            var daysInMonth = new Date(year, month + 1, 0).getDate();
+            var todayDate = today.getDate();
+            var startDate = new Date(mission.startDate + 'T12:00:00');
+            var html = '';
+            for (var i = 0; i < firstDay; i++) html += '<div class="calendar-day"></div>';
+            for (var d = 1; d <= daysInMonth; d++) {
+                var dateStr = year + '-' + String(month+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+                var dateObj = new Date(dateStr + 'T12:00:00');
+                var cls = 'calendar-day';
+                if (d === todayDate) cls += ' today';
+                else if (dateObj > today) cls += ' future';
+                else if (checkins[dateStr] === 'complete') cls += ' completed';
+                else if (checkins[dateStr] === 'missed') cls += ' missed';
+                else if (dateObj < startDate) cls += '';
+                else cls += ' future';
+                html += '<div class="' + cls + '">' + d + '</div>';
+            }
+            document.querySelector('.calendar-days').innerHTML = html;
+        }
+
+        function renderActivity(missionId, penalty) {
+            var checkins = GN_getCheckinsForMission(missionId);
+            var dates = Object.keys(checkins).sort().reverse().slice(0, 5);
+            var container = document.querySelector('.activity-card');
+            if (dates.length === 0) {
+                container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-muted);font-size:14px;">No activity yet. Check in to get started!</div>';
+                return;
+            }
+            container.innerHTML = dates.map(function(dateStr) {
+                var status = checkins[dateStr];
+                var isCompleted = status === 'complete';
+                return '<div class="activity-item">' +
+                    '<div class="activity-icon ' + (isCompleted ? 'completed' : 'missed') + '">' +
+                        (isCompleted
+                            ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'
+                            : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'
+                        ) +
+                    '</div>' +
+                    '<div class="activity-content">' +
+                        '<div class="activity-title">' + (isCompleted ? 'Completed' : 'Missed') + '</div>' +
+                        '<div class="activity-time">' + GN_formatDate(dateStr) + '</div>' +
+                    '</div>' +
+                    (isCompleted ? '' : '<span class="activity-amount">+$' + penalty + '</span>') +
+                '</div>';
+            }).join('');
+        }
+
+        function updateCheckinButton(missionId, mission) {
+            var btn = document.querySelector('.checkin-btn');
+            if (GN_hasCheckedInToday(missionId)) {
+                var todayStatus = GN_getTodayCheckinStatus(missionId);
+                if (todayStatus === 'complete') {
+                    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:20px;height:20px;"><polyline points="20 6 9 17 4 12"/></svg> Completed Today';
+                    btn.style.background = '#f3f4f6';
+                    btn.style.color = 'var(--text-primary)';
+                } else {
+                    btn.innerHTML = '+$' + mission.penalty + ' Added to Vault';
+                    btn.style.background = '#f3f4f6';
+                    btn.style.color = 'var(--text-primary)';
+                }
+                btn.onclick = null;
+                btn.style.opacity = '0.7';
+            } else if (mission.status !== 'active') {
+                btn.innerHTML = 'Mission ' + (mission.status === 'completed' ? 'Completed' : 'Ended');
+                btn.style.background = '#f3f4f6';
+                btn.style.color = 'var(--text-primary)';
+                btn.onclick = null;
+                btn.style.opacity = '0.7';
+            }
+        }
+
         function checkIn() {
-            alert('This would open the check-in modal');
+            var missionId = GN_getSelectedMission();
+            if (!missionId || GN_hasCheckedInToday(missionId)) return;
+            var mission = GN_getMissionById(missionId);
+            if (!mission || mission.status !== 'active') return;
+            var result = confirm('Did you complete "' + mission.name + '" today?\n\nOK = Completed\nCancel = Missed ($' + mission.penalty + ' to vault)');
+            var today = GN_getTodayDateStr();
+            GN_recordCheckin(missionId, today, result ? 'complete' : 'missed');
+            initDetail();
         }
 
         function toggleProfileDropdown() {
@@ -1035,6 +1173,8 @@
         function closeProfileDropdown() {
             document.getElementById('profileDropdown').style.display = 'none';
         }
+
+        initDetail();
     </script>
     <script>
     if ('serviceWorker' in navigator) {
