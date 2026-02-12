@@ -794,21 +794,23 @@
                 <div class="form-card">
                     <div class="selector-field" onclick="setReminder()">
                         <span class="selector-label">Daily Reminder</span>
-                        <span class="selector-value">
+                        <span class="selector-value" id="reminderDisplay">
                             9:00 PM
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="9 18 15 12 9 6"/>
                             </svg>
                         </span>
+                        <input type="time" id="reminderTimeInput" value="21:00" style="position:absolute;opacity:0;width:0;height:0;pointer-events:none;" onchange="onReminderChange(this.value)">
                     </div>
                     <div class="selector-field" onclick="setStartDate()">
                         <span class="selector-label">Start Date</span>
-                        <span class="selector-value">
+                        <span class="selector-value" id="startDateDisplay">
                             Today
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="9 18 15 12 9 6"/>
                             </svg>
                         </span>
+                        <input type="date" id="startDateInput" style="position:absolute;opacity:0;width:0;height:0;pointer-events:none;" onchange="onStartDateChange(this.value)">
                     </div>
                 </div>
             </div>
@@ -859,6 +861,8 @@
         var selectedDuration = 7;
         var selectedTarget = 80;
         var selectedIcon = 'phone';
+        var selectedReminder = '21:00';
+        var selectedStartDate = '';
 
         function goBack() {
             window.history.back();
@@ -918,11 +922,35 @@
         }
 
         function setReminder() {
-            alert('This would open a time picker for the daily reminder');
+            var input = document.getElementById('reminderTimeInput');
+            input.showPicker ? input.showPicker() : input.click();
+        }
+
+        function onReminderChange(val) {
+            if (!val) return;
+            selectedReminder = val;
+            var parts = val.split(':');
+            var h = parseInt(parts[0]);
+            var m = parts[1];
+            var ampm = h >= 12 ? 'PM' : 'AM';
+            var h12 = h % 12 || 12;
+            document.getElementById('reminderDisplay').innerHTML = h12 + ':' + m + ' ' + ampm + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
         }
 
         function setStartDate() {
-            alert('This would open a date picker for the start date');
+            var input = document.getElementById('startDateInput');
+            var today = GN_getTodayDateStr();
+            input.min = today;
+            if (!input.value) input.value = today;
+            input.showPicker ? input.showPicker() : input.click();
+        }
+
+        function onStartDateChange(val) {
+            if (!val) return;
+            selectedStartDate = val;
+            var today = GN_getTodayDateStr();
+            var label = val === today ? 'Today' : GN_formatDate(val);
+            document.getElementById('startDateDisplay').innerHTML = label + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
         }
 
         function createMission() {
@@ -933,14 +961,17 @@
             }
 
             var desc = document.querySelector('textarea');
-            var newMission = GN_addMission({
+            var missionData = {
                 name: missionName,
                 icon: selectedIcon || 'default',
                 description: desc ? desc.value : '',
                 penalty: selectedPenalty,
                 duration: selectedDuration,
-                target: selectedTarget
-            });
+                target: selectedTarget,
+                reminder: selectedReminder
+            };
+            if (selectedStartDate) missionData.startDate = selectedStartDate;
+            var newMission = GN_addMission(missionData);
 
             // Show success toast
             document.getElementById('toastDesc').textContent = missionName + ' — ' + selectedDuration + ' days, $' + selectedPenalty + '/day';

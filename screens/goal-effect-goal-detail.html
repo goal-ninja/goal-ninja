@@ -594,6 +594,286 @@
             height: 20px;
         }
 
+        /* Check-In Modal (Slide-Up) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--card-bg);
+            border-radius: 24px 24px 0 0;
+            padding: 20px 24px 40px;
+            width: 100%;
+            max-width: 390px;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .modal-overlay.visible .modal {
+            transform: translateY(0);
+        }
+
+        .modal-handle {
+            width: 36px;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin: 0 auto 20px;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-ninja {
+            width: 64px;
+            height: 64px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .modal-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .modal-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .modal-option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 14px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .modal-option.selected {
+            border-color: var(--text-primary);
+        }
+
+        .option-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .option-icon.success {
+            background: #f3f4f6;
+            color: var(--text-primary);
+        }
+
+        .option-icon.missed {
+            background: #f3f4f6;
+            color: var(--text-muted);
+        }
+
+        .option-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .option-content h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .option-content p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .photo-upload {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 14px;
+            margin-bottom: 24px;
+            cursor: pointer;
+            border: 2px dashed var(--border);
+        }
+
+        .photo-upload:hover {
+            border-color: var(--text-muted);
+        }
+
+        .photo-upload svg {
+            width: 24px;
+            height: 24px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .photo-upload p {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .photo-upload span {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .modal-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 8px;
+            transition: opacity 0.2s;
+        }
+
+        .modal-btn.primary {
+            background: var(--text-primary);
+            color: white;
+        }
+
+        .modal-btn.primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .modal-btn.secondary {
+            background: var(--bg);
+            color: var(--text-secondary);
+        }
+
+        /* 3-Dot Dropdown Menu */
+        .menu-dropdown {
+            position: absolute;
+            top: 56px;
+            right: 60px;
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 6px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            min-width: 180px;
+            z-index: 900;
+            animation: dropdownSlide 0.2s ease-out;
+            display: none;
+        }
+
+        .menu-dropdown.visible {
+            display: block;
+        }
+
+        .menu-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: background 0.2s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .menu-dropdown-item:hover {
+            background: var(--bg);
+        }
+
+        .menu-dropdown-item.danger {
+            color: var(--danger);
+        }
+
+        .menu-dropdown-item svg {
+            width: 18px;
+            height: 18px;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .menu-dropdown-item.danger svg {
+            color: var(--danger);
+        }
+
+        .menu-dropdown-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 899;
+            display: none;
+        }
+
+        .menu-dropdown-backdrop.visible {
+            display: block;
+        }
+
+        /* Hidden time input for reminder editing */
+        .hidden-input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+        }
+
+        /* Paused state banner */
+        .paused-banner {
+            background: var(--warning-light);
+            color: #92400e;
+            text-align: center;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 10px;
+            margin-bottom: 16px;
+        }
+
         /* Animations */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(16px); }
@@ -705,13 +985,28 @@
                 </svg>
                 Missions
             </button>
-            <div style="display:flex;gap:8px;align-items:center;"><button class="menu-btn">
+            <div style="display:flex;gap:8px;align-items:center;position:relative;"><button class="menu-btn" onclick="toggleMenu()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="1"/>
                     <circle cx="12" cy="5" r="1"/>
                     <circle cx="12" cy="19" r="1"/>
                 </svg>
             </button>
+            <div class="menu-dropdown-backdrop" id="menuBackdrop" onclick="closeMenu()"></div>
+            <div class="menu-dropdown" id="menuDropdown">
+                <button class="menu-dropdown-item" onclick="editMission()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    Edit Mission
+                </button>
+                <button class="menu-dropdown-item" onclick="shareProgress()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                    Share Progress
+                </button>
+                <button class="menu-dropdown-item danger" onclick="deleteMission()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    Delete Mission
+                </button>
+            </div>
             <button class="profile-btn" onclick="toggleProfileDropdown()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -937,14 +1232,15 @@
                             </svg>
                         </span>
                     </div>
-                    <div class="settings-item">
+                    <div class="settings-item" onclick="editReminder()">
                         <span class="settings-label">Reminder</span>
-                        <span class="settings-value">
+                        <span class="settings-value" id="reminderSettingsValue">
                             9:00 PM
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <polyline points="9 18 15 12 9 6"/>
                             </svg>
                         </span>
+                        <input type="time" id="detailReminderInput" class="hidden-input" onchange="onDetailReminderChange(this.value)">
                     </div>
                     <div class="settings-item">
                         <span class="settings-label">End Date</span>
@@ -964,13 +1260,13 @@
                     <span class="section-title">Danger Zone</span>
                 </div>
                 <div class="danger-card">
-                    <div class="danger-item">
-                        <span class="danger-label">Pause Mission</span>
+                    <div class="danger-item" id="pauseItem" onclick="pauseMission()">
+                        <span class="danger-label" id="pauseLabel">Pause Mission</span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="9 18 15 12 9 6"/>
                         </svg>
                     </div>
-                    <div class="danger-item">
+                    <div class="danger-item" onclick="endMissionEarly()">
                         <span class="danger-label">End Mission Early</span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="9 18 15 12 9 6"/>
@@ -988,6 +1284,56 @@
                 </svg>
                 Check In for Today
             </button>
+        </div>
+
+        <!-- Check-In Modal -->
+        <div class="modal-overlay" id="checkinModal" onclick="if(event.target===this)closeCheckin()">
+            <div class="modal">
+                <div class="modal-handle"></div>
+                <div class="modal-header">
+                    <div class="modal-ninja" id="modalNinja"></div>
+                    <h2 class="modal-title" id="modalGoalName">Mission Name</h2>
+                    <p class="modal-subtitle">Did you complete this today?</p>
+                </div>
+                <div class="modal-options">
+                    <div class="modal-option" id="optionComplete" onclick="selectCheckinOption('complete')">
+                        <div class="option-icon success">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="option-content">
+                            <h3>Yes, I did it!</h3>
+                            <p>Mark as complete for today</p>
+                        </div>
+                    </div>
+                    <div class="modal-option" id="optionMissed" onclick="selectCheckinOption('missed')">
+                        <div class="option-icon missed">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </div>
+                        <div class="option-content">
+                            <h3>I missed today</h3>
+                            <p id="missedAmount">$5 goes to your vault</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="photo-upload" id="photoUpload" style="display:none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <div>
+                        <p>Add a photo or video</p>
+                        <span>Prove you did it! (optional)</span>
+                    </div>
+                </div>
+                <button class="modal-btn primary" id="confirmBtn" onclick="confirmCheckin()" disabled>Select an option</button>
+                <button class="modal-btn secondary" onclick="closeCheckin()">Cancel</button>
+            </div>
         </div>
 
         <!-- Profile Dropdown -->
@@ -1016,6 +1362,9 @@
 
     <script src="goal-ninja-data.js"></script>
     <script>
+        var selectedCheckinOption = null;
+        var currentMissionId = null;
+
         function goBack() {
             window.location.href = 'goal-effect-goals-list.html';
         }
@@ -1026,12 +1375,14 @@
             if (!missionId) { window.location.href = 'goal-effect-goals-list.html'; return; }
             var mission = GN_getMissionById(missionId);
             if (!mission) { window.location.href = 'goal-effect-goals-list.html'; return; }
+            currentMissionId = missionId;
             var stats = GN_getMissionStats(missionId);
 
             // Update header
             document.querySelector('.mission-icon-large').innerHTML = GN_getIconSVG(mission.icon, 40);
             document.querySelector('.mission-title').textContent = mission.name;
-            document.querySelector('.mission-subtitle').innerHTML = 'Day ' + stats.dayNumber + ' of ' + mission.duration + ' &middot; <span class="penalty">$' + mission.penalty + '</span> penalty';
+            var subtitleText = mission.status === 'paused' ? 'Paused' : ('Day ' + stats.dayNumber + ' of ' + mission.duration);
+            document.querySelector('.mission-subtitle').innerHTML = subtitleText + ' &middot; <span class="penalty">$' + mission.penalty + '</span> penalty';
 
             // Update stats grid
             var statValues = document.querySelectorAll('.stat-value');
@@ -1061,11 +1412,33 @@
             renderActivity(missionId, mission.penalty);
 
             // Update settings
-            document.querySelectorAll('.settings-value')[0].innerHTML = '$' + mission.penalty + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
-            document.querySelectorAll('.settings-value')[1].innerHTML = mission.target + '% <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
+            var chevronSvg = ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
+            document.querySelectorAll('.settings-value')[0].innerHTML = '$' + mission.penalty + chevronSvg;
+            document.querySelectorAll('.settings-value')[1].innerHTML = mission.target + '%' + chevronSvg;
+
+            // Update reminder display
+            var reminderTime = mission.reminder || '21:00';
+            var rParts = reminderTime.split(':');
+            var rH = parseInt(rParts[0]);
+            var rM = rParts[1];
+            var rAmpm = rH >= 12 ? 'PM' : 'AM';
+            var rH12 = rH % 12 || 12;
+            document.getElementById('reminderSettingsValue').innerHTML = rH12 + ':' + rM + ' ' + rAmpm + chevronSvg;
+            document.getElementById('detailReminderInput').value = reminderTime;
+
             var endDate = new Date(mission.startDate + 'T12:00:00');
             endDate.setDate(endDate.getDate() + mission.duration);
-            document.querySelectorAll('.settings-value')[3].innerHTML = GN_formatDate(endDate.getFullYear() + '-' + String(endDate.getMonth()+1).padStart(2,'0') + '-' + String(endDate.getDate()).padStart(2,'0')) + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
+            document.querySelectorAll('.settings-value')[3].innerHTML = GN_formatDate(endDate.getFullYear() + '-' + String(endDate.getMonth()+1).padStart(2,'0') + '-' + String(endDate.getDate()).padStart(2,'0')) + chevronSvg;
+
+            // Update pause button label
+            var pauseLabel = document.getElementById('pauseLabel');
+            if (mission.status === 'paused') {
+                pauseLabel.textContent = 'Resume Mission';
+                pauseLabel.style.color = 'var(--success)';
+            } else {
+                pauseLabel.textContent = 'Pause Mission';
+                pauseLabel.style.color = 'var(--danger)';
+            }
 
             // Update check-in button
             updateCheckinButton(missionId, mission);
@@ -1132,17 +1505,22 @@
                 var todayStatus = GN_getTodayCheckinStatus(missionId);
                 if (todayStatus === 'complete') {
                     btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:20px;height:20px;"><polyline points="20 6 9 17 4 12"/></svg> Completed Today';
-                    btn.style.background = '#f3f4f6';
-                    btn.style.color = 'var(--text-primary)';
                 } else {
                     btn.innerHTML = '+$' + mission.penalty + ' Added to Vault';
-                    btn.style.background = '#f3f4f6';
-                    btn.style.color = 'var(--text-primary)';
                 }
+                btn.style.background = '#f3f4f6';
+                btn.style.color = 'var(--text-primary)';
+                btn.onclick = null;
+                btn.style.opacity = '0.7';
+            } else if (mission.status === 'paused') {
+                btn.innerHTML = 'Mission Paused';
+                btn.style.background = '#fef3c7';
+                btn.style.color = '#92400e';
                 btn.onclick = null;
                 btn.style.opacity = '0.7';
             } else if (mission.status !== 'active') {
-                btn.innerHTML = 'Mission ' + (mission.status === 'completed' ? 'Completed' : 'Ended');
+                var label = mission.status === 'completed' ? 'Completed' : (mission.status === 'ended' ? 'Ended' : 'Ended');
+                btn.innerHTML = 'Mission ' + label;
                 btn.style.background = '#f3f4f6';
                 btn.style.color = 'var(--text-primary)';
                 btn.onclick = null;
@@ -1150,17 +1528,145 @@
             }
         }
 
+        // ---- SLIDE-UP CHECK-IN MODAL ----
         function checkIn() {
             var missionId = GN_getSelectedMission();
             if (!missionId || GN_hasCheckedInToday(missionId)) return;
             var mission = GN_getMissionById(missionId);
-            if (!mission || mission.status !== 'active') return;
-            var result = confirm('Did you complete "' + mission.name + '" today?\n\nOK = Completed\nCancel = Missed ($' + mission.penalty + ' to vault)');
+            if (!mission || (mission.status !== 'active')) return;
+            selectedCheckinOption = null;
+            document.getElementById('modalGoalName').textContent = mission.name;
+            document.getElementById('modalNinja').innerHTML = GN_getIconSVG(mission.icon, 32);
+            document.getElementById('missedAmount').textContent = '$' + mission.penalty + ' goes to your vault';
+            document.getElementById('optionComplete').classList.remove('selected');
+            document.getElementById('optionMissed').classList.remove('selected');
+            document.getElementById('photoUpload').style.display = 'none';
+            var confirmBtn = document.getElementById('confirmBtn');
+            confirmBtn.disabled = true;
+            confirmBtn.textContent = 'Select an option';
+            document.getElementById('checkinModal').classList.add('visible');
+        }
+
+        function selectCheckinOption(option) {
+            selectedCheckinOption = option;
+            document.getElementById('optionComplete').classList.toggle('selected', option === 'complete');
+            document.getElementById('optionMissed').classList.toggle('selected', option === 'missed');
+            document.getElementById('photoUpload').style.display = option === 'complete' ? 'flex' : 'none';
+            var confirmBtn = document.getElementById('confirmBtn');
+            confirmBtn.disabled = false;
+            if (option === 'complete') {
+                confirmBtn.textContent = 'Confirm Completion';
+            } else {
+                var mission = GN_getMissionById(currentMissionId);
+                confirmBtn.textContent = 'Confirm Missed (+$' + (mission ? mission.penalty : '0') + ')';
+            }
+        }
+
+        function confirmCheckin() {
+            if (!selectedCheckinOption || !currentMissionId) return;
             var today = GN_getTodayDateStr();
-            GN_recordCheckin(missionId, today, result ? 'complete' : 'missed');
+            GN_recordCheckin(currentMissionId, today, selectedCheckinOption === 'complete' ? 'complete' : 'missed');
+            closeCheckin();
             initDetail();
         }
 
+        function closeCheckin() {
+            document.getElementById('checkinModal').classList.remove('visible');
+            selectedCheckinOption = null;
+        }
+
+        // ---- PAUSE / END MISSION ----
+        function pauseMission() {
+            var mission = GN_getMissionById(currentMissionId);
+            if (!mission) return;
+            if (mission.status === 'paused') {
+                // Resume
+                if (confirm('Resume this mission? Check-ins will be required again starting today.')) {
+                    GN_updateMission(currentMissionId, { status: 'active', pausedAt: null });
+                    initDetail();
+                }
+            } else if (mission.status === 'active') {
+                // Pause
+                if (confirm('Pause this mission? Check-ins won\'t be required and missed days won\'t count while paused.')) {
+                    GN_updateMission(currentMissionId, { status: 'paused', pausedAt: GN_getTodayDateStr() });
+                    initDetail();
+                }
+            }
+        }
+
+        function endMissionEarly() {
+            if (confirm('End this mission early? This can\'t be undone. Your vault balance will be finalized.')) {
+                GN_updateMission(currentMissionId, { status: 'ended', endedAt: GN_getTodayDateStr() });
+                window.location.href = 'goal-effect-goals-list.html';
+            }
+        }
+
+        // ---- EDITABLE REMINDER ----
+        function editReminder() {
+            var input = document.getElementById('detailReminderInput');
+            input.showPicker ? input.showPicker() : input.click();
+        }
+
+        function onDetailReminderChange(val) {
+            if (!val || !currentMissionId) return;
+            GN_updateMission(currentMissionId, { reminder: val });
+            initDetail();
+        }
+
+        // ---- 3-DOT MENU ----
+        function toggleMenu() {
+            var dropdown = document.getElementById('menuDropdown');
+            var backdrop = document.getElementById('menuBackdrop');
+            var isOpen = dropdown.classList.contains('visible');
+            dropdown.classList.toggle('visible', !isOpen);
+            backdrop.classList.toggle('visible', !isOpen);
+        }
+
+        function closeMenu() {
+            document.getElementById('menuDropdown').classList.remove('visible');
+            document.getElementById('menuBackdrop').classList.remove('visible');
+        }
+
+        function editMission() {
+            closeMenu();
+            // Navigate to create-from-template with edit flag
+            localStorage.setItem('goalNinjaEditMission', currentMissionId);
+            window.location.href = 'goal-effect-create-from-template.html';
+        }
+
+        function shareProgress() {
+            closeMenu();
+            var mission = GN_getMissionById(currentMissionId);
+            if (!mission) return;
+            var stats = GN_getMissionStats(currentMissionId);
+            var shareText = 'I\'m on Day ' + stats.dayNumber + ' of my "' + mission.name + '" mission on Goal Ninja! ' + stats.currentStreak + ' day streak, ' + stats.completionRate + '% completion rate.';
+            if (navigator.share) {
+                navigator.share({ title: 'Goal Ninja Progress', text: shareText }).catch(function() {});
+            } else {
+                // Fallback: copy to clipboard
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(shareText).then(function() {
+                        alert('Progress copied to clipboard!');
+                    }).catch(function() {
+                        alert(shareText);
+                    });
+                } else {
+                    alert(shareText);
+                }
+            }
+        }
+
+        function deleteMission() {
+            closeMenu();
+            var mission = GN_getMissionById(currentMissionId);
+            if (!mission) return;
+            if (confirm('Delete "' + mission.name + '"? This will permanently remove the mission and all check-in data. This can\'t be undone.')) {
+                GN_deleteMission(currentMissionId);
+                window.location.href = 'goal-effect-goals-list.html';
+            }
+        }
+
+        // ---- PROFILE DROPDOWN ----
         function toggleProfileDropdown() {
             var dropdown = document.getElementById('profileDropdown');
             if (dropdown.style.display === 'none' || !dropdown.style.display) {

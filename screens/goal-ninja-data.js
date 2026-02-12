@@ -57,8 +57,9 @@ function GN_addMission(data) {
         penalty: parseFloat(data.penalty) || 5,
         duration: parseInt(data.duration) || 30,
         target: parseInt(data.target) || 80,
+        reminder: data.reminder || '21:00',
         createdAt: new Date().toISOString(),
-        startDate: today,
+        startDate: data.startDate || today,
         status: 'active'
     };
     missions.push(newMission);
@@ -241,11 +242,11 @@ function GN_getBestStreak(missionId) {
 // --- AGGREGATE STATS ---
 
 function GN_getActiveMissions() {
-    return GN_getMissions().filter(function(m) { return m.status === 'active'; });
+    return GN_getMissions().filter(function(m) { return m.status === 'active' || m.status === 'paused'; });
 }
 
 function GN_getCompletedMissions() {
-    return GN_getMissions().filter(function(m) { return m.status === 'completed' || m.status === 'failed'; });
+    return GN_getMissions().filter(function(m) { return m.status === 'completed' || m.status === 'failed' || m.status === 'ended'; });
 }
 
 function GN_getVaultTotal() {
@@ -320,7 +321,8 @@ function GN_checkAndUpdateMissionStatuses() {
 
     for (var i = 0; i < missions.length; i++) {
         var m = missions[i];
-        if (m.status !== 'active') continue;
+        if (m.status !== 'active' && m.status !== 'paused') continue;
+        if (m.status === 'paused') continue; // Skip auto-miss for paused missions
 
         var checkins = GN_getCheckinsForMission(m.id);
 
