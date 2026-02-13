@@ -690,16 +690,16 @@
             <!-- Stats Summary -->
             <div class="stats-summary">
                 <div class="summary-stat">
-                    <div class="summary-value">4</div>
+                    <div class="summary-value" id="summaryActive">0</div>
                     <div class="summary-label">Active</div>
                 </div>
                 <div class="summary-stat">
-                    <div class="summary-value">78%</div>
+                    <div class="summary-value" id="summaryRate">0%</div>
                     <div class="summary-label">Avg Rate</div>
                 </div>
                 <div class="summary-stat">
-                    <div class="summary-value success">$147</div>
-                    <div class="summary-label">In Vault</div>
+                    <div class="summary-value success" id="summarySavings">$0</div>
+                    <div class="summary-label">Savings</div>
                 </div>
             </div>
 
@@ -861,6 +861,12 @@
             document.getElementById('activeMissionCount').textContent = activeGoals.length;
             document.getElementById('completedMissionCount').textContent = completedGoals.length;
 
+            // Update summary stats
+            var overallStats = GN_getOverallStats();
+            document.getElementById('summaryActive').textContent = activeGoals.length;
+            document.getElementById('summaryRate').textContent = (overallStats.overallCompletionRate || 0) + '%';
+            document.getElementById('summarySavings').textContent = '$' + (overallStats.totalVault || 0).toFixed(0);
+
             var activeContainer = document.getElementById('activeMissionsContainer');
             if (activeGoals.length === 0) {
                 activeContainer.innerHTML = '<div style="text-align:center;padding:40px 20px;"><img src="../ninja-poses/ninja-meditate.png" style="width:80px;height:80px;margin:0 auto 16px;display:block;object-fit:contain;" alt=""><p style="color:var(--text-muted);font-size:15px;">No active goals yet</p><p style="color:var(--text-muted);font-size:13px;margin-top:4px;">Create your first goal to get started</p></div>';
@@ -919,7 +925,7 @@
                     '<div class="goal-stat"><div class="goal-stat-value">' + (goalStats.currentStreak || 0) + '</div><div class="goal-stat-label">Streak</div></div>' +
                     '<div class="goal-stat"><div class="goal-stat-value">' + completionRate + '%</div><div class="goal-stat-label">Rate</div></div>' +
                     '<div class="goal-stat"><div class="goal-stat-value">' + (goal.duration === 0 ? '\u221e' : (goalStats.daysLeft || 0)) + '</div><div class="goal-stat-label">' + (goal.duration === 0 ? 'Ongoing' : 'Days Left') + '</div></div>' +
-                    '<div class="goal-stat"><div class="goal-stat-value success">$' + vaultTotal.toFixed(0) + '</div><div class="goal-stat-label">In Vault</div></div>' +
+                    '<div class="goal-stat"><div class="goal-stat-value success">$' + vaultTotal.toFixed(0) + '</div><div class="goal-stat-label">Savings</div></div>' +
                 '</div>' +
                 '<div class="goal-progress"><div class="goal-progress-fill" style="width:' + progressPct + '%"></div></div>' +
                 checkinBtnHtml +
@@ -946,7 +952,7 @@
                 '</div>' +
                 '<div class="goal-stats">' +
                     '<div class="goal-stat"><div class="goal-stat-value">' + completionRate + '%</div><div class="goal-stat-label">Final Rate</div></div>' +
-                    '<div class="goal-stat"><div class="goal-stat-value success">$' + vaultTotal.toFixed(0) + '</div><div class="goal-stat-label">Vault</div></div>' +
+                    '<div class="goal-stat"><div class="goal-stat-value success">$' + vaultTotal.toFixed(0) + '</div><div class="goal-stat-label">Savings</div></div>' +
                     '<div class="goal-stat"><div class="goal-stat-value">' + (goalStats.bestStreak || 0) + '</div><div class="goal-stat-label">Best Streak</div></div>' +
                 '</div>' +
             '</div>';

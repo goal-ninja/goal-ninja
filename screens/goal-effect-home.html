@@ -899,6 +899,12 @@
                 labelEls[2].textContent = 'Savings';
             }
 
+            // Update savings banner
+            var savingsBannerEl = document.getElementById('totalSavings');
+            if (savingsBannerEl) {
+                savingsBannerEl.textContent = '$' + (stats.totalVault || 0).toFixed(2);
+            }
+
             // Update section count
             var countEl = document.getElementById('goalsCount');
             if (countEl) countEl.textContent = unchecked.length + ' remaining';
