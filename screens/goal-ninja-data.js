@@ -17,10 +17,11 @@
         d+' .phone-frame{background:#121212;border-color:#333}',
         // Forms
         d+' input,'+d+' select,'+d+' textarea{background:#2a2a2a;color:#f0f0f0;border-color:#444}',
-        // Bottom nav
-        d+' .bottom-nav{background:#1a1a1a;border-color:#333}',
-        d+' .bottom-nav button{color:#777}',
-        d+' .bottom-nav button.active,'+d+' .bottom-nav button:hover{color:#f0f0f0}',
+        // Bottom nav (floating)
+        d+' .bottom-nav{background:#1e1e1e;box-shadow:0 2px 20px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.06)}',
+        d+' .nav-item{color:#777}',
+        d+' .nav-item.active{color:#f0f0f0;background:rgba(255,255,255,0.1)}',
+        d+' .nav-item:hover{color:#ccc}',
         // Buttons - PRIMARY FIX: dark buttons need to invert in dark mode
         d+' .fab{background:#f0f0f0;color:#1a1a1a}',
         d+' .fab svg{color:#1a1a1a}',
