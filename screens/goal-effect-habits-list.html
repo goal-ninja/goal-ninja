@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+    <title>Goal Ninja - All Habits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b6b6b;
+            --text-muted: #999999;
+            --accent: #1a1a1a;
+            --border: #e5e5e5;
+            --success: #22c55e;
+            --success-light: #dcfce7;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --danger: #ef4444;
+            --danger-light: #fee2e2;
+            --info: #3b82f6;
+            --info-light: #dbeafe;
+            --purple: #8b5cf6;
+            --purple-light: #ede9fe;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .phone-frame {
+            width: 100%;
+            height: 100vh;
+            margin: 0 auto;
+            background: var(--bg);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 500px) {
+            body {
+                background: #1a1a1a;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                padding: 20px;
+            }
+            .phone-frame {
+                max-width: 390px;
+                max-height: 844px;
+                border-radius: 40px;
+                box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+            }
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px 12px;
+            flex-shrink: 0;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-title h1 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .habit-count-badge {
+            background: var(--text-primary);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 12px;
+        }
+
+        .profile-btn {
+            width: 44px;
+            height: 44px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .profile-btn svg {
+            width: 22px;
+            height: 22px;
+            color: var(--text-secondary);
+        }
+
+        /* Profile Dropdown */
+        .profile-dropdown {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+        }
+
+        .dropdown-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            animation: dropdownSlide 0.25s ease-out;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: var(--bg);
+        }
+
+        .dropdown-item svg {
+            width: 20px;
+            height: 20px;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px 100px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .filter-tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            background: var(--card-bg);
+            color: var(--text-secondary);
+            white-space: nowrap;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .filter-tab.active {
+            background: var(--text-primary);
+            color: white;
+        }
+
+        /* Habit Cards */
+        .habit-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            animation: fadeUp 0.4s ease-out both;
+        }
+
+        .habit-card:nth-child(1) { animation-delay: 0s; }
+        .habit-card:nth-child(2) { animation-delay: 0.05s; }
+        .habit-card:nth-child(3) { animation-delay: 0.1s; }
+        .habit-card:nth-child(4) { animation-delay: 0.15s; }
+        .habit-card:nth-child(5) { animation-delay: 0.2s; }
+        .habit-card:nth-child(6) { animation-delay: 0.25s; }
+        .habit-card:nth-child(7) { animation-delay: 0.3s; }
+        .habit-card:nth-child(8) { animation-delay: 0.35s; }
+
+        .habit-card-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .habit-icon {
+            width: 44px;
+            height: 44px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .habit-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .habit-name {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .habit-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .habit-goals {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .goal-tag {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: var(--bg);
+            color: var(--text-secondary);
+            white-space: nowrap;
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .goal-tag.more {
+            background: var(--text-primary);
+            color: white;
+        }
+
+        .habit-checkin-done {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .habit-checkin-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .habit-quick-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-muted);
+        }
+
+        .habit-quick-btn.complete:hover {
+            background: #dcfce7;
+            border-color: #22c55e;
+            color: #22c55e;
+        }
+
+        .habit-quick-btn.missed:hover {
+            background: #f3f4f6;
+            border-color: var(--text-primary);
+            color: var(--text-primary);
+        }
+
+        .habit-quick-btn:active {
+            transform: scale(0.9);
+        }
+
+        /* Bottom Nav (floating pill) */
+        .bottom-nav {
+            position: absolute;
+            bottom: 12px;
+            left: 16px;
+            right: 16px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px 8px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 8px 16px;
+            background: none;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .nav-item.active {
+            color: var(--text-primary);
+            background: rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .nav-item span {
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes dropdownSlide {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .animate-in {
+            animation: fadeUp 0.4s ease-out both;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+
+        <!-- Top Navigation -->
+        <div class="top-nav">
+            <div class="page-title animate-in">
+                <h1>All Habits</h1>
+                <span class="habit-count-badge" id="habitCount">0</span>
+            </div>
+            <button class="profile-btn" onclick="toggleProfileDropdown()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Scrollable Content -->
+        <div class="main-content">
+
+            <!-- Filter Tabs -->
+            <div class="filter-tabs animate-in" style="animation-delay:0.05s;">
+                <button class="filter-tab active" onclick="setFilter('all', this)">All</button>
+                <button class="filter-tab" onclick="setFilter('active', this)">Active</button>
+                <button class="filter-tab" onclick="setFilter('completed', this)">Completed</button>
+            </div>
+
+            <!-- Habits Container -->
+            <div id="habitsContainer"></div>
+
+        </div>
+
+        <!-- Bottom Nav -->
+        <nav class="bottom-nav">
+            <button class="nav-item" onclick="goTo('home')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span>Home</span>
+            </button>
+            <button class="nav-item" onclick="goTo('goals')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+                </svg>
+                <span>Goals</span>
+            </button>
+            <button class="nav-item active" onclick="goTo('habits')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                </svg>
+                <span>Habits</span>
+            </button>
+            <button class="nav-item" onclick="goTo('savings')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+                <span>Savings</span>
+            </button>
+            <button class="nav-item" onclick="goTo('explore')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                </svg>
+                <span>Explore</span>
+            </button>
+        </nav>
+
+        <!-- Profile Dropdown -->
+        <div class="profile-dropdown" id="profileDropdown" style="display: none;">
+            <div class="dropdown-overlay" onclick="closeProfileDropdown()"></div>
+            <div class="dropdown-menu">
+                <a href="goal-effect-profile.html" class="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Profile</span>
+                </a>
+                <a href="goal-effect-activity.html" class="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    <span>Activity</span>
+                </a>
+                <a href="goal-effect-subscription.html" class="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <span>Upgrade</span>
+                </a>
+                <a href="goal-effect-savings-lock.html" class="dropdown-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <span>Savings Lock</span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="goal-ninja-data.js"></script>
+    <script>
+        var currentFilter = 'all';
+
+        function goTo(page) {
+            if (page === 'home') window.location.href = 'goal-effect-home.html';
+            else if (page === 'goals') window.location.href = 'goal-effect-goals-list.html';
+            else if (page === 'habits') window.location.href = 'goal-effect-habits-list.html';
+            else if (page === 'savings') window.location.href = 'goal-effect-savings.html';
+            else if (page === 'explore') window.location.href = 'goal-effect-templates.html';
+        }
+
+        function setFilter(filter, btn) {
+            currentFilter = filter;
+            var tabs = document.querySelectorAll('.filter-tab');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            btn.classList.add('active');
+            renderHabits();
+        }
+
+        function renderHabits() {
+            GN_checkAndUpdateStatuses();
+            var allHabits = GN_getHabits();
+            var activeGoals = GN_getActiveGoals();
+            var activeGoalIds = activeGoals.map(function(g) { return g.id; });
+
+            // Split into active (in at least one active goal) and inactive
+            var activeHabits = [];
+            var inactiveHabits = [];
+            allHabits.forEach(function(h) {
+                var isActive = h.goalIds.some(function(gid) { return activeGoalIds.indexOf(gid) >= 0; });
+                if (isActive) activeHabits.push(h);
+                else inactiveHabits.push(h);
+            });
+
+            // Apply filter
+            var habits;
+            if (currentFilter === 'active') habits = activeHabits;
+            else if (currentFilter === 'completed') habits = inactiveHabits;
+            else habits = allHabits;
+
+            document.getElementById('habitCount').textContent = habits.length;
+
+            var container = document.getElementById('habitsContainer');
+            if (habits.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:40px 20px;"><img src="../ninja-poses/ninja-meditate.png" style="width:80px;height:80px;margin:0 auto 16px;display:block;object-fit:contain;" alt=""><p style="color:var(--text-muted);font-size:15px;">No habits yet</p><p style="color:var(--text-muted);font-size:13px;margin-top:4px;">Create a goal to add habits</p></div>';
+                return;
+            }
+
+            container.innerHTML = habits.map(function(habit) {
+                return buildHabitCard(habit, activeGoalIds);
+            }).join('');
+        }
+
+        function buildHabitCard(habit, activeGoalIds) {
+            var stats = GN_getHabitStats(habit.id);
+            var goals = habit.goalIds.map(function(gid) { return GN_getGoalById(gid); }).filter(Boolean);
+            var isActive = habit.goalIds.some(function(gid) { return activeGoalIds.indexOf(gid) >= 0; });
+
+            // Goal tags
+            var tagsHtml = '';
+            var visibleGoals = goals.slice(0, 2);
+            visibleGoals.forEach(function(g) {
+                tagsHtml += '<span class="goal-tag">' + g.name + '</span>';
+            });
+            if (goals.length > 2) {
+                tagsHtml += '<span class="goal-tag more">+' + (goals.length - 2) + '</span>';
+            }
+
+            // Check-in status
+            var checkedIn = GN_hasHabitCheckedInToday(habit.id);
+            var checkinHtml;
+            if (checkedIn) {
+                var status = GN_getHabitCheckinStatus(habit.id, GN_getTodayDateStr());
+                if (status === 'complete') {
+                    checkinHtml = '<div class="habit-checkin-done"><svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" width="20" height="20"><polyline points="20 6 9 17 4 12"/></svg></div>';
+                } else {
+                    checkinHtml = '<div class="habit-checkin-done missed"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2.5" width="20" height="20"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>';
+                }
+            } else if (isActive) {
+                checkinHtml = '<div class="habit-checkin-actions">' +
+                    '<button class="habit-quick-btn complete" onclick="event.stopPropagation();quickCheckin(\'' + habit.id + '\',\'complete\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><polyline points="20 6 9 17 4 12"/></svg></button>' +
+                    '<button class="habit-quick-btn missed" onclick="event.stopPropagation();quickCheckin(\'' + habit.id + '\',\'missed\')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' +
+                '</div>';
+            } else {
+                checkinHtml = '<div class="habit-checkin-done" style="opacity:0.3"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>';
+            }
+
+            return '<div class="habit-card">' +
+                '<div class="habit-card-left">' +
+                    '<div class="habit-icon">' + GN_getIconSVG(habit.icon, 22) + '</div>' +
+                    '<div class="habit-details">' +
+                        '<div class="habit-name">' + habit.name + '</div>' +
+                        '<div class="habit-meta">$' + habit.penalty + '/miss · ' + (stats.currentStreak || 0) + ' streak · ' + (stats.completionRate || 0) + '%</div>' +
+                        '<div class="habit-goals">' + tagsHtml + '</div>' +
+                    '</div>' +
+                '</div>' +
+                checkinHtml +
+            '</div>';
+        }
+
+        function quickCheckin(habitId, status) {
+            GN_recordHabitCheckin(habitId, GN_getTodayDateStr(), status);
+            renderHabits();
+        }
+
+        function toggleProfileDropdown() {
+            var dropdown = document.getElementById('profileDropdown');
+            if (dropdown.style.display === 'none' || !dropdown.style.display) {
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+            }
+        }
+
+        function closeProfileDropdown() {
+            document.getElementById('profileDropdown').style.display = 'none';
+        }
+
+        renderHabits();
+    </script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('../sw.js');
+    }
+    </script>
+</body>
+</html>
