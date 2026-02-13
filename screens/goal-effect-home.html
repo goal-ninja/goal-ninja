@@ -695,8 +695,29 @@
                 <div class="vault-arrow">→</div>
             </div>
 
-            <!-- Today's Goals -->
+            <!-- This Week Stats -->
             <div class="section animate-in delay-2">
+                <div class="section-header">
+                    <span class="section-title">This Week</span>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">To Check In</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Active Goals</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value success">$0</div>
+                        <div class="stat-label">Savings</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Today's Habits -->
+            <div class="section animate-in delay-3">
                 <div class="section-header">
                     <span class="section-title">Today's Habits</span>
                     <span class="section-action" id="goalsCount">3 remaining</span>
@@ -705,26 +726,6 @@
                 <div id="homeMissionsContainer"></div>
             </div>
 
-            <!-- Weekly Stats -->
-            <div class="section animate-in delay-3">
-                <div class="section-header">
-                    <span class="section-title">This Week</span>
-                </div>
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value">16</div>
-                        <div class="stat-label">Streak</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value">89%</div>
-                        <div class="stat-label">Completion</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value success">$12</div>
-                        <div class="stat-label">In Vault</div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!-- Bottom Navigation -->
@@ -891,7 +892,7 @@
             if (labelEls.length >= 3) {
                 labelEls[0].textContent = 'To Check In';
                 labelEls[1].textContent = 'Active Goals';
-                labelEls[2].textContent = 'Total Vault';
+                labelEls[2].textContent = 'Savings';
             }
 
             // Update section count
