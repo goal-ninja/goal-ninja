@@ -771,7 +771,7 @@
                         </div>
                         <span class="status-label">Locked</span>
                     </div>
-                    <div class="status-value">$28.00</div>
+                    <div class="status-value" id="statusLocked">$0.00</div>
                 </div>
                 <div class="status-card">
                     <div class="status-card-header">
@@ -783,7 +783,7 @@
                         </div>
                         <span class="status-label">Unlocked</span>
                     </div>
-                    <div class="status-value success">$119.00</div>
+                    <div class="status-value success" id="statusUnlocked">$0.00</div>
                 </div>
             </div>
 
@@ -1043,6 +1043,12 @@
             document.getElementById('vaultTotal').textContent = '$' + totalVault.toFixed(2);
             document.getElementById('lockedAmount').textContent = '$' + lockedVault.toFixed(2);
             document.getElementById('unlockedAmount').textContent = '$' + unlockedVault.toFixed(2);
+
+            // Update large status cards
+            var statusLockedEl = document.getElementById('statusLocked');
+            if (statusLockedEl) statusLockedEl.textContent = '$' + lockedVault.toFixed(2);
+            var statusUnlockedEl = document.getElementById('statusUnlocked');
+            if (statusUnlockedEl) statusUnlockedEl.textContent = '$' + unlockedVault.toFixed(2);
             document.getElementById('missedDaysCount').textContent = stats.totalMissedDays;
 
             // Update subtext with active goal count
