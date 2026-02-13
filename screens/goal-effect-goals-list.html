@@ -241,8 +241,7 @@
         }
 
         .goal-meta .penalty {
-            color: var(--danger);
-            font-weight: 600;
+            color: var(--text-secondary);
         }
 
         .goal-arrow {
@@ -263,7 +262,7 @@
 
         .goal-stat-value {
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 400;
         }
 
         .goal-stat-value.success {
@@ -281,6 +280,7 @@
             background: var(--border);
             border-radius: 2px;
             overflow: hidden;
+            margin-bottom: 2px;
         }
 
         .goal-progress-fill {
@@ -801,6 +801,9 @@
 <div class="modal-overlay" onclick="if(event.target===this)closeCheckin()">
             <div class="modal-sheet">
                 <div class="modal-handle"></div>
+                <div class="modal-ninja" style="text-align:center;margin-bottom:8px;">
+                    <img id="modalNinjaImg" src="../ninja-poses/ninja-thumbsup.png" alt="" style="width:80px;height:80px;object-fit:contain;">
+                </div>
                 <div class="modal-header">
                     <div class="modal-goal-icon" id="modalGoalIcon"></div>
                     <h2 class="modal-title" id="modalGoalName">Goal Name</h2>
@@ -906,6 +909,7 @@
                         '<div><div class="goal-name">' + goal.name + '</div>' +
                         '<div class="goal-meta">' + habitCount + ' habit' + (habitCount !== 1 ? 's' : '') + '</div></div>' +
                     '</div>' +
+                    '<div class="goal-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg></div>' +
                 '</div>' +
                 '<div class="goal-stats">' +
                     '<div class="goal-stat"><div class="goal-stat-value">' + (goalStats.currentStreak || 0) + '</div><div class="goal-stat-label">Streak</div></div>' +
@@ -1022,6 +1026,15 @@
                 var btns = row.querySelectorAll('.habit-action-btn');
                 btns[0].classList.toggle('selected', checkinSelections[habitId] === 'complete');
                 btns[1].classList.toggle('selected', checkinSelections[habitId] === 'missed');
+            }
+            // Update ninja pose based on latest selection
+            var ninjaImg = document.getElementById('modalNinjaImg');
+            if (ninjaImg) {
+                if (status === 'complete' && checkinSelections[habitId] === 'complete') {
+                    ninjaImg.src = '../ninja-poses/ninja-thumbsup.png';
+                } else if (status === 'missed' && checkinSelections[habitId] === 'missed') {
+                    ninjaImg.src = '../ninja-poses/ninja-stumble.png';
+                }
             }
             updateConfirmButton();
         }

@@ -786,6 +786,59 @@
         </nav>
 
         <!-- Check-in Modal -->
+        <div class="modal-overlay" id="checkinModal">
+            <div class="modal">
+                <div class="modal-handle"></div>
+                <div class="modal-header">
+                    <div class="modal-ninja" id="modalNinja">
+                        <img src="../ninja-poses/ninja-thumbsup.png" alt="">
+                    </div>
+                    <h2 class="modal-title" id="modalHabitName">Habit Name</h2>
+                    <p class="modal-subtitle">Did you complete this today?</p>
+                </div>
+
+                <div class="modal-options">
+                    <div class="modal-option" id="optionComplete" onclick="selectOption('complete')">
+                        <div class="option-icon success">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="option-content">
+                            <h3>Yes, I did it!</h3>
+                            <p>Mark as complete for today</p>
+                        </div>
+                    </div>
+                    <div class="modal-option" id="optionMissed" onclick="selectOption('missed')">
+                        <div class="option-icon missed">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </div>
+                        <div class="option-content">
+                            <h3>I missed today</h3>
+                            <p id="missedPenaltyText">Penalty goes to your savings</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="photo-upload" id="photoUpload" style="display:none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <div>
+                        <p>Add a photo (optional)</p>
+                        <span>Prove you did it!</span>
+                    </div>
+                </div>
+
+                <button class="modal-btn primary" id="confirmBtn" onclick="confirmCheckin()" disabled>Select an option</button>
+                <button class="modal-btn secondary" onclick="closeCheckin()">Cancel</button>
+            </div>
+        </div>
     </div>
 
     <script src="goal-ninja-data.js"></script>
@@ -909,10 +962,7 @@
                     actionHtml = '<div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2.5" width="22" height="22"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>';
                 }
             } else {
-                actionHtml = '<div style="display:flex;gap:6px;">' +
-                    '<button onclick="event.stopPropagation();quickCheck(\'' + habit.id + '\',\'complete\')" style="width:36px;height:36px;border-radius:50%;border:2px solid var(--border);background:var(--card-bg);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><polyline points="20 6 9 17 4 12"/></svg></button>' +
-                    '<button onclick="event.stopPropagation();quickCheck(\'' + habit.id + '\',\'missed\')" style="width:36px;height:36px;border-radius:50%;border:2px solid var(--border);background:var(--card-bg);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' +
-                    '</div>';
+                actionHtml = '<button onclick="event.stopPropagation();openCheckin(\'' + habit.id + '\',\'' + habit.name.replace(/'/g, "\\'") + '\',' + habit.penalty + ')" style="background:var(--text-primary);color:white;border:none;border-radius:10px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>Check In</button>';
             }
 
             return '<div style="background:var(--card-bg);border-radius:14px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;' + (isDone ? 'opacity:0.6;' : '') + '">' +
@@ -926,8 +976,50 @@
             '</div>';
         }
 
-        function quickCheck(habitId, status) {
-            GN_recordHabitCheckin(habitId, GN_getTodayDateStr(), status);
+        var currentHabitId = null;
+        var currentSelectedOption = null;
+
+        function openCheckin(habitId, habitName, penalty) {
+            currentHabitId = habitId;
+            currentSelectedOption = null;
+            document.getElementById('modalHabitName').textContent = habitName;
+            document.getElementById('missedPenaltyText').textContent = '$' + penalty + ' goes to your savings';
+            document.getElementById('checkinModal').classList.add('visible');
+            document.getElementById('optionComplete').classList.remove('selected');
+            document.getElementById('optionMissed').classList.remove('selected');
+            document.getElementById('photoUpload').style.display = 'none';
+            document.getElementById('confirmBtn').disabled = true;
+            document.getElementById('confirmBtn').textContent = 'Select an option';
+            // Default ninja pose
+            document.getElementById('modalNinja').querySelector('img').src = '../ninja-poses/ninja-thumbsup.png';
+        }
+
+        function closeCheckin() {
+            document.getElementById('checkinModal').classList.remove('visible');
+            currentHabitId = null;
+            currentSelectedOption = null;
+        }
+
+        function selectOption(option) {
+            currentSelectedOption = option;
+            document.getElementById('optionComplete').classList.toggle('selected', option === 'complete');
+            document.getElementById('optionMissed').classList.toggle('selected', option === 'missed');
+            document.getElementById('photoUpload').style.display = option === 'complete' ? 'flex' : 'none';
+            document.getElementById('confirmBtn').disabled = false;
+            var ninjaImg = document.getElementById('modalNinja').querySelector('img');
+            if (option === 'complete') {
+                document.getElementById('confirmBtn').textContent = 'Mark Complete';
+                ninjaImg.src = '../ninja-poses/ninja-thumbsup.png';
+            } else {
+                document.getElementById('confirmBtn').textContent = 'Confirm & Add to Savings';
+                ninjaImg.src = '../ninja-poses/ninja-stumble.png';
+            }
+        }
+
+        function confirmCheckin() {
+            if (!currentSelectedOption || !currentHabitId) return;
+            GN_recordHabitCheckin(currentHabitId, GN_getTodayDateStr(), currentSelectedOption);
+            closeCheckin();
             renderHome();
         }
 
