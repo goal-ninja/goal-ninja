@@ -973,11 +973,286 @@
             height: 22px;
             color: var(--text-secondary);
         }
+
+        /* Habit Row in Goal Detail */
+        .habit-row {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .habit-row-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .habit-row-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .habit-row-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .habit-row-name {
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .habit-row-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .habit-row-status {
+            flex-shrink: 0;
+        }
+        .habit-status-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .habit-status-dot.complete {
+            background: #dcfce7;
+            color: #22c55e;
+        }
+        .habit-status-dot.missed {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+        .habit-status-dot.pending {
+            background: var(--bg);
+            color: var(--text-muted);
+        }
+        /* Habit Analytics (expandable) */
+        .habit-analytics {
+            display: none;
+            padding: 16px 0 4px;
+            border-top: 1px solid var(--border);
+            margin-top: 12px;
+        }
+        .habit-row.expanded .habit-analytics {
+            display: block;
+        }
+        .habit-analytics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .habit-analytics-stat {
+            text-align: center;
+        }
+        .habit-analytics-value {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .habit-analytics-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        /* Mini ring chart */
+        .ring-chart {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 8px;
+            position: relative;
+        }
+        .ring-chart svg {
+            transform: rotate(-90deg);
+        }
+        .ring-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px;
+            font-weight: 700;
+        }
+        /* Mini dot calendar */
+        .dot-calendar {
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+            gap: 3px;
+            margin-top: 10px;
+        }
+        .dot-day {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 3px;
+        }
+        .dot-day.complete { background: var(--text-primary); }
+        .dot-day.missed { background: #e5e5e5; }
+        .dot-day.empty { background: #f5f5f5; }
+        .dot-day.today { background: var(--text-primary); outline: 2px solid var(--text-primary); outline-offset: 1px; }
+        .section-count {
+            font-size: 12px;
+            font-weight: 600;
+            background: var(--bg);
+            color: var(--text-secondary);
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        /* Calendar day partial */
+        .calendar-day.partial {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .calendar-day.partial::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            width: 4px;
+            height: 4px;
+            background: #f59e0b;
+            border-radius: 50%;
+        }
+        /* Modal sheet */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-sheet {
+            background: var(--card-bg);
+            border-radius: 24px 24px 0 0;
+            padding: 20px 24px 40px;
+            width: 100%;
+            max-width: 390px;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+        .modal-overlay.visible .modal-sheet {
+            transform: translateY(0);
+        }
+        .modal-handle {
+            width: 36px;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin: 0 auto 20px;
+        }
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .checkin-habit-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: var(--bg);
+            border-radius: 12px;
+        }
+        .checkin-habit-row.done {
+            opacity: 0.5;
+        }
+        .checkin-habit-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--card-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .checkin-habit-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .checkin-habit-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .checkin-habit-penalty {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .checkin-habit-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .checkin-action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .checkin-action-btn.complete.selected {
+            background: #22c55e;
+            border-color: #22c55e;
+            color: white;
+        }
+        .checkin-action-btn.missed.selected {
+            background: var(--text-primary);
+            border-color: var(--text-primary);
+            color: white;
+        }
+        .checkin-confirm-btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            background: var(--text-primary);
+            color: white;
+            margin-bottom: 8px;
+        }
+        .checkin-confirm-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .checkin-cancel-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            background: var(--bg);
+            color: var(--text-secondary);
+        }
+
     </style>
 </head>
 <body>
     <div class="phone-frame">
-        <!-- Top Navigation -->
+<!-- Top Navigation -->
         <div class="top-nav">
             <button class="back-btn" onclick="goBack()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -985,226 +1260,128 @@
                 </svg>
                 Goals
             </button>
-            <div style="display:flex;gap:8px;align-items:center;position:relative;"><button class="menu-btn" onclick="toggleMenu()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="1"/>
-                    <circle cx="12" cy="5" r="1"/>
-                    <circle cx="12" cy="19" r="1"/>
-                </svg>
-            </button>
-            <div class="menu-dropdown-backdrop" id="menuBackdrop" onclick="closeMenu()"></div>
-            <div class="menu-dropdown" id="menuDropdown">
-                <button class="menu-dropdown-item" onclick="editMission()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                    Edit Goal
+            <div style="display:flex;gap:8px;align-items:center;position:relative;">
+                <button class="menu-btn" onclick="toggleMenu()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/>
+                    </svg>
                 </button>
-                <button class="menu-dropdown-item" onclick="shareProgress()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                    Share Progress
-                </button>
-                <button class="menu-dropdown-item danger" onclick="deleteMission()">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    Delete Goal
+                <div class="menu-dropdown-backdrop" id="menuBackdrop" onclick="closeMenu()"></div>
+                <div class="menu-dropdown" id="menuDropdown">
+                    <button class="menu-dropdown-item" onclick="editGoal()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                        Edit Goal
+                    </button>
+                    <button class="menu-dropdown-item" onclick="shareProgress()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                        Share Progress
+                    </button>
+                    <button class="menu-dropdown-item danger" onclick="deleteGoal()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                        Delete Goal
+                    </button>
+                </div>
+                <button class="profile-btn" onclick="toggleProfileDropdown()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                    </svg>
                 </button>
             </div>
-            <button class="profile-btn" onclick="toggleProfileDropdown()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                    <circle cx="12" cy="7" r="4"/>
-                </svg>
-            </button></div>
         </div>
 
         <!-- Main Content -->
         <div class="main-content">
-            <!-- Mission Header -->
+            <!-- Goal Header -->
             <div class="mission-header animate-in">
-                <div class="mission-icon-large"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:40px;height:40px;color:#1a1a1a"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg></div>
-                <h1 class="mission-title">No coffee after 2pm</h1>
-                <p class="mission-subtitle">Day 12 of 30 · <span class="penalty">$5</span> penalty</p>
+                <div class="mission-icon-large" id="goalIcon"></div>
+                <h1 class="mission-title" id="goalName">Goal Name</h1>
+                <p class="mission-subtitle" id="goalSubtitle">Day X of Y</p>
             </div>
 
             <!-- Stats Grid -->
             <div class="stats-grid animate-in delay-1">
                 <div class="stat-item">
-                    <div class="stat-value">8</div>
+                    <div class="stat-value" id="statStreak">0</div>
                     <div class="stat-label">Streak</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">75%</div>
+                    <div class="stat-value" id="statRate">0%</div>
                     <div class="stat-label">Rate</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">18</div>
+                    <div class="stat-value" id="statDaysLeft">0</div>
                     <div class="stat-label">Days Left</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value success">$15</div>
+                    <div class="stat-value success" id="statVault">$0</div>
                     <div class="stat-label">In Vault</div>
                 </div>
             </div>
 
-            <!-- Calendar -->
+            <!-- Habits Section -->
             <div class="section animate-in delay-2">
+                <div class="section-header">
+                    <span class="section-title">Habits</span>
+                    <span class="section-count" id="habitCount">0</span>
+                </div>
+                <div id="habitsContainer"></div>
+            </div>
+
+            <!-- Calendar -->
+            <div class="section animate-in delay-3">
                 <div class="section-header">
                     <span class="section-title">Progress Calendar</span>
                 </div>
                 <div class="calendar-card">
                     <div class="calendar-header">
-                        <span class="calendar-month">February 2026</span>
+                        <span class="calendar-month" id="calendarMonth">February 2026</span>
                         <div class="calendar-nav">
-                            <button class="calendar-nav-btn">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="15 18 9 12 15 6"/>
-                                </svg>
+                            <button class="calendar-nav-btn" onclick="prevMonth()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
                             </button>
-                            <button class="calendar-nav-btn">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="9 18 15 12 9 6"/>
-                                </svg>
+                            <button class="calendar-nav-btn" onclick="nextMonth()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
                             </button>
                         </div>
                     </div>
                     <div class="calendar-weekdays">
-                        <div class="weekday">Sun</div>
-                        <div class="weekday">Mon</div>
-                        <div class="weekday">Tue</div>
-                        <div class="weekday">Wed</div>
-                        <div class="weekday">Thu</div>
-                        <div class="weekday">Fri</div>
+                        <div class="weekday">Sun</div><div class="weekday">Mon</div><div class="weekday">Tue</div>
+                        <div class="weekday">Wed</div><div class="weekday">Thu</div><div class="weekday">Fri</div>
                         <div class="weekday">Sat</div>
                     </div>
-                    <div class="calendar-days">
-                        <!-- Row 1 -->
-                        <div class="calendar-day completed">1</div>
-                        <div class="calendar-day completed">2</div>
-                        <div class="calendar-day completed">3</div>
-                        <div class="calendar-day missed">4</div>
-                        <div class="calendar-day completed">5</div>
-                        <div class="calendar-day completed">6</div>
-                        <div class="calendar-day completed">7</div>
-                        <!-- Row 2 -->
-                        <div class="calendar-day missed">8</div>
-                        <div class="calendar-day completed">9</div>
-                        <div class="calendar-day completed">10</div>
-                        <div class="calendar-day today">11</div>
-                        <div class="calendar-day future">12</div>
-                        <div class="calendar-day future">13</div>
-                        <div class="calendar-day future">14</div>
-                        <!-- Row 3 -->
-                        <div class="calendar-day future">15</div>
-                        <div class="calendar-day future">16</div>
-                        <div class="calendar-day future">17</div>
-                        <div class="calendar-day future">18</div>
-                        <div class="calendar-day future">19</div>
-                        <div class="calendar-day future">20</div>
-                        <div class="calendar-day future">21</div>
-                        <!-- Row 4 -->
-                        <div class="calendar-day future">22</div>
-                        <div class="calendar-day future">23</div>
-                        <div class="calendar-day future">24</div>
-                        <div class="calendar-day future">25</div>
-                        <div class="calendar-day future">26</div>
-                        <div class="calendar-day future">27</div>
-                        <div class="calendar-day future">28</div>
-                    </div>
+                    <div class="calendar-days" id="calendarDays"></div>
                     <div class="calendar-legend">
-                        <div class="legend-item">
-                            <div class="legend-dot completed"></div>
-                            <span>Completed</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-dot missed"></div>
-                            <span>Missed</span>
-                        </div>
-                        <div class="legend-item">
-                            <div class="legend-dot today"></div>
-                            <span>Today</span>
-                        </div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#22c55e;"></div><span>All done</span></div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#f59e0b;"></div><span>Partial</span></div>
+                        <div class="legend-item"><div class="legend-dot" style="background:#ef4444;"></div><span>All missed</span></div>
+                        <div class="legend-item"><div class="legend-dot today"></div><span>Today</span></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Gold from this Goal -->
-            <div class="section animate-in delay-3">
+            <!-- Vault Card -->
+            <div class="section animate-in delay-4">
                 <div class="section-header">
-                    <span class="section-title">Gold from this Goal</span>
+                    <span class="section-title">Vault</span>
                 </div>
                 <div class="gold-card">
                     <div class="gold-header">
                         <div>
-                            <div class="gold-amount">$15.00</div>
-                            <div class="gold-label">From 3 missed days</div>
+                            <div class="gold-amount" id="vaultAmount">$0.00</div>
+                            <div class="gold-label" id="vaultLabel">From missed habits</div>
                         </div>
-                        <span class="gold-badge">Locked</span>
+                        <span class="gold-badge" id="vaultBadge">Locked</span>
                     </div>
                     <div class="gold-progress">
                         <div class="gold-progress-header">
                             <span class="gold-progress-label">Progress to unlock</span>
-                            <span class="gold-progress-value">75% of 80% target</span>
+                            <span class="gold-progress-value" id="vaultProgressText">0% of 80% target</span>
                         </div>
                         <div class="gold-progress-bar">
-                            <div class="gold-progress-fill" style="width: 94%"></div>
+                            <div class="gold-progress-fill" id="vaultProgressFill" style="width:0%"></div>
                         </div>
                     </div>
-                    <p class="gold-info">
-                        Complete <strong>5 more days</strong> at your current rate to hit your 80% target and unlock your gold.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Recent Activity -->
-            <div class="section animate-in delay-4">
-                <div class="section-header">
-                    <span class="section-title">Recent Activity</span>
-                </div>
-                <div class="activity-card">
-                    <div class="activity-item">
-                        <div class="activity-icon completed">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Completed</div>
-                            <div class="activity-time">Yesterday at 9:42 PM</div>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon missed">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <line x1="18" y1="6" x2="6" y2="18"/>
-                                <line x1="6" y1="6" x2="18" y2="18"/>
-                            </svg>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Missed</div>
-                            <div class="activity-time">Feb 8 at 11:59 PM</div>
-                        </div>
-                        <span class="activity-amount">+$5</span>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon completed">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Completed</div>
-                            <div class="activity-time">Feb 7 at 8:15 PM</div>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-icon completed">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                        </div>
-                        <div class="activity-content">
-                            <div class="activity-title">Completed</div>
-                            <div class="activity-time">Feb 6 at 10:30 PM</div>
-                        </div>
-                    </div>
+                    <p class="gold-info" id="vaultInfo"></p>
                 </div>
             </div>
 
@@ -1215,41 +1392,16 @@
                 </div>
                 <div class="settings-card">
                     <div class="settings-item">
-                        <span class="settings-label">Penalty Amount</span>
-                        <span class="settings-value">
-                            $5
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="9 18 15 12 9 6"/>
-                            </svg>
-                        </span>
+                        <span class="settings-label">Target Rate</span>
+                        <span class="settings-value" id="settingTarget">80%</span>
                     </div>
                     <div class="settings-item">
-                        <span class="settings-label">Target Rate</span>
-                        <span class="settings-value">
-                            80%
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="9 18 15 12 9 6"/>
-                            </svg>
-                        </span>
-                    </div>
-                    <div class="settings-item" onclick="editReminder()">
-                        <span class="settings-label">Reminder</span>
-                        <span class="settings-value" id="reminderSettingsValue">
-                            9:00 PM
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="9 18 15 12 9 6"/>
-                            </svg>
-                        </span>
-                        <input type="time" id="detailReminderInput" class="hidden-input" onchange="onDetailReminderChange(this.value)">
+                        <span class="settings-label">Duration</span>
+                        <span class="settings-value" id="settingDuration">30 days</span>
                     </div>
                     <div class="settings-item">
                         <span class="settings-label">End Date</span>
-                        <span class="settings-value">
-                            Feb 28, 2026
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="9 18 15 12 9 6"/>
-                            </svg>
-                        </span>
+                        <span class="settings-value" id="settingEndDate">Feb 28, 2026</span>
                     </div>
                 </div>
             </div>
@@ -1260,17 +1412,13 @@
                     <span class="section-title">Danger Zone</span>
                 </div>
                 <div class="danger-card">
-                    <div class="danger-item" id="pauseItem" onclick="pauseMission()">
+                    <div class="danger-item" onclick="pauseGoal()">
                         <span class="danger-label" id="pauseLabel">Pause Goal</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
                     </div>
-                    <div class="danger-item" onclick="endMissionEarly()">
+                    <div class="danger-item" onclick="endGoalEarly()">
                         <span class="danger-label">End Goal Early</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
                     </div>
                 </div>
             </div>
@@ -1278,61 +1426,23 @@
 
         <!-- Sticky Check In Button -->
         <div class="checkin-container">
-            <button class="checkin-btn" onclick="checkIn()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <polyline points="20 6 9 17 4 12"/>
-                </svg>
-                Check In for Today
+            <button class="checkin-btn" id="checkinBtn" onclick="openCheckin()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                Check In Habits
             </button>
         </div>
 
         <!-- Check-In Modal -->
         <div class="modal-overlay" id="checkinModal" onclick="if(event.target===this)closeCheckin()">
-            <div class="modal">
+            <div class="modal-sheet">
                 <div class="modal-handle"></div>
-                <div class="modal-header">
-                    <div class="modal-ninja" id="modalNinja"></div>
-                    <h2 class="modal-title" id="modalGoalName">Goal Name</h2>
-                    <p class="modal-subtitle">Did you complete this today?</p>
+                <div class="modal-header" style="text-align:center;margin-bottom:20px;">
+                    <h2 class="modal-title">Check In Habits</h2>
+                    <p style="font-size:14px;color:var(--text-secondary);">Mark each habit for today</p>
                 </div>
-                <div class="modal-options">
-                    <div class="modal-option" id="optionComplete" onclick="selectCheckinOption('complete')">
-                        <div class="option-icon success">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                        </div>
-                        <div class="option-content">
-                            <h3>Yes, I did it!</h3>
-                            <p>Mark as complete for today</p>
-                        </div>
-                    </div>
-                    <div class="modal-option" id="optionMissed" onclick="selectCheckinOption('missed')">
-                        <div class="option-icon missed">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                <line x1="18" y1="6" x2="6" y2="18"/>
-                                <line x1="6" y1="6" x2="18" y2="18"/>
-                            </svg>
-                        </div>
-                        <div class="option-content">
-                            <h3>I missed today</h3>
-                            <p id="missedAmount">$5 goes to your vault</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="photo-upload" id="photoUpload" style="display:none;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                        <circle cx="8.5" cy="8.5" r="1.5"/>
-                        <polyline points="21 15 16 10 5 21"/>
-                    </svg>
-                    <div>
-                        <p>Add a photo or video</p>
-                        <span>Prove you did it! (optional)</span>
-                    </div>
-                </div>
-                <button class="modal-btn primary" id="confirmBtn" onclick="confirmCheckin()" disabled>Select an option</button>
-                <button class="modal-btn secondary" onclick="closeCheckin()">Cancel</button>
+                <div id="checkinHabitsList" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;"></div>
+                <button class="checkin-confirm-btn" id="confirmCheckinBtn" onclick="confirmCheckin()" disabled>Select habits above</button>
+                <button class="checkin-cancel-btn" onclick="closeCheckin()">Cancel</button>
             </div>
         </div>
 
@@ -1361,78 +1471,77 @@
     </div>
 
     <script src="goal-ninja-data.js"></script>
-    <script>
-        var selectedCheckinOption = null;
-        var currentMissionId = null;
+        <script>
+        var currentGoalId = null;
+        var calendarYear, calendarMonth;
+        var checkinSelections = {};
 
         function goBack() {
             window.location.href = 'goal-effect-goals-list.html';
         }
 
         function initDetail() {
-            GN_checkAndUpdateMissionStatuses();
-            var missionId = GN_getSelectedMission();
-            if (!missionId) { window.location.href = 'goal-effect-goals-list.html'; return; }
-            var mission = GN_getMissionById(missionId);
-            if (!mission) { window.location.href = 'goal-effect-goals-list.html'; return; }
-            currentMissionId = missionId;
-            var stats = GN_getMissionStats(missionId);
+            GN_checkAndUpdateStatuses();
+            var goalId = GN_getSelectedGoal();
+            if (!goalId) { goBack(); return; }
+            var goal = GN_getGoalById(goalId);
+            if (!goal) { goBack(); return; }
+            currentGoalId = goalId;
 
-            // Update header
-            document.querySelector('.mission-icon-large').innerHTML = GN_getIconSVG(mission.icon, 40);
-            document.querySelector('.mission-title').textContent = mission.name;
-            var subtitleText = mission.status === 'paused' ? 'Goal Paused' : ('Day ' + stats.dayNumber + ' of ' + mission.duration);
-            document.querySelector('.mission-subtitle').innerHTML = subtitleText + ' &middot; <span class="penalty">$' + mission.penalty + '</span> penalty';
+            var goalStats = GN_getGoalStats(goalId);
+            var habits = GN_getHabitsForGoal(goalId);
 
-            // Update stats grid
-            var statValues = document.querySelectorAll('.stat-value');
-            statValues[0].textContent = stats.currentStreak;
-            statValues[1].textContent = stats.completionRate + '%';
-            statValues[2].textContent = stats.daysLeft;
-            statValues[3].textContent = '$' + stats.vaultAmount.toFixed(0);
+            // Header
+            document.getElementById('goalIcon').innerHTML = GN_getIconSVG(goal.icon, 40);
+            document.getElementById('goalName').textContent = goal.name;
+            var subtitleText = goal.status === 'paused' ? 'Goal Paused' : ('Day ' + (goalStats.dayNumber || 1) + ' of ' + goal.duration);
+            var totalPenalty = habits.reduce(function(sum, h) { return sum + h.penalty; }, 0);
+            document.getElementById('goalSubtitle').innerHTML = subtitleText + ' &middot; ' + habits.length + ' habit' + (habits.length !== 1 ? 's' : '') + ' &middot; <span style="font-weight:600;">$' + totalPenalty + '</span>/day max';
 
-            // Update gold card
-            document.querySelector('.gold-amount').textContent = '$' + stats.vaultAmount.toFixed(2);
-            document.querySelector('.gold-label').textContent = 'From ' + stats.missedDays + ' missed day' + (stats.missedDays !== 1 ? 's' : '');
-            var goldBadge = document.querySelector('.gold-badge');
-            goldBadge.textContent = stats.hitTarget ? 'Unlocked' : 'Locked';
-            goldBadge.className = 'gold-badge' + (stats.hitTarget ? ' unlocked' : '');
-            document.querySelector('.gold-progress-value').textContent = stats.completionRate + '% of ' + mission.target + '% target';
-            var progressPct = mission.target > 0 ? Math.min(100, Math.round((stats.completionRate / mission.target) * 100)) : 0;
-            document.querySelector('.gold-progress-fill').style.width = progressPct + '%';
-            var daysNeeded = Math.max(0, Math.ceil((mission.target / 100) * mission.duration) - stats.completedDays);
-            document.querySelector('.gold-info').innerHTML = daysNeeded > 0
-                ? 'Complete <strong>' + daysNeeded + ' more day' + (daysNeeded !== 1 ? 's' : '') + '</strong> to hit your ' + mission.target + '% target and unlock your gold.'
-                : '<strong>Target reached!</strong> Your gold is unlocked.';
+            // Stats
+            document.getElementById('statStreak').textContent = goalStats.currentStreak || 0;
+            document.getElementById('statRate').textContent = (goalStats.completionRate || 0) + '%';
+            document.getElementById('statDaysLeft').textContent = goalStats.daysLeft || 0;
+            document.getElementById('statVault').textContent = '$' + (goalStats.vaultTotal || 0).toFixed(0);
 
-            // Render calendar
-            renderCalendar(mission, missionId);
+            // Habits section
+            document.getElementById('habitCount').textContent = habits.length;
+            renderHabits(habits, goal);
 
-            // Render activity
-            renderActivity(missionId, mission.penalty);
+            // Calendar
+            var today = new Date();
+            calendarYear = today.getFullYear();
+            calendarMonth = today.getMonth();
+            renderCalendar(goal, habits);
 
-            // Update settings
-            var chevronSvg = ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
-            document.querySelectorAll('.settings-value')[0].innerHTML = '$' + mission.penalty + chevronSvg;
-            document.querySelectorAll('.settings-value')[1].innerHTML = mission.target + '%' + chevronSvg;
+            // Vault card
+            var vaultTotal = goalStats.vaultTotal || 0;
+            var completionRate = goalStats.completionRate || 0;
+            document.getElementById('vaultAmount').textContent = '$' + vaultTotal.toFixed(2);
+            var missedTotal = goalStats.habitStats ? goalStats.habitStats.reduce(function(s, hs) { return s + hs.missedDays; }, 0) : 0;
+            document.getElementById('vaultLabel').textContent = 'From ' + missedTotal + ' missed habit check-in' + (missedTotal !== 1 ? 's' : '');
+            var vaultBadge = document.getElementById('vaultBadge');
+            var hitTarget = completionRate >= goal.target;
+            vaultBadge.textContent = hitTarget ? 'Unlocked' : 'Locked';
+            vaultBadge.className = 'gold-badge' + (hitTarget ? ' unlocked' : '');
+            document.getElementById('vaultProgressText').textContent = completionRate + '% of ' + goal.target + '% target';
+            var progressPct = goal.target > 0 ? Math.min(100, Math.round((completionRate / goal.target) * 100)) : 0;
+            document.getElementById('vaultProgressFill').style.width = progressPct + '%';
+            document.getElementById('vaultInfo').innerHTML = hitTarget
+                ? '<strong>Target reached!</strong> Your vault is unlocked.'
+                : 'Keep checking in to reach your ' + goal.target + '% target and unlock your vault.';
 
-            // Update reminder display
-            var reminderTime = mission.reminder || '21:00';
-            var rParts = reminderTime.split(':');
-            var rH = parseInt(rParts[0]);
-            var rM = rParts[1];
-            var rAmpm = rH >= 12 ? 'PM' : 'AM';
-            var rH12 = rH % 12 || 12;
-            document.getElementById('reminderSettingsValue').innerHTML = rH12 + ':' + rM + ' ' + rAmpm + chevronSvg;
-            document.getElementById('detailReminderInput').value = reminderTime;
+            // Settings
+            var chevron = ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
+            document.getElementById('settingTarget').innerHTML = goal.target + '%' + chevron;
+            document.getElementById('settingDuration').innerHTML = goal.duration + ' days' + chevron;
+            var endDate = new Date(goal.startDate + 'T12:00:00');
+            endDate.setDate(endDate.getDate() + goal.duration);
+            document.getElementById('settingEndDate').innerHTML = GN_formatDate(endDate.getFullYear() + '-' + String(endDate.getMonth()+1).padStart(2,'0') + '-' + String(endDate.getDate()).padStart(2,'0')) + chevron;
 
-            var endDate = new Date(mission.startDate + 'T12:00:00');
-            endDate.setDate(endDate.getDate() + mission.duration);
-            document.querySelectorAll('.settings-value')[3].innerHTML = GN_formatDate(endDate.getFullYear() + '-' + String(endDate.getMonth()+1).padStart(2,'0') + '-' + String(endDate.getDate()).padStart(2,'0')) + chevronSvg;
-
-            // Update pause button label
+            // Pause label
             var pauseLabel = document.getElementById('pauseLabel');
-            if (mission.status === 'paused') {
+            if (goal.status === 'paused') {
                 pauseLabel.textContent = 'Resume Goal';
                 pauseLabel.style.color = 'var(--success)';
             } else {
@@ -1440,242 +1549,297 @@
                 pauseLabel.style.color = 'var(--danger)';
             }
 
-            // Update check-in button
-            updateCheckinButton(missionId, mission);
+            // Check-in button
+            updateCheckinButton(habits, goal);
         }
 
-        function renderCalendar(mission, missionId) {
-            var checkins = GN_getCheckinsForMission(missionId);
-            var today = new Date();
-            var year = today.getFullYear();
-            var month = today.getMonth();
-            var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-            document.querySelector('.calendar-month').textContent = monthNames[month] + ' ' + year;
-            var firstDay = new Date(year, month, 1).getDay();
-            var daysInMonth = new Date(year, month + 1, 0).getDate();
-            var todayDate = today.getDate();
-            var startDate = new Date(mission.startDate + 'T12:00:00');
-            var html = '';
-            for (var i = 0; i < firstDay; i++) html += '<div class="calendar-day"></div>';
-            for (var d = 1; d <= daysInMonth; d++) {
-                var dateStr = year + '-' + String(month+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
-                var dateObj = new Date(dateStr + 'T12:00:00');
-                var cls = 'calendar-day';
-                if (d === todayDate) cls += ' today';
-                else if (dateObj > today) cls += ' future';
-                else if (checkins[dateStr] === 'complete') cls += ' completed';
-                else if (checkins[dateStr] === 'missed') cls += ' missed';
-                else if (dateObj < startDate) cls += '';
-                else cls += ' future';
-                html += '<div class="' + cls + '">' + d + '</div>';
-            }
-            document.querySelector('.calendar-days').innerHTML = html;
-        }
-
-        function renderActivity(missionId, penalty) {
-            var checkins = GN_getCheckinsForMission(missionId);
-            var dates = Object.keys(checkins).sort().reverse().slice(0, 5);
-            var container = document.querySelector('.activity-card');
-            if (dates.length === 0) {
-                container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text-muted);font-size:14px;">No activity yet. Check in to get started!</div>';
+        function renderHabits(habits, goal) {
+            var container = document.getElementById('habitsContainer');
+            if (habits.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-muted);font-size:14px;">No habits added yet</div>';
                 return;
             }
-            container.innerHTML = dates.map(function(dateStr) {
-                var status = checkins[dateStr];
-                var isCompleted = status === 'complete';
-                return '<div class="activity-item">' +
-                    '<div class="activity-icon ' + (isCompleted ? 'completed' : 'missed') + '">' +
-                        (isCompleted
-                            ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'
-                            : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'
-                        ) +
+            container.innerHTML = habits.map(function(habit) {
+                var stats = GN_getHabitStats(habit.id, goal.id);
+                var checkedIn = GN_hasHabitCheckedInToday(habit.id);
+                var todayStatus = checkedIn ? GN_getHabitCheckinStatus(habit.id, GN_getTodayDateStr()) : null;
+
+                var statusHtml;
+                if (todayStatus === 'complete') {
+                    statusHtml = '<div class="habit-status-dot complete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg></div>';
+                } else if (todayStatus === 'missed') {
+                    statusHtml = '<div class="habit-status-dot missed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>';
+                } else {
+                    statusHtml = '<div class="habit-status-dot pending"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/></svg></div>';
+                }
+
+                var rate = stats.completionRate || 0;
+                var circumference = 2 * Math.PI * 24;
+                var offset = circumference - (rate / 100) * circumference;
+
+                // Mini dot calendar (last 30 days)
+                var dotHtml = '';
+                var today = new Date();
+                for (var d = 29; d >= 0; d--) {
+                    var dt = new Date(today);
+                    dt.setDate(dt.getDate() - d);
+                    var ds = dt.getFullYear() + '-' + String(dt.getMonth()+1).padStart(2,'0') + '-' + String(dt.getDate()).padStart(2,'0');
+                    var checkins = GN_getCheckinsForHabit(habit.id);
+                    var dayStatus = checkins[ds];
+                    var cls = 'dot-day';
+                    if (d === 0) cls += ' today';
+                    else if (dayStatus === 'complete') cls += ' complete';
+                    else if (dayStatus === 'missed') cls += ' missed';
+                    else cls += ' empty';
+                    dotHtml += '<div class="' + cls + '"></div>';
+                }
+
+                return '<div class="habit-row" onclick="toggleHabitExpand(this)">' +
+                    '<div class="habit-row-header">' +
+                        '<div class="habit-row-icon">' + GN_getIconSVG(habit.icon, 20) + '</div>' +
+                        '<div class="habit-row-info">' +
+                            '<div class="habit-row-name">' + habit.name + '</div>' +
+                            '<div class="habit-row-meta">$' + habit.penalty + '/miss \u00b7 ' + (stats.currentStreak || 0) + ' streak \u00b7 ' + rate + '%</div>' +
+                        '</div>' +
+                        '<div class="habit-row-status">' + statusHtml + '</div>' +
                     '</div>' +
-                    '<div class="activity-content">' +
-                        '<div class="activity-title">' + (isCompleted ? 'Completed' : 'Missed') + '</div>' +
-                        '<div class="activity-time">' + GN_formatDate(dateStr) + '</div>' +
+                    '<div class="habit-analytics">' +
+                        '<div style="display:flex;align-items:center;gap:16px;margin-bottom:14px;">' +
+                            '<div class="ring-chart"><svg width="60" height="60"><circle cx="30" cy="30" r="24" fill="none" stroke="#f0f0f0" stroke-width="5"/><circle cx="30" cy="30" r="24" fill="none" stroke="' + (rate >= 80 ? '#22c55e' : rate >= 50 ? '#f59e0b' : '#ef4444') + '" stroke-width="5" stroke-dasharray="' + circumference + '" stroke-dashoffset="' + offset + '" stroke-linecap="round"/></svg><div class="ring-label">' + rate + '%</div></div>' +
+                            '<div class="habit-analytics-grid" style="flex:1;">' +
+                                '<div class="habit-analytics-stat"><div class="habit-analytics-value">' + (stats.currentStreak || 0) + '</div><div class="habit-analytics-label">Current</div></div>' +
+                                '<div class="habit-analytics-stat"><div class="habit-analytics-value">' + (stats.bestStreak || 0) + '</div><div class="habit-analytics-label">Best</div></div>' +
+                                '<div class="habit-analytics-stat"><div class="habit-analytics-value">$' + (stats.vaultAmount || 0).toFixed(0) + '</div><div class="habit-analytics-label">Vault</div></div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.3px;margin-bottom:6px;">Last 30 days</div>' +
+                        '<div class="dot-calendar">' + dotHtml + '</div>' +
                     '</div>' +
-                    (isCompleted ? '' : '<span class="activity-amount">+$' + penalty + '</span>') +
                 '</div>';
             }).join('');
         }
 
-        function updateCheckinButton(missionId, mission) {
-            var btn = document.querySelector('.checkin-btn');
-            if (GN_hasCheckedInToday(missionId)) {
-                var todayStatus = GN_getTodayCheckinStatus(missionId);
-                if (todayStatus === 'complete') {
-                    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:20px;height:20px;"><polyline points="20 6 9 17 4 12"/></svg> Completed Today';
+        function toggleHabitExpand(el) {
+            el.classList.toggle('expanded');
+        }
+
+        function renderCalendar(goal, habits) {
+            var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            document.getElementById('calendarMonth').textContent = monthNames[calendarMonth] + ' ' + calendarYear;
+            var firstDay = new Date(calendarYear, calendarMonth, 1).getDay();
+            var daysInMonth = new Date(calendarYear, calendarMonth + 1, 0).getDate();
+            var today = new Date();
+            var todayDate = today.getDate();
+            var todayMonth = today.getMonth();
+            var todayYear = today.getFullYear();
+
+            var html = '';
+            for (var i = 0; i < firstDay; i++) html += '<div class="calendar-day"></div>';
+            for (var d = 1; d <= daysInMonth; d++) {
+                var dateStr = calendarYear + '-' + String(calendarMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+                var dateObj = new Date(dateStr + 'T12:00:00');
+                var cls = 'calendar-day';
+
+                if (d === todayDate && calendarMonth === todayMonth && calendarYear === todayYear) {
+                    cls += ' today';
+                } else if (dateObj > today) {
+                    cls += ' future';
                 } else {
-                    btn.innerHTML = '+$' + mission.penalty + ' Added to Vault';
+                    // Check composite status across all habits
+                    var allComplete = true;
+                    var anyCheckin = false;
+                    var allMissed = true;
+                    for (var h = 0; h < habits.length; h++) {
+                        var checkins = GN_getCheckinsForHabit(habits[h].id);
+                        var status = checkins[dateStr];
+                        if (status === 'complete') { allMissed = false; anyCheckin = true; }
+                        else if (status === 'missed') { allComplete = false; anyCheckin = true; }
+                        else { allComplete = false; allMissed = false; }
+                    }
+                    if (anyCheckin && allComplete) cls += ' completed';
+                    else if (anyCheckin && allMissed) cls += ' missed';
+                    else if (anyCheckin) cls += ' partial';
                 }
-                btn.style.background = '#f3f4f6';
-                btn.style.color = 'var(--text-primary)';
-                btn.onclick = null;
-                btn.style.opacity = '0.7';
-            } else if (mission.status === 'paused') {
+                html += '<div class="' + cls + '">' + d + '</div>';
+            }
+            document.getElementById('calendarDays').innerHTML = html;
+        }
+
+        function prevMonth() {
+            calendarMonth--;
+            if (calendarMonth < 0) { calendarMonth = 11; calendarYear--; }
+            var goal = GN_getGoalById(currentGoalId);
+            var habits = GN_getHabitsForGoal(currentGoalId);
+            renderCalendar(goal, habits);
+        }
+
+        function nextMonth() {
+            calendarMonth++;
+            if (calendarMonth > 11) { calendarMonth = 0; calendarYear++; }
+            var goal = GN_getGoalById(currentGoalId);
+            var habits = GN_getHabitsForGoal(currentGoalId);
+            renderCalendar(goal, habits);
+        }
+
+        function updateCheckinButton(habits, goal) {
+            var btn = document.getElementById('checkinBtn');
+            if (goal.status === 'paused') {
                 btn.innerHTML = 'Goal Paused';
-                btn.style.background = '#fef3c7';
-                btn.style.color = '#92400e';
-                btn.onclick = null;
-                btn.style.opacity = '0.7';
-            } else if (mission.status !== 'active') {
-                var label = mission.status === 'completed' ? 'Completed' : (mission.status === 'ended' ? 'Ended' : 'Ended');
-                btn.innerHTML = 'Goal ' + label;
-                btn.style.background = '#f3f4f6';
-                btn.style.color = 'var(--text-primary)';
-                btn.onclick = null;
-                btn.style.opacity = '0.7';
+                btn.style.background = '#fef3c7'; btn.style.color = '#92400e'; btn.onclick = null; btn.style.opacity = '0.7';
+                return;
+            }
+            if (goal.status !== 'active') {
+                btn.innerHTML = 'Goal ' + (goal.status === 'completed' ? 'Completed' : 'Ended');
+                btn.style.background = '#f3f4f6'; btn.style.color = 'var(--text-primary)'; btn.onclick = null; btn.style.opacity = '0.7';
+                return;
+            }
+            var allCheckedIn = habits.length > 0 && habits.every(function(h) { return GN_hasHabitCheckedInToday(h.id); });
+            if (allCheckedIn) {
+                btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:20px;height:20px;"><polyline points="20 6 9 17 4 12"/></svg> All Habits Checked In';
+                btn.style.background = '#f3f4f6'; btn.style.color = 'var(--text-primary)'; btn.onclick = null; btn.style.opacity = '0.7';
             }
         }
 
-        // ---- SLIDE-UP CHECK-IN MODAL ----
-        function checkIn() {
-            var missionId = GN_getSelectedMission();
-            if (!missionId || GN_hasCheckedInToday(missionId)) return;
-            var mission = GN_getMissionById(missionId);
-            if (!mission || (mission.status !== 'active')) return;
-            selectedCheckinOption = null;
-            document.getElementById('modalGoalName').textContent = mission.name;
-            document.getElementById('modalNinja').innerHTML = GN_getIconSVG(mission.icon, 32);
-            document.getElementById('missedAmount').textContent = '$' + mission.penalty + ' goes to your vault';
-            document.getElementById('optionComplete').classList.remove('selected');
-            document.getElementById('optionMissed').classList.remove('selected');
-            document.getElementById('photoUpload').style.display = 'none';
-            var confirmBtn = document.getElementById('confirmBtn');
-            confirmBtn.disabled = true;
-            confirmBtn.textContent = 'Select an option';
+        // ---- CHECK-IN MODAL ----
+        function openCheckin() {
+            if (!currentGoalId) return;
+            var goal = GN_getGoalById(currentGoalId);
+            if (!goal || goal.status !== 'active') return;
+            var habits = GN_getHabitsForGoal(currentGoalId);
+            checkinSelections = {};
+
+            var html = habits.map(function(habit) {
+                var checkedIn = GN_hasHabitCheckedInToday(habit.id);
+                if (checkedIn) {
+                    var status = GN_getHabitCheckinStatus(habit.id, GN_getTodayDateStr());
+                    return '<div class="checkin-habit-row done">' +
+                        '<div class="checkin-habit-icon">' + GN_getIconSVG(habit.icon, 18) + '</div>' +
+                        '<div class="checkin-habit-info"><div class="checkin-habit-name">' + habit.name + '</div>' +
+                        '<div class="checkin-habit-penalty">' + (status === 'complete' ? 'Completed' : 'Missed \u00b7 +$' + habit.penalty) + '</div></div>' +
+                        '<div style="font-size:16px;font-weight:600;">' + (status === 'complete' ? '\u2713' : '\u2717') + '</div>' +
+                    '</div>';
+                }
+                return '<div class="checkin-habit-row" id="checkinRow_' + habit.id + '">' +
+                    '<div class="checkin-habit-icon">' + GN_getIconSVG(habit.icon, 18) + '</div>' +
+                    '<div class="checkin-habit-info"><div class="checkin-habit-name">' + habit.name + '</div>' +
+                    '<div class="checkin-habit-penalty">$' + habit.penalty + ' penalty</div></div>' +
+                    '<div class="checkin-habit-actions">' +
+                        '<button class="checkin-action-btn complete" onclick="event.stopPropagation();toggleCheckin(\'' + habit.id + '\',\'complete\')">' +
+                            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><polyline points="20 6 9 17 4 12"/></svg></button>' +
+                        '<button class="checkin-action-btn missed" onclick="event.stopPropagation();toggleCheckin(\'' + habit.id + '\',\'missed\')">' +
+                            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+
+            document.getElementById('checkinHabitsList').innerHTML = html;
+            updateConfirmBtn();
             document.getElementById('checkinModal').classList.add('visible');
         }
 
-        function selectCheckinOption(option) {
-            selectedCheckinOption = option;
-            document.getElementById('optionComplete').classList.toggle('selected', option === 'complete');
-            document.getElementById('optionMissed').classList.toggle('selected', option === 'missed');
-            document.getElementById('photoUpload').style.display = option === 'complete' ? 'flex' : 'none';
-            var confirmBtn = document.getElementById('confirmBtn');
-            confirmBtn.disabled = false;
-            if (option === 'complete') {
-                confirmBtn.textContent = 'Confirm Completion';
-            } else {
-                var mission = GN_getMissionById(currentMissionId);
-                confirmBtn.textContent = 'Confirm Missed (+$' + (mission ? mission.penalty : '0') + ')';
+        function toggleCheckin(habitId, status) {
+            if (checkinSelections[habitId] === status) delete checkinSelections[habitId];
+            else checkinSelections[habitId] = status;
+            var row = document.getElementById('checkinRow_' + habitId);
+            if (row) {
+                var btns = row.querySelectorAll('.checkin-action-btn');
+                btns[0].classList.toggle('selected', checkinSelections[habitId] === 'complete');
+                btns[1].classList.toggle('selected', checkinSelections[habitId] === 'missed');
             }
+            updateConfirmBtn();
+        }
+
+        function updateConfirmBtn() {
+            var btn = document.getElementById('confirmCheckinBtn');
+            var count = Object.keys(checkinSelections).length;
+            btn.disabled = count === 0;
+            btn.textContent = count === 0 ? 'Select habits above' : 'Confirm ' + count + ' check-in' + (count > 1 ? 's' : '');
         }
 
         function confirmCheckin() {
-            if (!selectedCheckinOption || !currentMissionId) return;
             var today = GN_getTodayDateStr();
-            GN_recordCheckin(currentMissionId, today, selectedCheckinOption === 'complete' ? 'complete' : 'missed');
+            var ids = Object.keys(checkinSelections);
+            for (var i = 0; i < ids.length; i++) {
+                GN_recordHabitCheckin(ids[i], today, checkinSelections[ids[i]]);
+            }
             closeCheckin();
             initDetail();
         }
 
         function closeCheckin() {
             document.getElementById('checkinModal').classList.remove('visible');
-            selectedCheckinOption = null;
+            checkinSelections = {};
         }
 
-        // ---- PAUSE / END MISSION ----
-        function pauseMission() {
-            var mission = GN_getMissionById(currentMissionId);
-            if (!mission) return;
-            if (mission.status === 'paused') {
-                // Resume
+        // ---- GOAL ACTIONS ----
+        function pauseGoal() {
+            var goal = GN_getGoalById(currentGoalId);
+            if (!goal) return;
+            if (goal.status === 'paused') {
                 if (confirm('Resume this goal? Check-ins will be required again starting today.')) {
-                    GN_updateMission(currentMissionId, { status: 'active', pausedAt: null });
+                    GN_updateGoal(currentGoalId, { status: 'active', pausedAt: null });
                     initDetail();
                 }
-            } else if (mission.status === 'active') {
-                // Pause
-                if (confirm('Pause this goal? Check-ins won\'t be required and missed days won\'t count while paused.')) {
-                    GN_updateMission(currentMissionId, { status: 'paused', pausedAt: GN_getTodayDateStr() });
+            } else if (goal.status === 'active') {
+                if (confirm('Pause this goal? Check-ins won\'t be required while paused.')) {
+                    GN_updateGoal(currentGoalId, { status: 'paused', pausedAt: GN_getTodayDateStr() });
                     initDetail();
                 }
             }
         }
 
-        function endMissionEarly() {
-            if (confirm('End this goal early? This can\'t be undone. Your vault balance will be finalized.')) {
-                GN_updateMission(currentMissionId, { status: 'ended', endedAt: GN_getTodayDateStr() });
-                window.location.href = 'goal-effect-goals-list.html';
+        function endGoalEarly() {
+            if (confirm('End this goal early? This can\'t be undone.')) {
+                GN_updateGoal(currentGoalId, { status: 'ended', endedAt: GN_getTodayDateStr() });
+                goBack();
             }
         }
 
-        // ---- EDITABLE REMINDER ----
-        function editReminder() {
-            var input = document.getElementById('detailReminderInput');
-            input.showPicker ? input.showPicker() : input.click();
-        }
-
-        function onDetailReminderChange(val) {
-            if (!val || !currentMissionId) return;
-            GN_updateMission(currentMissionId, { reminder: val });
-            initDetail();
-        }
-
-        // ---- 3-DOT MENU ----
-        function toggleMenu() {
-            var dropdown = document.getElementById('menuDropdown');
-            var backdrop = document.getElementById('menuBackdrop');
-            var isOpen = dropdown.classList.contains('visible');
-            dropdown.classList.toggle('visible', !isOpen);
-            backdrop.classList.toggle('visible', !isOpen);
-        }
-
-        function closeMenu() {
-            document.getElementById('menuDropdown').classList.remove('visible');
-            document.getElementById('menuBackdrop').classList.remove('visible');
-        }
-
-        function editMission() {
+        function editGoal() {
             closeMenu();
-            // Navigate to create-from-template with edit flag
-            localStorage.setItem('goalNinjaEditGoal', currentMissionId);
+            localStorage.setItem('goalNinjaEditGoal', currentGoalId);
             window.location.href = 'goal-effect-create-from-template.html';
         }
 
         function shareProgress() {
             closeMenu();
-            var mission = GN_getMissionById(currentMissionId);
-            if (!mission) return;
-            var stats = GN_getMissionStats(currentMissionId);
-            var shareText = 'I\'m on Day ' + stats.dayNumber + ' of my "' + mission.name + '" goal on Goal Ninja! ' + stats.currentStreak + ' day streak, ' + stats.completionRate + '% completion rate.';
+            var goal = GN_getGoalById(currentGoalId);
+            if (!goal) return;
+            var goalStats = GN_getGoalStats(currentGoalId);
+            var habits = GN_getHabitsForGoal(currentGoalId);
+            var shareText = 'I\'m on Day ' + (goalStats.dayNumber || 1) + ' of my "' + goal.name + '" goal on Goal Ninja! ' + habits.length + ' habits, ' + (goalStats.completionRate || 0) + '% completion rate.';
             if (navigator.share) {
                 navigator.share({ title: 'Goal Ninja Progress', text: shareText }).catch(function() {});
+            } else if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(shareText).then(function() { alert('Copied to clipboard!'); }).catch(function() { alert(shareText); });
             } else {
-                // Fallback: copy to clipboard
-                if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(shareText).then(function() {
-                        alert('Progress copied to clipboard!');
-                    }).catch(function() {
-                        alert(shareText);
-                    });
-                } else {
-                    alert(shareText);
-                }
+                alert(shareText);
             }
         }
 
-        function deleteMission() {
+        function deleteGoal() {
             closeMenu();
-            var mission = GN_getMissionById(currentMissionId);
-            if (!mission) return;
-            if (confirm('Delete "' + mission.name + '"? This will permanently remove the goal and all check-in data. This can\'t be undone.')) {
-                GN_deleteMission(currentMissionId);
-                window.location.href = 'goal-effect-goals-list.html';
+            var goal = GN_getGoalById(currentGoalId);
+            if (!goal) return;
+            if (confirm('Delete "' + goal.name + '"? This will permanently remove the goal and its habits.')) {
+                GN_deleteGoal(currentGoalId);
+                goBack();
             }
         }
 
-        // ---- PROFILE DROPDOWN ----
+        // ---- MENU & DROPDOWN ----
+        function toggleMenu() {
+            document.getElementById('menuDropdown').classList.toggle('visible');
+            document.getElementById('menuBackdrop').classList.toggle('visible');
+        }
+        function closeMenu() {
+            document.getElementById('menuDropdown').classList.remove('visible');
+            document.getElementById('menuBackdrop').classList.remove('visible');
+        }
         function toggleProfileDropdown() {
-            var dropdown = document.getElementById('profileDropdown');
-            if (dropdown.style.display === 'none' || !dropdown.style.display) {
-                dropdown.style.display = 'block';
-            } else {
-                dropdown.style.display = 'none';
-            }
+            var d = document.getElementById('profileDropdown');
+            d.style.display = d.style.display === 'none' ? 'block' : 'none';
         }
-
         function closeProfileDropdown() {
             document.getElementById('profileDropdown').style.display = 'none';
         }

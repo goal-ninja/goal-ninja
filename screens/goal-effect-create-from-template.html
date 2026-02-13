@@ -649,6 +649,113 @@
         .delay-2 { animation-delay: 0.1s; }
         .delay-3 { animation-delay: 0.15s; }
         .delay-4 { animation-delay: 0.2s; }
+
+        /* Habit Form Fields */
+        .habit-form-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+        .habit-form-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .habit-form-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        .habit-form-fields {
+            flex: 1;
+            min-width: 0;
+        }
+        .habit-name-input {
+            width: 100%;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            background: none;
+            outline: none;
+            padding: 0;
+            margin-bottom: 4px;
+            font-family: inherit;
+        }
+        .habit-name-input::placeholder {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+        .habit-penalty-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .habit-penalty-row span {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .habit-penalty-input {
+            width: 50px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 2px 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: center;
+            background: var(--bg);
+            font-family: inherit;
+        }
+        .remove-habit-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+        .remove-habit-btn:hover {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+        .add-habit-btn {
+            width: 100%;
+            padding: 12px;
+            border: 2px dashed var(--border);
+            border-radius: 14px;
+            background: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            font-family: inherit;
+            margin-top: 4px;
+        }
+        .add-habit-btn:hover {
+            border-color: var(--text-primary);
+            color: var(--text-primary);
+        }
     </style>
 </head>
 <body>
@@ -710,36 +817,17 @@
                 </div>
             </div>
 
-            <!-- Penalty Amount -->
+            <!-- Habits Section -->
             <div class="form-section animate-in delay-2">
-                <div class="form-label">Daily Penalty</div>
-                <div class="form-card">
-                    <div class="penalty-options">
-                        <div class="penalty-option" data-amount="1" onclick="selectPenalty(this)">
-                            <div class="penalty-amount">$1</div>
-                            <div class="penalty-label">Light</div>
-                        </div>
-                        <div class="penalty-option" data-amount="3" onclick="selectPenalty(this)">
-                            <div class="penalty-amount">$3</div>
-                            <div class="penalty-label">Medium</div>
-                        </div>
-                        <div class="penalty-option selected" data-amount="5" onclick="selectPenalty(this)">
-                            <div class="penalty-amount">$5</div>
-                            <div class="penalty-label">Strong</div>
-                        </div>
-                        <div class="penalty-option" data-amount="10" onclick="selectPenalty(this)">
-                            <div class="penalty-amount">$10</div>
-                            <div class="penalty-label">Serious</div>
-                        </div>
-                    </div>
-                    <div class="custom-row">
-                        <span class="custom-label">Or custom:</span>
-                        <div class="custom-input-wrap">
-                            <span class="custom-prefix">$</span>
-                            <input type="number" class="custom-input" id="customPenaltyInput" placeholder="Enter amount" oninput="selectCustomPenalty(this.value)" onclick="event.stopPropagation()">
-                        </div>
-                    </div>
+                <div class="form-label">
+                    Habits
+                    <span class="form-label-hint">Daily actions toward this goal</span>
                 </div>
+                <div id="habitsFormContainer"></div>
+                <button type="button" class="add-habit-btn" onclick="addHabitField()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Add Another Habit
+                </button>
             </div>
 
             <!-- Duration -->
@@ -818,14 +906,18 @@
             <!-- Summary -->
             <div class="form-section animate-in delay-4">
                 <div class="summary-card">
-                    <div class="summary-title">If you miss every day...</div>
+                    <div class="summary-title">Goal Summary</div>
                     <div class="summary-row">
-                        <span class="summary-label">Maximum penalty</span>
-                        <span class="summary-value" id="maxPenalty">$35.00</span>
+                        <span class="summary-label">Habits</span>
+                        <span class="summary-value" id="summaryHabitCount">1 habit</span>
                     </div>
                     <div class="summary-row">
-                        <span class="summary-label">That becomes gold</span>
-                        <span class="summary-value highlight">Your treasure</span>
+                        <span class="summary-label">Max daily penalty</span>
+                        <span class="summary-value" id="maxDailyPenalty">$5</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">Max total penalty</span>
+                        <span class="summary-value" id="maxPenalty">$35.00</span>
                     </div>
                 </div>
             </div>
@@ -857,12 +949,13 @@
 
     <script src="goal-ninja-data.js"></script>
     <script>
-        var selectedPenalty = 5;
         var selectedDuration = 7;
         var selectedTarget = 80;
         var selectedIcon = 'phone';
         var selectedReminder = '21:00';
         var selectedStartDate = '';
+        var habitCounter = 0;
+        var habitFields = [];
 
         function goBack() {
             window.history.back();
@@ -872,22 +965,58 @@
             alert('This would open an icon/emoji picker');
         }
 
-        function selectPenalty(element) {
-            document.querySelectorAll('.penalty-option').forEach(function(el) { el.classList.remove('selected'); });
-            element.classList.add('selected');
-            selectedPenalty = parseInt(element.dataset.amount);
-            document.getElementById('customPenaltyInput').value = '';
+        // ---- HABITS MANAGEMENT ----
+        function addHabitField(name, penalty, icon) {
+            habitCounter++;
+            var id = 'habit_field_' + habitCounter;
+            var habitName = name || '';
+            var habitPenalty = penalty || 5;
+            var habitIcon = icon || 'default';
+            habitFields.push({ id: id, icon: habitIcon });
+
+            var container = document.getElementById('habitsFormContainer');
+            var card = document.createElement('div');
+            card.className = 'habit-form-card';
+            card.id = id;
+            card.innerHTML = '<div class="habit-form-row">' +
+                '<div class="habit-form-icon">' + GN_getIconSVG(habitIcon, 20) + '</div>' +
+                '<div class="habit-form-fields">' +
+                    '<input type="text" class="habit-name-input" placeholder="Habit name (e.g., 100 push-ups)" value="' + habitName.replace(/"/g, '&quot;') + '">' +
+                    '<div class="habit-penalty-row"><span>Penalty: $</span><input type="number" class="habit-penalty-input" value="' + habitPenalty + '" min="1"></div>' +
+                '</div>' +
+            '</div>' +
+            (habitFields.length > 1 ? '<button class="remove-habit-btn" onclick="removeHabitField(\'' + id + '\')" title="Remove habit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' : '');
+            container.appendChild(card);
             updateSummary();
         }
 
-        function selectCustomPenalty(value) {
-            if (value && parseInt(value) > 0) {
-                document.querySelectorAll('.penalty-option').forEach(function(el) { el.classList.remove('selected'); });
-                selectedPenalty = parseInt(value);
-                updateSummary();
-            }
+        function removeHabitField(id) {
+            var el = document.getElementById(id);
+            if (el) el.remove();
+            habitFields = habitFields.filter(function(h) { return h.id !== id; });
+            updateSummary();
         }
 
+        function getHabitsFromForm() {
+            var habits = [];
+            var cards = document.querySelectorAll('.habit-form-card');
+            cards.forEach(function(card) {
+                var nameInput = card.querySelector('.habit-name-input');
+                var penaltyInput = card.querySelector('.habit-penalty-input');
+                var fieldData = habitFields.find(function(f) { return f.id === card.id; });
+                if (nameInput && nameInput.value.trim()) {
+                    habits.push({
+                        name: nameInput.value.trim(),
+                        icon: fieldData ? fieldData.icon : 'default',
+                        penalty: parseInt(penaltyInput.value) || 5,
+                        reminder: selectedReminder
+                    });
+                }
+            });
+            return habits;
+        }
+
+        // ---- DURATION & TARGET ----
         function selectDuration(element) {
             document.querySelectorAll('.duration-option').forEach(function(el) { el.classList.remove('selected'); });
             element.classList.add('selected');
@@ -917,10 +1046,20 @@
         }
 
         function updateSummary() {
-            var maxPenalty = selectedPenalty * selectedDuration;
-            document.getElementById('maxPenalty').textContent = '$' + maxPenalty.toFixed(2);
+            var habits = getHabitsFromForm();
+            var totalDailyPenalty = habits.reduce(function(sum, h) { return sum + h.penalty; }, 0);
+            if (totalDailyPenalty === 0 && habitFields.length > 0) {
+                // If no names filled yet, estimate from penalty inputs
+                var penaltyInputs = document.querySelectorAll('.habit-penalty-input');
+                penaltyInputs.forEach(function(inp) { totalDailyPenalty += parseInt(inp.value) || 5; });
+            }
+            var habitCount = Math.max(habitFields.length, habits.length);
+            document.getElementById('summaryHabitCount').textContent = habitCount + ' habit' + (habitCount !== 1 ? 's' : '');
+            document.getElementById('maxDailyPenalty').textContent = '$' + totalDailyPenalty;
+            document.getElementById('maxPenalty').textContent = '$' + (totalDailyPenalty * selectedDuration).toFixed(2);
         }
 
+        // ---- REMINDER & DATE ----
         function onReminderChange(val) {
             if (!val) return;
             selectedReminder = val;
@@ -948,28 +1087,49 @@
             input.value = today;
         })();
 
+        // ---- CREATE GOAL ----
         function createMission() {
-            var missionName = document.getElementById('missionName').value;
-            if (!missionName.trim()) {
+            var goalName = document.getElementById('missionName').value;
+            if (!goalName.trim()) {
                 alert('Please enter a goal name');
                 return;
             }
 
+            var habits = getHabitsFromForm();
+            if (habits.length === 0) {
+                alert('Please add at least one habit');
+                return;
+            }
+
             var desc = document.querySelector('textarea');
-            var missionData = {
-                name: missionName,
+
+            // Create the goal
+            var goalData = {
+                name: goalName,
                 icon: selectedIcon || 'default',
                 description: desc ? desc.value : '',
-                penalty: selectedPenalty,
                 duration: selectedDuration,
                 target: selectedTarget,
-                reminder: selectedReminder
+                habitIds: []
             };
-            if (selectedStartDate) missionData.startDate = selectedStartDate;
-            var newMission = GN_addMission(missionData);
+            if (selectedStartDate) goalData.startDate = selectedStartDate;
+            var newGoal = GN_addGoal(goalData);
+
+            // Create habits and link to goal
+            for (var i = 0; i < habits.length; i++) {
+                var h = habits[i];
+                var newHabit = GN_addHabit({
+                    name: h.name,
+                    icon: h.icon,
+                    penalty: h.penalty,
+                    reminder: h.reminder,
+                    goalIds: [newGoal.id]
+                });
+                GN_linkHabitToGoal(newHabit.id, newGoal.id);
+            }
 
             // Show success toast
-            document.getElementById('toastDesc').textContent = missionName + ' — ' + selectedDuration + ' days, $' + selectedPenalty + '/day';
+            document.getElementById('toastDesc').textContent = goalName + ' — ' + habits.length + ' habit' + (habits.length > 1 ? 's' : '') + ', ' + selectedDuration + ' days';
             document.getElementById('successToast').classList.add('visible');
             document.getElementById('toastOverlay').classList.add('visible');
 
@@ -979,9 +1139,15 @@
             }, 1800);
         }
 
-        // Initialize
+        // ---- INITIALIZE ----
+        addHabitField('No Social Media', 5, 'phone');
         updateTarget();
         updateSummary();
+
+        // Listen for penalty changes to update summary
+        document.getElementById('habitsFormContainer').addEventListener('input', function(e) {
+            if (e.target.classList.contains('habit-penalty-input')) updateSummary();
+        });
     </script>
     <script>
     if ('serviceWorker' in navigator) {
