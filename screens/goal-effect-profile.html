@@ -996,13 +996,17 @@
     <script src="goal-ninja-data.js"></script>
     <script>
         function initProfile() {
-            GN_checkAndUpdateMissionStatuses();
+            GN_checkAndUpdateStatuses();
             var stats = GN_getOverallStats();
             var statValues = document.querySelectorAll('.profile-stat-value');
+            var statLabels = document.querySelectorAll('.profile-stat-label');
             if (statValues.length >= 3) {
-                statValues[0].textContent = stats.totalMissions;
-                statValues[1].textContent = stats.overallCompletionRate + '%';
-                statValues[2].textContent = '$' + stats.totalVault.toFixed(0);
+                statValues[0].textContent = stats.totalGoals || 0;
+                statValues[1].textContent = (stats.overallCompletionRate || 0) + '%';
+                statValues[2].textContent = '$' + (stats.totalVault || 0).toFixed(0);
+            }
+            if (statLabels.length >= 3) {
+                statLabels[0].textContent = 'Goals';
             }
         }
 

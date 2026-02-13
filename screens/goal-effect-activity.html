@@ -595,33 +595,41 @@
         }
 
         function renderActivity() {
-            GN_checkAndUpdateMissionStatuses();
-            var missions = GN_getMissions();
+            GN_checkAndUpdateStatuses();
+            var goals = GN_getGoals();
+            var habits = GN_getHabits();
             var allCheckins = GN_getAllCheckins();
             var stats = GN_getOverallStats();
 
             // Update summary
-            document.getElementById('summaryTotal').textContent = '$' + stats.totalVault.toFixed(0);
-            document.getElementById('summaryCompleted').textContent = stats.totalCompletedDays;
-            document.getElementById('summaryMissed').textContent = stats.totalMissedDays;
+            document.getElementById('summaryTotal').textContent = '$' + (stats.totalVault || 0).toFixed(0);
+            document.getElementById('summaryCompleted').textContent = stats.totalCompletedDays || 0;
+            document.getElementById('summaryMissed').textContent = stats.totalMissedDays || 0;
 
-            // Build flat activity list from all check-ins
+            // Build flat activity list from habit check-ins
             var activities = [];
-            for (var i = 0; i < missions.length; i++) {
-                var m = missions[i];
-                var checkins = allCheckins[m.id] || {};
-                // Add mission creation event
-                activities.push({ type: 'goal_started', date: m.startDate, mission: m, sortKey: m.startDate + '_0' });
-                // Add check-in events
+
+            // Add goal creation events
+            for (var g = 0; g < goals.length; g++) {
+                activities.push({ type: 'goal_started', date: goals[g].startDate, name: goals[g].name, sortKey: goals[g].startDate + '_0' });
+            }
+
+            // Add habit check-in events
+            for (var h = 0; h < habits.length; h++) {
+                var habit = habits[h];
+                var checkins = allCheckins[habit.id] || {};
+                var parentGoals = habit.goalIds.map(function(gid) { return GN_getGoalById(gid); }).filter(Boolean);
+                var goalName = parentGoals.length > 0 ? parentGoals[0].name : '';
                 var dates = Object.keys(checkins);
                 for (var j = 0; j < dates.length; j++) {
                     var status = checkins[dates[j]];
                     activities.push({
                         type: status === 'complete' ? 'checkin' : 'charge',
                         date: dates[j],
-                        mission: m,
+                        habitName: habit.name,
+                        goalName: goalName,
                         status: status,
-                        amount: status === 'missed' ? m.penalty : 0,
+                        amount: status === 'missed' ? habit.penalty : 0,
                         sortKey: dates[j] + '_1'
                     });
                 }
@@ -633,7 +641,7 @@
             } else if (currentFilter === 'goals') {
                 activities = activities.filter(function(a) { return a.type === 'goal_started'; });
             } else if (currentFilter === 'unlocks' || currentFilter === 'withdrawals') {
-                activities = []; // No real unlocks/withdrawals yet in MVP
+                activities = [];
             }
 
             // Sort by date descending
@@ -663,19 +671,19 @@
             var yesterdayStr = yesterday.getFullYear() + '-' + String(yesterday.getMonth()+1).padStart(2,'0') + '-' + String(yesterday.getDate()).padStart(2,'0');
 
             var html = '';
-            for (var g = 0; g < groupOrder.length; g++) {
-                var dateStr = groupOrder[g];
+            for (var gi = 0; gi < groupOrder.length; gi++) {
+                var dateStr = groupOrder[gi];
                 var label = dateStr === today ? 'Today' : (dateStr === yesterdayStr ? 'Yesterday' : GN_formatDate(dateStr));
                 html += '<div class="activity-group"><div class="group-header">' + label + '</div><div class="activity-card">';
                 var items = groups[dateStr];
                 for (var n = 0; n < items.length; n++) {
                     var item = items[n];
                     if (item.type === 'checkin') {
-                        html += '<div class="activity-item"><div class="activity-icon info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="activity-details"><div class="activity-title">Completed check-in</div><div class="activity-meta">' + item.mission.name + '</div></div></div>';
+                        html += '<div class="activity-item"><div class="activity-icon info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="activity-details"><div class="activity-title">Completed check-in</div><div class="activity-meta">' + item.habitName + (item.goalName ? ' · ' + item.goalName : '') + '</div></div></div>';
                     } else if (item.type === 'charge') {
-                        html += '<div class="activity-item"><div class="activity-icon success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div class="activity-details"><div class="activity-title">Missed day — vault charged</div><div class="activity-meta">' + item.mission.name + '</div></div><div class="activity-amount positive">+$' + item.amount + '</div></div>';
+                        html += '<div class="activity-item"><div class="activity-icon success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div class="activity-details"><div class="activity-title">Missed — vault charged</div><div class="activity-meta">' + item.habitName + (item.goalName ? ' · ' + item.goalName : '') + '</div></div><div class="activity-amount positive">+$' + item.amount + '</div></div>';
                     } else if (item.type === 'goal_started') {
-                        html += '<div class="activity-item"><div class="activity-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div><div class="activity-details"><div class="activity-title">Goal started</div><div class="activity-meta">' + item.mission.name + ' — $' + item.mission.penalty + '/miss</div></div></div>';
+                        html += '<div class="activity-item"><div class="activity-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div><div class="activity-details"><div class="activity-title">Goal started</div><div class="activity-meta">' + item.name + '</div></div></div>';
                     }
                 }
                 html += '</div></div>';

@@ -972,8 +972,8 @@
             alert('Your gold comes from days you miss your habits. When you hit your target completion rate, your gold unlocks.');
         }
 
-        function openMission(missionId) {
-            GN_setSelectedMission(missionId);
+        function openGoal(goalId) {
+            GN_setSelectedGoal(goalId);
             window.location.href = 'goal-effect-goal-detail.html';
         }
 
@@ -981,40 +981,79 @@
             alert('Withdraw functionality coming soon!');
         }
 
+        function buildSavingsGoalCard(goal) {
+            var goalStats = GN_getGoalStats(goal.id);
+            var habits = GN_getHabitsForGoal(goal.id);
+            var vaultTotal = goalStats.vaultTotal || 0;
+            var completionRate = goalStats.completionRate || 0;
+            var isUnlocked = completionRate >= goal.target;
+
+            var habitsHtml = '';
+            for (var h = 0; h < habits.length; h++) {
+                var habit = habits[h];
+                var habitStats = GN_getHabitStats(habit.id, goal.id);
+                habitsHtml += '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid var(--border);">' +
+                    '<div style="display:flex;align-items:center;gap:8px;">' +
+                        '<div style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;">' + GN_getIconSVG(habit.icon, 14) + '</div>' +
+                        '<span style="font-size:13px;">' + habit.name + '</span>' +
+                    '</div>' +
+                    '<span style="font-size:13px;font-weight:600;">$' + (habitStats.vaultAmount || 0).toFixed(2) + '</span>' +
+                '</div>';
+            }
+
+            return '<div style="background:var(--card-bg);border-radius:16px;padding:16px;margin-bottom:10px;">' +
+                '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;cursor:pointer;" onclick="openGoal(\'' + goal.id + '\')">' +
+                    '<div style="display:flex;align-items:center;gap:10px;">' +
+                        '<div style="width:40px;height:40px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;">' + GN_getIconSVG(goal.icon, 20) + '</div>' +
+                        '<div><div style="font-size:15px;font-weight:600;">' + goal.name + '</div>' +
+                        '<div style="font-size:12px;color:var(--text-muted);">' + completionRate + '% completion</div></div>' +
+                    '</div>' +
+                    '<div style="text-align:right;">' +
+                        '<div style="font-size:18px;font-weight:700;">$' + vaultTotal.toFixed(2) + '</div>' +
+                        '<span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;background:' + (isUnlocked ? '#dcfce7' : '#f3f4f6') + ';color:' + (isUnlocked ? '#22c55e' : 'var(--text-secondary)') + ';">' + (isUnlocked ? 'Unlocked' : 'Locked') + '</span>' +
+                    '</div>' +
+                '</div>' +
+                habitsHtml +
+            '</div>';
+        }
+
         function initSavings() {
-            GN_checkAndUpdateMissionStatuses();
+            GN_checkAndUpdateStatuses();
+            var goals = GN_getGoals();
+            var stats = GN_getOverallStats();
             var totalVault = GN_getVaultTotal();
             var lockedVault = GN_getLockedVaultTotal();
             var unlockedVault = GN_getUnlockedVaultTotal();
-            var overallStats = GN_getOverallStats();
 
+            // Update main vault display
             document.getElementById('vaultTotal').textContent = '$' + totalVault.toFixed(2);
             document.getElementById('lockedAmount').textContent = '$' + lockedVault.toFixed(2);
             document.getElementById('unlockedAmount').textContent = '$' + unlockedVault.toFixed(2);
-            document.getElementById('missedDaysCount').textContent = overallStats.totalMissedDays;
+            document.getElementById('missedDaysCount').textContent = stats.totalMissedDays;
 
-            var goals = GN_getMissions();
-            var container = document.getElementById('breakdownContainer');
-            var items = [];
-            for (var i = 0; i < goals.length; i++) {
-                var m = goals[i];
-                var stats = GN_getMissionStats(m.id);
-                if (stats && stats.missedDays > 0) {
-                    var isLocked = m.status === 'active' && !stats.hitTarget;
-                    items.push('<div class="breakdown-item" onclick="openMission(\'' + m.id + '\')">' +
-                        '<div class="breakdown-icon">' + GN_getIconSVG(m.icon, 22) + '</div>' +
-                        '<div class="breakdown-info">' +
-                            '<div class="breakdown-name">' + m.name + '</div>' +
-                            '<div class="breakdown-meta">' + stats.missedDays + ' missed &middot; $' + m.penalty + '/day</div>' +
-                        '</div>' +
-                        '<div class="breakdown-amount">' +
-                            '<div class="breakdown-value">$' + stats.vaultAmount.toFixed(2) + '</div>' +
-                            '<div class="breakdown-status ' + (isLocked ? '' : 'unlocked') + '">' + (isLocked ? 'Locked' : 'Unlocked') + '</div>' +
-                        '</div>' +
-                    '</div>');
-                }
+            // Update subtext with active goal count
+            var activeGoals = goals.filter(function(g) { return g.status === 'active'; });
+            var completedGoals = goals.filter(function(g) { return g.status !== 'active'; });
+            var subtextEl = document.querySelector('.vault-subtext');
+            if (subtextEl) {
+                subtextEl.textContent = 'From ' + activeGoals.length + ' active goal' + (activeGoals.length !== 1 ? 's' : '');
             }
-            container.innerHTML = items.length > 0 ? items.join('') : '<div style="padding:20px;text-align:center;color:var(--text-muted);font-size:14px;">No vault activity yet. Miss a day and your penalty goes here!</div>';
+
+            // Render per-goal vault breakdown
+            var container = document.getElementById('breakdownContainer');
+            var cards = [];
+
+            // Active goals first
+            for (var i = 0; i < activeGoals.length; i++) {
+                cards.push(buildSavingsGoalCard(activeGoals[i]));
+            }
+
+            // Then completed goals
+            for (var j = 0; j < completedGoals.length; j++) {
+                cards.push(buildSavingsGoalCard(completedGoals[j]));
+            }
+
+            container.innerHTML = cards.length > 0 ? cards.join('') : '<div style="padding:20px;text-align:center;color:var(--text-muted);font-size:14px;">No vault activity yet. Miss a day and your penalty goes here!</div>';
         }
 
         initSavings();
