@@ -900,7 +900,7 @@
                     <div class="target-section">
                         <div class="target-display">
                             <div class="target-value" id="targetValue">80%</div>
-                            <div class="target-desc" id="targetDesc">Complete <span id="targetDays">6</span> of <span id="totalDays">7</span> days to unlock gold</div>
+                            <div class="target-desc" id="targetDesc">Maintain <strong>80%</strong> completion to keep savings unlocked</div>
                         </div>
                         <input type="range" class="target-slider" id="targetSlider" min="50" max="100" value="80" oninput="updateTarget()">
                     </div>
@@ -1088,12 +1088,7 @@
             selectedTarget = parseInt(slider.value);
             document.getElementById('targetValue').textContent = selectedTarget + '%';
             var descEl = document.getElementById('targetDesc');
-            if (selectedDuration === 0) {
-                descEl.innerHTML = 'Maintain <strong>' + selectedTarget + '%</strong> completion to unlock gold';
-            } else {
-                var targetDays = Math.round(selectedDuration * (selectedTarget / 100));
-                descEl.innerHTML = 'Complete <span id="targetDays">' + targetDays + '</span> of <span id="totalDays">' + selectedDuration + '</span> days to unlock gold';
-            }
+            descEl.innerHTML = 'Maintain <strong>' + selectedTarget + '%</strong> completion to keep savings unlocked';
         }
 
         function updateSummary() {

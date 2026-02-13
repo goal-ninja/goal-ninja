@@ -730,17 +730,20 @@ function GN_getGoalVaultTotal(goalId) {
     return stats ? stats.vaultAmount : 0;
 }
 
+// Locked = vault from any goal where completionRate < target (real-time)
 function GN_getLockedVaultTotal() {
-    var goals = GN_getActiveGoals();
+    var goals = GN_getGoals();
     var total = 0;
     for (var i = 0; i < goals.length; i++) {
-        total += GN_getGoalVaultTotal(goals[i].id);
+        var stats = GN_getGoalStats(goals[i].id);
+        if (stats && !stats.hitTarget) total += stats.vaultAmount;
     }
     return total;
 }
 
+// Unlocked = vault from any goal where completionRate >= target (real-time)
 function GN_getUnlockedVaultTotal() {
-    var goals = GN_getCompletedGoals();
+    var goals = GN_getGoals();
     var total = 0;
     for (var i = 0; i < goals.length; i++) {
         var stats = GN_getGoalStats(goals[i].id);

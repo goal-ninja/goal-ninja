@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png?v=2">
-    <title>Goal Ninja - Savings Lock</title>
+    <title>Goal Ninja - How Savings Work</title>
     <style>
         * {
             margin: 0;
@@ -28,9 +28,8 @@
             --success-light: #dcfce7;
             --warning: #f59e0b;
             --warning-light: #fef3c7;
-            --info: #3b82f6;
-            --info-light: #dbeafe;
             --danger: #ef4444;
+            --danger-light: #fee2e2;
         }
 
         body {
@@ -45,7 +44,7 @@
             width: 100%;
             height: 100vh;
             margin: 0 auto;
-            background: var(--card-bg);
+            background: var(--bg);
             position: relative;
             overflow: hidden;
             display: flex;
@@ -69,13 +68,11 @@
             }
         }
 
-        /* Top Navigation */
         .top-nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 16px 20px 12px;
-            background: var(--card-bg);
             flex-shrink: 0;
         }
 
@@ -100,133 +97,58 @@
         .nav-title {
             font-size: 17px;
             font-weight: 600;
-            color: var(--text-primary);
         }
 
-        .done-btn {
-            background: none;
-            border: none;
-            font-size: 16px;
-            color: var(--text-primary);
-            cursor: pointer;
-            font-weight: 600;
-            font-family: inherit;
-        }
-
-        /* Main Content */
         .main-content {
             flex: 1;
             overflow-y: auto;
-            background: var(--bg);
+            padding: 0 20px 40px;
         }
 
-        .content-inner {
-            padding: 24px 20px 140px;
-        }
-
-        /* Page Header */
-        .page-header {
+        /* Hero Section */
+        .hero {
             text-align: center;
-            margin-bottom: 24px;
+            padding: 20px 0 28px;
         }
 
-        .header-icon-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .lock-icon-circle {
-            width: 72px;
-            height: 72px;
-            background: #f3f4f6;
+        .hero-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--card-bg);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin: 0 auto 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
         }
 
-        .lock-icon-circle svg {
-            width: 32px;
-            height: 32px;
+        .hero-icon svg {
+            width: 36px;
+            height: 36px;
             color: var(--text-primary);
         }
 
-        .header-ninja {
-            width: 60px;
-            height: 60px;
-            flex-shrink: 0;
-        }
-
-        .header-ninja img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .page-header h1 {
+        .hero h1 {
             font-size: 22px;
             font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             letter-spacing: -0.3px;
         }
 
-        .page-header p {
-            font-size: 14px;
+        .hero p {
+            font-size: 15px;
             color: var(--text-secondary);
             line-height: 1.5;
             max-width: 300px;
             margin: 0 auto;
         }
 
-        /* Goal Context Card */
-        .goal-context {
-            background: var(--card-bg);
-            border-radius: 14px;
-            padding: 14px 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        /* How It Works Steps */
+        .steps-section {
             margin-bottom: 24px;
         }
 
-        .goal-context-icon {
-            width: 44px;
-            height: 44px;
-            background: var(--bg);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            flex-shrink: 0;
-        }
-
-        .goal-context-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .goal-context-name {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .goal-context-meta {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .goal-context-meta .penalty {
-            color: var(--danger);
-            font-weight: 600;
-        }
-
-        /* Lock Options */
         .section-label {
             font-size: 13px;
             font-weight: 600;
@@ -236,356 +158,257 @@
             margin-bottom: 12px;
         }
 
-        .lock-options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 28px;
-        }
-
-        .lock-option {
+        .step-card {
             background: var(--card-bg);
-            border-radius: 14px;
-            padding: 16px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .lock-option.selected {
-            border-color: var(--text-primary);
-            box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.1);
-        }
-
-        .lock-option-header {
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 10px;
             display: flex;
+            gap: 14px;
             align-items: flex-start;
-            gap: 12px;
         }
 
-        .radio-circle {
-            width: 22px;
-            height: 22px;
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: var(--text-primary);
+            color: white;
             border-radius: 50%;
-            border: 2px solid var(--border);
-            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 1px;
-            transition: border-color 0.2s ease;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
         }
 
-        .lock-option.selected .radio-circle {
-            border-color: var(--text-primary);
-        }
-
-        .radio-circle-inner {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--text-primary);
-            transform: scale(0);
-            transition: transform 0.2s ease;
-        }
-
-        .lock-option.selected .radio-circle-inner {
-            transform: scale(1);
-        }
-
-        .lock-option-text {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .lock-option-title-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .step-content h3 {
+            font-size: 15px;
+            font-weight: 600;
             margin-bottom: 4px;
         }
 
-        .lock-option-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .default-badge {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            background: #f3f4f6;
-            padding: 2px 8px;
-            border-radius: 6px;
-            letter-spacing: 0.3px;
-        }
-
-        .lock-option-desc {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.45;
-        }
-
-        /* Lock Option Input (hidden by default, shown when selected) */
-        .lock-option-input {
-            display: none;
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 1px solid var(--border);
-        }
-
-        .lock-option.selected .lock-option-input {
-            display: block;
-        }
-
-        /* Amount Options */
-        .amount-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .amount-chip {
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            border: 1.5px solid var(--border);
-            background: var(--card-bg);
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: inherit;
-        }
-
-        .amount-chip.active {
-            background: var(--text-primary);
-            color: #ffffff;
-            border-color: var(--text-primary);
-        }
-
-        .custom-amount-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .custom-amount-label {
-            font-size: 13px;
-            color: var(--text-secondary);
-            white-space: nowrap;
-        }
-
-        .custom-amount-input-wrap {
-            display: flex;
-            align-items: center;
-            background: var(--bg);
-            border-radius: 10px;
-            padding: 0 12px;
-            flex: 1;
-            border: 1.5px solid var(--border);
-            transition: border-color 0.2s ease;
-        }
-
-        .custom-amount-input-wrap:focus-within {
-            border-color: var(--text-primary);
-        }
-
-        .custom-amount-prefix {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-
-        .custom-amount-input {
-            flex: 1;
-            border: none;
-            background: transparent;
-            padding: 10px 8px;
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-primary);
-            outline: none;
-            font-family: inherit;
-        }
-
-        .custom-amount-input::placeholder {
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        /* Time Options */
-        .time-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-        }
-
-        .time-chip {
-            padding: 10px 0;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            border: 1.5px solid var(--border);
-            background: var(--card-bg);
-            color: var(--text-primary);
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s ease;
-            font-family: inherit;
-        }
-
-        .time-chip.active {
-            background: var(--text-primary);
-            color: #ffffff;
-            border-color: var(--text-primary);
-        }
-
-        .time-chip-label {
-            display: block;
-            font-size: 11px;
-            font-weight: 400;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .time-chip.active .time-chip-label {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        /* Preview Section */
-        .preview-section {
-            background: var(--card-bg);
-            border-radius: 14px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .preview-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-
-        .preview-icon {
-            width: 36px;
-            height: 36px;
-            background: #f3f4f6;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .preview-icon svg {
-            width: 18px;
-            height: 18px;
-            color: var(--text-primary);
-        }
-
-        .preview-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .preview-rows {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .preview-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .preview-label {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .preview-value {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .preview-value.success {
-            color: var(--success);
-        }
-
-        /* Info Tip */
-        .info-tip {
-            background: #f3f4f6;
-            border-radius: 12px;
-            padding: 14px 16px;
-            display: flex;
-            gap: 10px;
-            align-items: flex-start;
-            margin-top: 16px;
-        }
-
-        .info-tip-icon {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-            margin-top: 1px;
-            color: var(--text-secondary);
-        }
-
-        .info-tip-text {
+        .step-content p {
             font-size: 13px;
             color: var(--text-secondary);
             line-height: 1.5;
         }
 
-        /* Bottom CTA */
-        .bottom-cta {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 0 20px 32px;
-            background: linear-gradient(to top, var(--bg) 70%, transparent);
-            z-index: 10;
+        /* Visual Example */
+        .example-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
         }
 
-        .save-btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 14px;
-            font-size: 16px;
+        .example-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .example-title svg {
+            width: 18px;
+            height: 18px;
+            color: var(--text-secondary);
+        }
+
+        .example-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            background: var(--bg);
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+
+        .example-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .example-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .example-rate {
+            font-size: 15px;
             font-weight: 700;
-            color: #ffffff;
-            background: var(--text-primary);
-            cursor: pointer;
-            font-family: inherit;
-            letter-spacing: -0.2px;
-            transition: opacity 0.2s ease;
         }
 
-        .save-btn:active {
-            opacity: 0.85;
+        .example-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .example-badge {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+
+        .example-badge.locked {
+            background: #f3f4f6;
+            color: var(--text-secondary);
+        }
+
+        .example-badge.unlocked {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        /* Live Goal Statuses */
+        .goals-section {
+            margin-bottom: 24px;
+        }
+
+        .goal-status-card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .goal-status-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .goal-status-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .goal-status-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .goal-status-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .goal-status-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .goal-status-badge.locked {
+            background: #f3f4f6;
+            color: var(--text-secondary);
+        }
+
+        .goal-status-badge.unlocked {
+            background: var(--success-light);
+            color: var(--success);
+        }
+
+        .no-goals-msg {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Withdrawal Info */
+        .withdraw-info-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .withdraw-info-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .withdraw-info-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--warning-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .withdraw-info-icon svg {
+            width: 20px;
+            height: 20px;
+            color: #92400e;
+        }
+
+        .withdraw-info-header h3 {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .withdraw-info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            background: var(--bg);
+            border-radius: 10px;
+            margin-bottom: 6px;
+        }
+
+        .withdraw-info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .withdraw-info-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .withdraw-info-value {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .withdraw-info-value.free {
+            color: var(--success);
+        }
+
+        .withdraw-info-value.fee {
+            color: var(--danger);
         }
 
         /* Animations */
-        .fadeUp {
+        .animate-in {
             opacity: 0;
             transform: translateY(16px);
             animation: fadeUpIn 0.45s ease forwards;
         }
 
         @keyframes fadeUpIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .delay-1 { animation-delay: 0.05s; }
@@ -593,13 +416,10 @@
         .delay-3 { animation-delay: 0.15s; }
         .delay-4 { animation-delay: 0.2s; }
         .delay-5 { animation-delay: 0.25s; }
-        .delay-6 { animation-delay: 0.3s; }
-        .delay-7 { animation-delay: 0.35s; }
     </style>
 </head>
 <body>
     <div class="phone-frame">
-        <!-- Top Navigation -->
         <div class="top-nav">
             <button class="back-btn" onclick="goBack()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -607,290 +427,164 @@
                 </svg>
                 Back
             </button>
-            <span class="nav-title">Savings Lock</span>
-            <button class="done-btn" onclick="saveLock()">Done</button>
+            <span class="nav-title">How Savings Work</span>
+            <div style="width:50px;"></div>
         </div>
 
-        <!-- Main Content -->
         <div class="main-content">
-            <div class="content-inner">
 
-                <!-- Page Header -->
-                <div class="page-header fadeUp">
-                    <div class="header-icon-row">
-                        <div class="lock-icon-circle">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                                <path d="M7 11V7a5 5 0 0110 0v4"/>
-                            </svg>
-                        </div>
-                        <div class="header-ninja">
-                            <img src="../ninja-poses/ninja-hourglass.png" alt="Ninja with hourglass">
-                        </div>
-                    </div>
-                    <h1>Lock Your Savings</h1>
-                    <p>Choose when your savings from this goal become available to withdraw.</p>
+            <!-- Hero -->
+            <div class="hero animate-in">
+                <div class="hero-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
                 </div>
-
-                <!-- Goal Context Card -->
-                <div class="goal-context fadeUp delay-1">
-                    <div class="goal-context-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:#1a1a1a"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg></div>
-                    <div class="goal-context-info">
-                        <div class="goal-context-name">No coffee after 2pm</div>
-                        <div class="goal-context-meta">30 days &middot; <span class="penalty">$5 penalty per day</span></div>
-                    </div>
-                </div>
-
-                <!-- Lock Type Options -->
-                <div class="section-label fadeUp delay-2">Lock Type</div>
-                <div class="lock-options">
-
-                    <!-- Option 1: When goal ends (default) -->
-                    <div class="lock-option selected fadeUp delay-2" onclick="selectLockType('goal-end', this)">
-                        <div class="lock-option-header">
-                            <div class="radio-circle">
-                                <div class="radio-circle-inner"></div>
-                            </div>
-                            <div class="lock-option-text">
-                                <div class="lock-option-title-row">
-                                    <span class="lock-option-title">When goal ends</span>
-                                    <span class="default-badge">Default</span>
-                                </div>
-                                <div class="lock-option-desc">Savings unlock automatically when this goal is completed.</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Option 2: Amount target -->
-                    <div class="lock-option fadeUp delay-3" onclick="selectLockType('amount', this)">
-                        <div class="lock-option-header">
-                            <div class="radio-circle">
-                                <div class="radio-circle-inner"></div>
-                            </div>
-                            <div class="lock-option-text">
-                                <div class="lock-option-title-row">
-                                    <span class="lock-option-title">Amount target</span>
-                                </div>
-                                <div class="lock-option-desc">Keep locked until savings from this goal reach a specific amount.</div>
-                            </div>
-                        </div>
-                        <div class="lock-option-input">
-                            <div class="amount-options">
-                                <button class="amount-chip" onclick="event.stopPropagation(); selectAmount(50, this)">$50</button>
-                                <button class="amount-chip active" onclick="event.stopPropagation(); selectAmount(100, this)">$100</button>
-                                <button class="amount-chip" onclick="event.stopPropagation(); selectAmount(250, this)">$250</button>
-                                <button class="amount-chip" onclick="event.stopPropagation(); selectAmount(500, this)">$500</button>
-                            </div>
-                            <div class="custom-amount-row">
-                                <span class="custom-amount-label">Or custom:</span>
-                                <div class="custom-amount-input-wrap">
-                                    <span class="custom-amount-prefix">$</span>
-                                    <input type="number" class="custom-amount-input" id="customAmountInput" placeholder="Enter amount" oninput="updateCustomAmount(this.value)" onclick="event.stopPropagation()">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Option 3: Time lock -->
-                    <div class="lock-option fadeUp delay-4" onclick="selectLockType('time', this)">
-                        <div class="lock-option-header">
-                            <div class="radio-circle">
-                                <div class="radio-circle-inner"></div>
-                            </div>
-                            <div class="lock-option-text">
-                                <div class="lock-option-title-row">
-                                    <span class="lock-option-title">Time lock</span>
-                                </div>
-                                <div class="lock-option-desc">Keep locked for a set period, regardless of goal status.</div>
-                            </div>
-                        </div>
-                        <div class="lock-option-input">
-                            <div class="time-grid">
-                                <button class="time-chip" onclick="event.stopPropagation(); selectTime(3, this)">3<span class="time-chip-label">months</span></button>
-                                <button class="time-chip active" onclick="event.stopPropagation(); selectTime(6, this)">6<span class="time-chip-label">months</span></button>
-                                <button class="time-chip" onclick="event.stopPropagation(); selectTime(9, this)">9<span class="time-chip-label">months</span></button>
-                                <button class="time-chip" onclick="event.stopPropagation(); selectTime(12, this)">12<span class="time-chip-label">months</span></button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Preview Section: How it works -->
-                <div class="section-label fadeUp delay-5">How it works</div>
-                <div class="preview-section fadeUp delay-5">
-                    <div class="preview-header">
-                        <div class="preview-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"/>
-                                <polyline points="12 6 12 12 16 14"/>
-                            </svg>
-                        </div>
-                        <span class="preview-title">Your savings timeline</span>
-                    </div>
-                    <div class="preview-rows">
-                        <div class="preview-row">
-                            <span class="preview-label">Lock type</span>
-                            <span class="preview-value" id="previewLockType">When goal ends</span>
-                        </div>
-                        <div class="preview-row">
-                            <span class="preview-label">Goal duration</span>
-                            <span class="preview-value">30 days</span>
-                        </div>
-                        <div class="preview-row">
-                            <span class="preview-label">Max potential savings</span>
-                            <span class="preview-value success">$150.00</span>
-                        </div>
-                        <div class="preview-row">
-                            <span class="preview-label">Unlocks on</span>
-                            <span class="preview-value" id="previewUnlockDate"></span>
-                        </div>
-                    </div>
-
-                    <!-- Info Tip -->
-                    <div class="info-tip">
-                        <svg class="info-tip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
-                            <line x1="12" y1="9" x2="12" y2="13"/>
-                            <line x1="12" y1="17" x2="12.01" y2="17"/>
-                        </svg>
-                        <span class="info-tip-text">Even if you hit your amount target early, savings stay locked until the goal ends. You can always withdraw early with a 10% fee (5% for Pro).</span>
-                    </div>
-                </div>
-
+                <h1>Simple Savings Lock</h1>
+                <p>Your savings lock and unlock automatically based on your performance. No settings to manage.</p>
             </div>
-        </div>
 
-        <!-- Bottom CTA -->
-        <div class="bottom-cta fadeUp delay-7">
-            <button class="save-btn" onclick="saveLock()">Save Lock Settings</button>
+            <!-- How It Works -->
+            <div class="steps-section animate-in delay-1">
+                <div class="section-label">How it works</div>
+
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Miss a habit, add to savings</h3>
+                        <p>When you miss a habit check-in, the penalty amount goes into your savings vault for that goal.</p>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Stay above your target rate</h3>
+                        <p>Each goal has a target completion rate (e.g. 80%). Hit or exceed it and your savings unlock.</p>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Drop below? Savings lock again</h3>
+                        <p>If your completion rate falls below your target, savings lock back up until you get back on track.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Example -->
+            <div class="animate-in delay-2">
+                <div class="section-label">Example with 80% target</div>
+                <div class="example-card">
+                    <div class="example-row">
+                        <div class="example-left">
+                            <span class="example-rate">92%</span>
+                            <span class="example-label">completion</span>
+                        </div>
+                        <span class="example-badge unlocked">Unlocked</span>
+                    </div>
+                    <div class="example-row">
+                        <div class="example-left">
+                            <span class="example-rate">80%</span>
+                            <span class="example-label">completion</span>
+                        </div>
+                        <span class="example-badge unlocked">Unlocked</span>
+                    </div>
+                    <div class="example-row">
+                        <div class="example-left">
+                            <span class="example-rate">73%</span>
+                            <span class="example-label">completion</span>
+                        </div>
+                        <span class="example-badge locked">Locked</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Your Goals Status -->
+            <div class="goals-section animate-in delay-3">
+                <div class="section-label">Your Goals</div>
+                <div id="goalsContainer">
+                    <div class="no-goals-msg">No goals yet</div>
+                </div>
+            </div>
+
+            <!-- Withdrawal Info -->
+            <div class="animate-in delay-4">
+                <div class="section-label">Early Withdrawal</div>
+                <div class="withdraw-info-card">
+                    <div class="withdraw-info-header">
+                        <div class="withdraw-info-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                        </div>
+                        <h3>Need your savings early?</h3>
+                    </div>
+
+                    <div class="withdraw-info-row">
+                        <span class="withdraw-info-label">Unlocked savings</span>
+                        <span class="withdraw-info-value free">Free to withdraw</span>
+                    </div>
+                    <div class="withdraw-info-row">
+                        <span class="withdraw-info-label">Locked savings</span>
+                        <span class="withdraw-info-value fee">10% fee to withdraw</span>
+                    </div>
+                    <div class="withdraw-info-row">
+                        <span class="withdraw-info-label">Pro subscribers</span>
+                        <span class="withdraw-info-value">5% fee on locked</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
-        <script src="goal-ninja-data.js"></script>
-<script>
-        // State
-        var currentLockType = 'goal-end';
-        var selectedAmount = 100;
-        var selectedTime = 6;
-
-        // Lock type selection
-        function selectLockType(type, el) {
-            currentLockType = type;
-
-            // Update radio visual states
-            var options = document.querySelectorAll('.lock-option');
-            for (var i = 0; i < options.length; i++) {
-                options[i].classList.remove('selected');
-            }
-            el.classList.add('selected');
-
-            updatePreview();
-        }
-
-        // Amount chip selection
-        function selectAmount(amount, el) {
-            selectedAmount = amount;
-
-            // Clear custom input
-            var customInput = document.getElementById('customAmountInput');
-            if (customInput) customInput.value = '';
-
-            // Update chip states
-            var chips = document.querySelectorAll('.amount-chip');
-            for (var i = 0; i < chips.length; i++) {
-                chips[i].classList.remove('active');
-            }
-            el.classList.add('active');
-
-            updatePreview();
-        }
-
-        // Custom amount input
-        function updateCustomAmount(value) {
-            var num = parseFloat(value);
-            if (!isNaN(num) && num > 0) {
-                selectedAmount = num;
-
-                // Deselect all preset chips
-                var chips = document.querySelectorAll('.amount-chip');
-                for (var i = 0; i < chips.length; i++) {
-                    chips[i].classList.remove('active');
-                }
-            }
-
-            updatePreview();
-        }
-
-        // Time chip selection
-        function selectTime(months, el) {
-            selectedTime = months;
-
-            var chips = document.querySelectorAll('.time-chip');
-            for (var i = 0; i < chips.length; i++) {
-                chips[i].classList.remove('active');
-            }
-            el.classList.add('active');
-
-            updatePreview();
-        }
-
-        // Update preview section
-        function updatePreview() {
-            var lockTypeLabel = document.getElementById('previewLockType');
-            var unlockDateLabel = document.getElementById('previewUnlockDate');
-
-            var now = new Date();
-            var goalEndDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
-            var unlockDate;
-
-            switch (currentLockType) {
-                case 'goal-end':
-                    lockTypeLabel.textContent = 'When goal ends';
-                    unlockDate = goalEndDate;
-                    break;
-                case 'amount':
-                    lockTypeLabel.textContent = 'Amount ($' + selectedAmount + ')';
-                    unlockDate = goalEndDate;
-                    break;
-                case 'time':
-                    lockTypeLabel.textContent = 'Time lock (' + selectedTime + ' mo)';
-                    unlockDate = new Date(now);
-                    unlockDate.setMonth(unlockDate.getMonth() + selectedTime);
-                    break;
-                default:
-                    lockTypeLabel.textContent = 'When goal ends';
-                    unlockDate = goalEndDate;
-            }
-
-            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            unlockDateLabel.textContent = months[unlockDate.getMonth()] + ' ' + unlockDate.getDate() + ', ' + unlockDate.getFullYear();
-        }
-
-        // Save lock settings
-        function saveLock() {
-            var config = {
-                lockType: currentLockType,
-                amount: currentLockType === 'amount' ? selectedAmount : null,
-                timeMonths: currentLockType === 'time' ? selectedTime : null
-            };
-            var msg = 'Lock settings saved!\n\nType: ' + currentLockType;
-            if (config.amount) msg += '\nAmount: $' + config.amount;
-            if (config.timeMonths) msg += '\nDuration: ' + config.timeMonths + ' months';
-            alert(msg);
-        }
-
-        // Go back
+    <script src="goal-ninja-data.js"></script>
+    <script>
         function goBack() {
             if (window.history.length > 1) {
                 window.history.back();
             } else {
-                alert('Navigate back to savings.');
+                window.location.href = 'goal-effect-savings.html';
             }
         }
 
-        // Initialize preview on load
-        updatePreview();
+        function renderGoals() {
+            GN_checkAndUpdateStatuses();
+            var goals = GN_getGoals();
+            var container = document.getElementById('goalsContainer');
+
+            if (goals.length === 0) {
+                container.innerHTML = '<div class="no-goals-msg">No goals yet. Create a goal to start building savings.</div>';
+                return;
+            }
+
+            var html = '';
+            for (var i = 0; i < goals.length; i++) {
+                var goal = goals[i];
+                var stats = GN_getGoalStats(goal.id);
+                if (!stats) continue;
+                var rate = stats.completionRate || 0;
+                var isUnlocked = rate >= goal.target;
+                var vaultAmt = stats.vaultAmount || 0;
+
+                html += '<div class="goal-status-card">' +
+                    '<div class="goal-status-icon">' + GN_getIconSVG(goal.icon, 20) + '</div>' +
+                    '<div class="goal-status-info">' +
+                        '<div class="goal-status-name">' + goal.name + '</div>' +
+                        '<div class="goal-status-meta">' + rate + '% of ' + goal.target + '% target · $' + vaultAmt.toFixed(2) + ' in vault</div>' +
+                    '</div>' +
+                    '<span class="goal-status-badge ' + (isUnlocked ? 'unlocked' : 'locked') + '">' + (isUnlocked ? 'Unlocked' : 'Locked') + '</span>' +
+                '</div>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        renderGoals();
     </script>
     <script>
     if ('serviceWorker' in navigator) {
