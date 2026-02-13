@@ -120,7 +120,7 @@
     document.head.appendChild(style);
 
     function applyTheme() {
-        var pref = localStorage.getItem('goalNinjaAppearance') || 'system';
+        var pref = localStorage.getItem('goalNinjaAppearance') || 'light';
         var isDark = false;
         if (pref === 'dark') isDark = true;
         else if (pref === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) isDark = true;
