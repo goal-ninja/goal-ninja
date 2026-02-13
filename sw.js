@@ -1,4 +1,4 @@
-var CACHE_NAME = 'goal-ninja-v39';
+var CACHE_NAME = 'goal-ninja-v40';
 var urlsToCache = [
   './screens/goal-ninja-data.js',
   './screens/ninja-buddy.js',
@@ -88,20 +88,18 @@ self.addEventListener('activate', function(event) {
   );
 });
 
-// Fetch - cache first, then network
+// Fetch - network first, fall back to cache (ensures latest version loads)
 self.addEventListener('fetch', function(event) {
   event.respondWith(
-    caches.match(event.request)
-      .then(function(response) {
-        if (response) {
-          return response;
-        }
-        return fetch(event.request).then(function(fetchResponse) {
-          return caches.open(CACHE_NAME).then(function(cache) {
-            cache.put(event.request, fetchResponse.clone());
-            return fetchResponse;
-          });
+    fetch(event.request)
+      .then(function(fetchResponse) {
+        return caches.open(CACHE_NAME).then(function(cache) {
+          cache.put(event.request, fetchResponse.clone());
+          return fetchResponse;
         });
+      })
+      .catch(function() {
+        return caches.match(event.request);
       })
   );
 });
