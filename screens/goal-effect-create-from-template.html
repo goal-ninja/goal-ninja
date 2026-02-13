@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-    <title>Goal Ninja - Create Mission from Template</title>
+    <title>Goal Ninja - Create Goal</title>
     <style>
         * {
             margin: 0;
@@ -130,7 +130,7 @@
             height: 14px;
         }
 
-        /* Mission Icon Section */
+        /* Goal Icon Section */
         .icon-section {
             text-align: center;
             margin-bottom: 28px;
@@ -656,7 +656,7 @@
         <!-- Top Navigation -->
         <div class="top-nav">
             <button class="cancel-btn" onclick="goBack()">Cancel</button>
-            <span class="nav-title">New Mission</span>
+            <span class="nav-title">New Goal</span>
             <button class="save-btn" onclick="createMission()">Create</button>
         </div>
 
@@ -684,10 +684,10 @@
                 <span class="change-icon-text">Tap to change icon</span>
             </div>
 
-            <!-- Mission Name -->
+            <!-- Goal Name -->
             <div class="form-section animate-in delay-1">
                 <div class="form-label">
-                    Mission Name
+                    Goal Name
                     <span class="form-label-hint">Required</span>
                 </div>
                 <div class="form-card">
@@ -705,7 +705,7 @@
                 </div>
                 <div class="form-card">
                     <div class="input-field">
-                        <textarea placeholder="Add any notes or details about this mission...">Stay off Instagram, TikTok, Twitter, and Facebook for the entire day.</textarea>
+                        <textarea placeholder="Add any notes or details about this goal...">Stay off Instagram, TikTok, Twitter, and Facebook for the entire day.</textarea>
                     </div>
                 </div>
             </div>
@@ -843,14 +843,14 @@
 
         <!-- Bottom CTA -->
         <div class="bottom-cta">
-            <button class="start-btn" onclick="createMission()">Start Mission</button>
+            <button class="start-btn" onclick="createMission()">Start Goal</button>
         </div>
 
         <!-- Success Toast -->
         <div class="toast-overlay" id="toastOverlay"></div>
         <div class="toast" id="successToast">
             <div class="toast-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:48px;height:48px;color:#1a1a1a"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
-            <div class="toast-title">Mission Created!</div>
+            <div class="toast-title">Goal Created!</div>
             <div class="toast-desc" id="toastDesc">Time to prove yourself, ninja!</div>
         </div>
     </div>
@@ -951,7 +951,7 @@
         function createMission() {
             var missionName = document.getElementById('missionName').value;
             if (!missionName.trim()) {
-                alert('Please enter a mission name');
+                alert('Please enter a goal name');
                 return;
             }
 
@@ -973,7 +973,7 @@
             document.getElementById('successToast').classList.add('visible');
             document.getElementById('toastOverlay').classList.add('visible');
 
-            // Navigate to missions page after a short delay
+            // Navigate to goals page after a short delay
             setTimeout(function() {
                 window.location.href = 'goal-effect-goals-list.html';
             }, 1800);

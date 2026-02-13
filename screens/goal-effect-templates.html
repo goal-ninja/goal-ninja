@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
-    <title>Goal Ninja - Mission Templates</title>
+    <title>Goal Ninja - Goal Templates</title>
     <style>
         * {
             margin: 0;
@@ -694,7 +694,7 @@
         <div class="main-content">
             <!-- Page Header -->
             <div class="page-header animate-in">
-                <h1 class="page-title">Mission Templates</h1>
+                <h1 class="page-title">Goal Templates</h1>
                 <p class="page-subtitle">Start with a proven training regimen</p>
             </div>
 
@@ -704,7 +704,7 @@
                     <circle cx="11" cy="11" r="8"/>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
-                <input type="text" placeholder="Search missions...">
+                <input type="text" placeholder="Search goals...">
             </div>
 
             <!-- Create from Scratch -->
@@ -717,7 +717,7 @@
                 </div>
                 <div class="scratch-text">
                     <div class="scratch-title">Create from Scratch</div>
-                    <div class="scratch-desc">Build a custom mission with your own rules</div>
+                    <div class="scratch-desc">Build a custom goal with your own rules</div>
                 </div>
                 <svg class="scratch-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
@@ -1017,29 +1017,29 @@
                 </svg>
                 <span>Home</span>
             </button>
-            <button class="nav-item" onclick="goTo('missions')">
+            <button class="nav-item" onclick="goTo('goals')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
                 </svg>
-                <span>Missions</span>
+                <span>Goals</span>
             </button>
-            <button class="nav-item" onclick="goTo('vault')">
+            <button class="nav-item" onclick="goTo('habits')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/>
+                    <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
                 </svg>
-                <span>Vault</span>
+                <span>Habits</span>
             </button>
-            <button class="nav-item" onclick="goTo('leaderboard')">
+            <button class="nav-item" onclick="goTo('savings')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                    <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                 </svg>
-                <span>Board</span>
+                <span>Savings</span>
             </button>
-            <button class="nav-item active" onclick="goTo('templates')">
+            <button class="nav-item active" onclick="goTo('explore')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                    <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
                 </svg>
-                <span>Templates</span>
+                <span>Explore</span>
             </button>
         </nav>
     </div>
@@ -1061,17 +1061,11 @@
         }
 
         function goTo(page) {
-            if (page === 'home') {
-                window.location.href = 'goal-effect-home.html';
-            } else if (page === 'missions') {
-                window.location.href = 'goal-effect-goals-list.html';
-            } else if (page === 'vault') {
-                window.location.href = 'goal-effect-savings.html';
-            } else if (page === 'leaderboard') {
-                window.location.href = 'goal-effect-leaderboard.html';
-            } else if (page === 'templates') {
-                window.location.href = 'goal-effect-templates.html';
-            }
+            if (page === 'home') window.location.href = 'goal-effect-home.html';
+            else if (page === 'goals') window.location.href = 'goal-effect-goals-list.html';
+            else if (page === 'habits') window.location.href = 'goal-effect-habits-list.html';
+            else if (page === 'savings') window.location.href = 'goal-effect-savings.html';
+            else if (page === 'explore') window.location.href = 'goal-effect-templates.html';
         }
 
         function goBack() {

@@ -625,7 +625,7 @@
                 <div class="profile-stats">
                     <div class="profile-stat">
                         <div class="profile-stat-value">12</div>
-                        <div class="profile-stat-label">Missions</div>
+                        <div class="profile-stat-label">Goals</div>
                     </div>
                     <div class="profile-stat">
                         <div class="profile-stat-value">83%</div>
@@ -643,7 +643,7 @@
                 <div class="pro-icon"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
                 <div class="pro-content">
                     <div class="pro-title">Upgrade to Ninja Elite</div>
-                    <div class="pro-desc">Lower fees, unlimited missions, and more</div>
+                    <div class="pro-desc">Lower fees, unlimited goals, and more</div>
                 </div>
                 <div class="pro-arrow">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -692,7 +692,7 @@
                         </div>
                         <div class="settings-info">
                             <div class="settings-label">Push Notifications</div>
-                            <div class="settings-sublabel">Mission reminders and updates</div>
+                            <div class="settings-sublabel">Goal reminders and updates</div>
                         </div>
                         <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
                     </div>
@@ -705,7 +705,7 @@
                         </div>
                         <div class="settings-info">
                             <div class="settings-label">Default Reminder Time</div>
-                            <div class="settings-sublabel">For new missions</div>
+                            <div class="settings-sublabel">For new goals</div>
                         </div>
                         <div class="settings-value" id="defaultReminderDisplay">
                             9:00 PM
@@ -966,29 +966,29 @@
                 </svg>
                 <span>Home</span>
             </button>
-            <button class="nav-item" onclick="goTo('missions')">
+            <button class="nav-item" onclick="goTo('goals')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
                 </svg>
-                <span>Missions</span>
+                <span>Goals</span>
             </button>
-            <button class="nav-item" onclick="goTo('vault')">
+            <button class="nav-item" onclick="goTo('habits')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/>
+                    <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
                 </svg>
-                <span>Vault</span>
+                <span>Habits</span>
             </button>
-            <button class="nav-item" onclick="goTo('leaderboard')">
+            <button class="nav-item" onclick="goTo('savings')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                    <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                 </svg>
-                <span>Board</span>
+                <span>Savings</span>
             </button>
-            <button class="nav-item" onclick="goTo('templates')">
+            <button class="nav-item" onclick="goTo('explore')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                    <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
                 </svg>
-                <span>Templates</span>
+                <span>Explore</span>
             </button>
         </nav>
     </div>
@@ -1094,10 +1094,10 @@
 
         function goTo(page) {
             if (page === 'home') window.location.href = 'goal-effect-home.html';
-            else if (page === 'missions') window.location.href = 'goal-effect-goals-list.html';
-            else if (page === 'vault') window.location.href = 'goal-effect-savings.html';
-            else if (page === 'leaderboard') window.location.href = 'goal-effect-leaderboard.html';
-            else if (page === 'templates') window.location.href = 'goal-effect-templates.html';
+            else if (page === 'goals') window.location.href = 'goal-effect-goals-list.html';
+            else if (page === 'habits') window.location.href = 'goal-effect-habits-list.html';
+            else if (page === 'savings') window.location.href = 'goal-effect-savings.html';
+            else if (page === 'explore') window.location.href = 'goal-effect-templates.html';
         }
 
         function toggleProfileDropdown() {

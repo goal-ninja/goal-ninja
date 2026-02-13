@@ -749,7 +749,7 @@
                     <div class="vault-info">
                         <div class="vault-label">Total Gold</div>
                         <div class="vault-amount" id="vaultTotal">$0.00</div>
-                        <div class="vault-subtext">From 4 active missions</div>
+                        <div class="vault-subtext">From 4 active goals</div>
                     </div>
                 </div>
                 
@@ -797,10 +797,10 @@
                 </div>
             </div>
 
-            <!-- Breakdown by Mission -->
+            <!-- Breakdown by Goal -->
             <div class="section animate-in delay-3">
                 <div class="section-header">
-                    <span class="section-title">Gold by Mission</span>
+                    <span class="section-title">Gold by Goal</span>
                 </div>
                 <div class="breakdown-card" id="breakdownContainer">
                     <div style="padding:20px;text-align:center;color:var(--text-muted);font-size:14px;">No vault activity yet</div>
@@ -934,45 +934,34 @@
         <!-- Bottom Navigation -->
         <nav class="bottom-nav">
             <button class="nav-item" onclick="goTo('home')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
                 </svg>
                 <span>Home</span>
             </button>
-            <button class="nav-item" onclick="goTo('missions')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M12 6v6l4 2"/>
+            <button class="nav-item" onclick="goTo('goals')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
                 </svg>
-                <span>Missions</span>
+                <span>Goals</span>
             </button>
-            <button class="nav-item active" onclick="goTo('vault')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="2" y="4" width="20" height="16" rx="2"/>
-                    <circle cx="12" cy="12" r="3"/>
+            <button class="nav-item" onclick="goTo('habits')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
                 </svg>
-                <span>Vault</span>
+                <span>Habits</span>
             </button>
-            <button class="nav-item" onclick="goTo('leaderboard')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
-                    <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
-                    <path d="M4 22h16"/>
-                    <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20 7 22"/>
-                    <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20 17 22"/>
-                    <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+            <button class="nav-item active" onclick="goTo('savings')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
                 </svg>
-                <span>Board</span>
+                <span>Savings</span>
             </button>
-            <button class="nav-item" onclick="goTo('templates')">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="7" height="7"/>
-                    <rect x="14" y="3" width="7" height="7"/>
-                    <rect x="3" y="14" width="7" height="7"/>
-                    <rect x="14" y="14" width="7" height="7"/>
+            <button class="nav-item" onclick="goTo('explore')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
                 </svg>
-                <span>Templates</span>
+                <span>Explore</span>
             </button>
         </nav>
     </div>
@@ -1004,11 +993,11 @@
             document.getElementById('unlockedAmount').textContent = '$' + unlockedVault.toFixed(2);
             document.getElementById('missedDaysCount').textContent = overallStats.totalMissedDays;
 
-            var missions = GN_getMissions();
+            var goals = GN_getMissions();
             var container = document.getElementById('breakdownContainer');
             var items = [];
-            for (var i = 0; i < missions.length; i++) {
-                var m = missions[i];
+            for (var i = 0; i < goals.length; i++) {
+                var m = goals[i];
                 var stats = GN_getMissionStats(m.id);
                 if (stats && stats.missedDays > 0) {
                     var isLocked = m.status === 'active' && !stats.hitTarget;
@@ -1032,10 +1021,10 @@
 
         function goTo(page) {
             if (page === 'home') window.location.href = 'goal-effect-home.html';
-            else if (page === 'missions') window.location.href = 'goal-effect-goals-list.html';
-            else if (page === 'vault') window.location.href = 'goal-effect-savings.html';
-            else if (page === 'leaderboard') window.location.href = 'goal-effect-leaderboard.html';
-            else if (page === 'templates') window.location.href = 'goal-effect-templates.html';
+            else if (page === 'goals') window.location.href = 'goal-effect-goals-list.html';
+            else if (page === 'habits') window.location.href = 'goal-effect-habits-list.html';
+            else if (page === 'savings') window.location.href = 'goal-effect-savings.html';
+            else if (page === 'explore') window.location.href = 'goal-effect-templates.html';
         }
 
         function toggleProfileDropdown() {
