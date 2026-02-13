@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#1a1a1a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png?v=2">
     <title>Goal Ninja - Goal Detail</title>
     <style>
         * {
@@ -1281,6 +1281,11 @@
                         Delete Goal
                     </button>
                 </div>
+                <button class="profile-btn" onclick="window.location.href='goal-effect-leaderboard.html'" title="Leaderboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                    </svg>
+                </button>
                 <button class="profile-btn" onclick="toggleProfileDropdown()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
@@ -1494,14 +1499,25 @@
             // Header
             document.getElementById('goalIcon').innerHTML = GN_getIconSVG(goal.icon, 40);
             document.getElementById('goalName').textContent = goal.name;
-            var subtitleText = goal.status === 'paused' ? 'Goal Paused' : ('Day ' + (goalStats.dayNumber || 1) + ' of ' + goal.duration);
+            var subtitleText;
+            if (goal.status === 'paused') {
+                subtitleText = 'Goal Paused';
+            } else if (goal.duration === 0) {
+                subtitleText = 'Day ' + (goalStats.dayNumber || 1) + ' &middot; Ongoing';
+            } else {
+                subtitleText = 'Day ' + (goalStats.dayNumber || 1) + ' of ' + goal.duration;
+            }
             var totalPenalty = habits.reduce(function(sum, h) { return sum + h.penalty; }, 0);
             document.getElementById('goalSubtitle').innerHTML = subtitleText + ' &middot; ' + habits.length + ' habit' + (habits.length !== 1 ? 's' : '') + ' &middot; <span style="font-weight:600;">$' + totalPenalty + '</span>/day max';
 
             // Stats
             document.getElementById('statStreak').textContent = goalStats.currentStreak || 0;
             document.getElementById('statRate').textContent = (goalStats.completionRate || 0) + '%';
-            document.getElementById('statDaysLeft').textContent = goalStats.daysLeft || 0;
+            if (goal.duration === 0) {
+                document.getElementById('statDaysLeft').textContent = '∞';
+            } else {
+                document.getElementById('statDaysLeft').textContent = goalStats.daysLeft || 0;
+            }
             document.getElementById('statVault').textContent = '$' + (goalStats.vaultTotal || 0).toFixed(0);
 
             // Habits section
@@ -1534,10 +1550,15 @@
             // Settings
             var chevron = ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
             document.getElementById('settingTarget').innerHTML = goal.target + '%' + chevron;
-            document.getElementById('settingDuration').innerHTML = goal.duration + ' days' + chevron;
-            var endDate = new Date(goal.startDate + 'T12:00:00');
-            endDate.setDate(endDate.getDate() + goal.duration);
-            document.getElementById('settingEndDate').innerHTML = GN_formatDate(endDate.getFullYear() + '-' + String(endDate.getMonth()+1).padStart(2,'0') + '-' + String(endDate.getDate()).padStart(2,'0')) + chevron;
+            if (goal.duration === 0) {
+                document.getElementById('settingDuration').innerHTML = 'No end date (ongoing)' + chevron;
+                document.getElementById('settingEndDate').innerHTML = 'Ongoing' + chevron;
+            } else {
+                document.getElementById('settingDuration').innerHTML = goal.duration + ' days' + chevron;
+                var endDate = new Date(goal.startDate + 'T12:00:00');
+                endDate.setDate(endDate.getDate() + goal.duration);
+                document.getElementById('settingEndDate').innerHTML = GN_formatDate(endDate.getFullYear() + '-' + String(endDate.getMonth()+1).padStart(2,'0') + '-' + String(endDate.getDate()).padStart(2,'0')) + chevron;
+            }
 
             // Pause label
             var pauseLabel = document.getElementById('pauseLabel');
@@ -1594,12 +1615,15 @@
                     dotHtml += '<div class="' + cls + '"></div>';
                 }
 
+                var freqLabel = (habit.frequency && habit.frequency !== 'daily') ? ' \u00b7 ' + GN_getFrequencyShort(habit.frequency) : '';
+                var isDueToday = GN_isHabitDueToday(habit);
+
                 return '<div class="habit-row" onclick="toggleHabitExpand(this)">' +
                     '<div class="habit-row-header">' +
                         '<div class="habit-row-icon">' + GN_getIconSVG(habit.icon, 20) + '</div>' +
                         '<div class="habit-row-info">' +
-                            '<div class="habit-row-name">' + habit.name + '</div>' +
-                            '<div class="habit-row-meta">$' + habit.penalty + '/miss \u00b7 ' + (stats.currentStreak || 0) + ' streak \u00b7 ' + rate + '%</div>' +
+                            '<div class="habit-row-name">' + habit.name + (!isDueToday && !checkedIn ? ' <span style="font-size:11px;color:var(--text-muted);font-weight:400;">(off day)</span>' : '') + '</div>' +
+                            '<div class="habit-row-meta">$' + habit.penalty + '/miss \u00b7 ' + (stats.currentStreak || 0) + ' streak \u00b7 ' + rate + '%' + freqLabel + '</div>' +
                         '</div>' +
                         '<div class="habit-row-status">' + statusHtml + '</div>' +
                     '</div>' +
@@ -1693,8 +1717,12 @@
                 btn.style.background = '#f3f4f6'; btn.style.color = 'var(--text-primary)'; btn.onclick = null; btn.style.opacity = '0.7';
                 return;
             }
-            var allCheckedIn = habits.length > 0 && habits.every(function(h) { return GN_hasHabitCheckedInToday(h.id); });
-            if (allCheckedIn) {
+            var dueHabits = habits.filter(function(h) { return GN_isHabitDueToday(h); });
+            var allCheckedIn = dueHabits.length > 0 && dueHabits.every(function(h) { return GN_hasHabitCheckedInToday(h.id); });
+            if (dueHabits.length === 0) {
+                btn.innerHTML = 'No habits due today';
+                btn.style.background = '#f3f4f6'; btn.style.color = 'var(--text-secondary)'; btn.onclick = null; btn.style.opacity = '0.7';
+            } else if (allCheckedIn) {
                 btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width:20px;height:20px;"><polyline points="20 6 9 17 4 12"/></svg> All Habits Checked In';
                 btn.style.background = '#f3f4f6'; btn.style.color = 'var(--text-primary)'; btn.onclick = null; btn.style.opacity = '0.7';
             }
@@ -1709,6 +1737,7 @@
             checkinSelections = {};
 
             var html = habits.map(function(habit) {
+                var isDue = GN_isHabitDueToday(habit);
                 var checkedIn = GN_hasHabitCheckedInToday(habit.id);
                 if (checkedIn) {
                     var status = GN_getHabitCheckinStatus(habit.id, GN_getTodayDateStr());
@@ -1719,10 +1748,18 @@
                         '<div style="font-size:16px;font-weight:600;">' + (status === 'complete' ? '\u2713' : '\u2717') + '</div>' +
                     '</div>';
                 }
+                if (!isDue) {
+                    return '<div class="checkin-habit-row done" style="opacity:0.4;">' +
+                        '<div class="checkin-habit-icon">' + GN_getIconSVG(habit.icon, 18) + '</div>' +
+                        '<div class="checkin-habit-info"><div class="checkin-habit-name">' + habit.name + '</div>' +
+                        '<div class="checkin-habit-penalty">Off day \u00b7 ' + GN_getFrequencyShort(habit.frequency) + '</div></div>' +
+                        '<div style="font-size:12px;color:var(--text-muted);">—</div>' +
+                    '</div>';
+                }
                 return '<div class="checkin-habit-row" id="checkinRow_' + habit.id + '">' +
                     '<div class="checkin-habit-icon">' + GN_getIconSVG(habit.icon, 18) + '</div>' +
                     '<div class="checkin-habit-info"><div class="checkin-habit-name">' + habit.name + '</div>' +
-                    '<div class="checkin-habit-penalty">$' + habit.penalty + ' penalty</div></div>' +
+                    '<div class="checkin-habit-penalty">$' + habit.penalty + ' penalty' + (habit.frequency && habit.frequency !== 'daily' ? ' \u00b7 ' + GN_getFrequencyShort(habit.frequency) : '') + '</div></div>' +
                     '<div class="checkin-habit-actions">' +
                         '<button class="checkin-action-btn complete" onclick="event.stopPropagation();toggleCheckin(\'' + habit.id + '\',\'complete\')">' +
                             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><polyline points="20 6 9 17 4 12"/></svg></button>' +

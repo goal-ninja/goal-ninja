@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#1a1a1a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png?v=2">
     <title>Goal Ninja - Create Goal</title>
     <style>
         * {
@@ -756,6 +756,37 @@
             border-color: var(--text-primary);
             color: var(--text-primary);
         }
+
+        /* Frequency selector */
+        .habit-freq-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+        }
+        .habit-freq-row span {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .habit-freq-select {
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 2px 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-primary);
+            background: var(--bg);
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        /* No Duration option */
+        .duration-option.no-dur {
+            position: relative;
+        }
+        .duration-option.no-dur .duration-days {
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -839,10 +870,6 @@
                             <div class="duration-days">7</div>
                             <div class="duration-label">days</div>
                         </div>
-                        <div class="duration-option" data-days="14" onclick="selectDuration(this)">
-                            <div class="duration-days">14</div>
-                            <div class="duration-label">days</div>
-                        </div>
                         <div class="duration-option" data-days="30" onclick="selectDuration(this)">
                             <div class="duration-days">30</div>
                             <div class="duration-label">days</div>
@@ -850,6 +877,10 @@
                         <div class="duration-option" data-days="90" onclick="selectDuration(this)">
                             <div class="duration-days">90</div>
                             <div class="duration-label">days</div>
+                        </div>
+                        <div class="duration-option no-dur" data-days="0" onclick="selectDuration(this)">
+                            <div class="duration-days">∞</div>
+                            <div class="duration-label">ongoing</div>
                         </div>
                     </div>
                     <div class="custom-row">
@@ -869,7 +900,7 @@
                     <div class="target-section">
                         <div class="target-display">
                             <div class="target-value" id="targetValue">80%</div>
-                            <div class="target-desc">Complete <span id="targetDays">6</span> of <span id="totalDays">7</span> days to unlock gold</div>
+                            <div class="target-desc" id="targetDesc">Complete <span id="targetDays">6</span> of <span id="totalDays">7</span> days to unlock gold</div>
                         </div>
                         <input type="range" class="target-slider" id="targetSlider" min="50" max="100" value="80" oninput="updateTarget()">
                     </div>
@@ -966,13 +997,27 @@
         }
 
         // ---- HABITS MANAGEMENT ----
-        function addHabitField(name, penalty, icon) {
+        function addHabitField(name, penalty, icon, frequency) {
             habitCounter++;
             var id = 'habit_field_' + habitCounter;
             var habitName = name || '';
             var habitPenalty = penalty || 5;
             var habitIcon = icon || 'default';
+            var habitFreq = frequency || 'daily';
             habitFields.push({ id: id, icon: habitIcon });
+
+            var freqOptions = [
+                { value: 'daily', label: 'Every day' },
+                { value: 'every2days', label: 'Every 2 days' },
+                { value: 'every3days', label: 'Every 3 days' },
+                { value: 'weekly', label: 'Weekly' },
+                { value: 'monthly', label: 'Monthly' }
+            ];
+            var freqHtml = '<select class="habit-freq-select">';
+            for (var f = 0; f < freqOptions.length; f++) {
+                freqHtml += '<option value="' + freqOptions[f].value + '"' + (freqOptions[f].value === habitFreq ? ' selected' : '') + '>' + freqOptions[f].label + '</option>';
+            }
+            freqHtml += '</select>';
 
             var container = document.getElementById('habitsFormContainer');
             var card = document.createElement('div');
@@ -983,6 +1028,7 @@
                 '<div class="habit-form-fields">' +
                     '<input type="text" class="habit-name-input" placeholder="Habit name (e.g., 100 push-ups)" value="' + habitName.replace(/"/g, '&quot;') + '">' +
                     '<div class="habit-penalty-row"><span>Penalty: $</span><input type="number" class="habit-penalty-input" value="' + habitPenalty + '" min="1"></div>' +
+                    '<div class="habit-freq-row"><span>Frequency:</span>' + freqHtml + '</div>' +
                 '</div>' +
             '</div>' +
             (habitFields.length > 1 ? '<button class="remove-habit-btn" onclick="removeHabitField(\'' + id + '\')" title="Remove habit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' : '');
@@ -1003,12 +1049,14 @@
             cards.forEach(function(card) {
                 var nameInput = card.querySelector('.habit-name-input');
                 var penaltyInput = card.querySelector('.habit-penalty-input');
+                var freqSelect = card.querySelector('.habit-freq-select');
                 var fieldData = habitFields.find(function(f) { return f.id === card.id; });
                 if (nameInput && nameInput.value.trim()) {
                     habits.push({
                         name: nameInput.value.trim(),
                         icon: fieldData ? fieldData.icon : 'default',
                         penalty: parseInt(penaltyInput.value) || 5,
+                        frequency: freqSelect ? freqSelect.value : 'daily',
                         reminder: selectedReminder
                     });
                 }
@@ -1022,7 +1070,6 @@
             element.classList.add('selected');
             selectedDuration = parseInt(element.dataset.days);
             document.getElementById('customDurationInput').value = '';
-            document.getElementById('totalDays').textContent = selectedDuration;
             updateTarget();
             updateSummary();
         }
@@ -1031,7 +1078,6 @@
             if (value && parseInt(value) > 0) {
                 document.querySelectorAll('.duration-option').forEach(function(el) { el.classList.remove('selected'); });
                 selectedDuration = parseInt(value);
-                document.getElementById('totalDays').textContent = selectedDuration;
                 updateTarget();
                 updateSummary();
             }
@@ -1041,8 +1087,13 @@
             var slider = document.getElementById('targetSlider');
             selectedTarget = parseInt(slider.value);
             document.getElementById('targetValue').textContent = selectedTarget + '%';
-            var targetDays = Math.round(selectedDuration * (selectedTarget / 100));
-            document.getElementById('targetDays').textContent = targetDays;
+            var descEl = document.getElementById('targetDesc');
+            if (selectedDuration === 0) {
+                descEl.innerHTML = 'Maintain <strong>' + selectedTarget + '%</strong> completion to unlock gold';
+            } else {
+                var targetDays = Math.round(selectedDuration * (selectedTarget / 100));
+                descEl.innerHTML = 'Complete <span id="targetDays">' + targetDays + '</span> of <span id="totalDays">' + selectedDuration + '</span> days to unlock gold';
+            }
         }
 
         function updateSummary() {
@@ -1056,7 +1107,11 @@
             var habitCount = Math.max(habitFields.length, habits.length);
             document.getElementById('summaryHabitCount').textContent = habitCount + ' habit' + (habitCount !== 1 ? 's' : '');
             document.getElementById('maxDailyPenalty').textContent = '$' + totalDailyPenalty;
-            document.getElementById('maxPenalty').textContent = '$' + (totalDailyPenalty * selectedDuration).toFixed(2);
+            if (selectedDuration === 0) {
+                document.getElementById('maxPenalty').textContent = 'Ongoing';
+            } else {
+                document.getElementById('maxPenalty').textContent = '$' + (totalDailyPenalty * selectedDuration).toFixed(2);
+            }
         }
 
         // ---- REMINDER & DATE ----
@@ -1122,6 +1177,7 @@
                     name: h.name,
                     icon: h.icon,
                     penalty: h.penalty,
+                    frequency: h.frequency || 'daily',
                     reminder: h.reminder,
                     goalIds: [newGoal.id]
                 });
@@ -1129,7 +1185,8 @@
             }
 
             // Show success toast
-            document.getElementById('toastDesc').textContent = goalName + ' — ' + habits.length + ' habit' + (habits.length > 1 ? 's' : '') + ', ' + selectedDuration + ' days';
+            var durationText = selectedDuration === 0 ? 'ongoing' : selectedDuration + ' days';
+            document.getElementById('toastDesc').textContent = goalName + ' — ' + habits.length + ' habit' + (habits.length > 1 ? 's' : '') + ', ' + durationText;
             document.getElementById('successToast').classList.add('visible');
             document.getElementById('toastOverlay').classList.add('visible');
 

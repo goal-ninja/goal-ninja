@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#1a1a1a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png?v=2">
     <title>Goal Ninja - Profile</title>
     <style>
         * {
@@ -601,7 +601,11 @@
             <!-- Header -->
             <div class="header animate-in">
                 <h1 class="page-title">Profile</h1>
-                <div style="display:flex;gap:8px;align-items:center;"><button class="edit-btn">Edit</button><button class="profile-btn" onclick="toggleProfileDropdown()">
+                <div style="display:flex;gap:8px;align-items:center;"><button class="edit-btn">Edit</button><button class="profile-btn" onclick="window.location.href='goal-effect-leaderboard.html'" title="Leaderboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+            </svg>
+            </button><button class="profile-btn" onclick="toggleProfileDropdown()">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                 <circle cx="12" cy="7" r="4"/>

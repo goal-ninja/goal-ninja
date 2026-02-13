@@ -175,6 +175,7 @@
             icon: m.icon || 'default',
             penalty: m.penalty || 5,
             reminder: m.reminder || '21:00',
+            frequency: 'daily',
             goalIds: [goalId],
             createdAt: m.createdAt
         });
@@ -234,12 +235,14 @@ function GN_getGoalById(goalId) {
 function GN_addGoal(data) {
     var goals = GN_getGoals();
     var today = GN_getTodayDateStr();
+    var dur = parseInt(data.duration);
+    if (isNaN(dur) || dur < 0) dur = 30;
     var goal = {
         id: 'goal_' + Date.now(),
         name: data.name || 'New Goal',
         icon: data.icon || 'default',
         description: data.description || '',
-        duration: parseInt(data.duration) || 30,
+        duration: dur,
         target: parseInt(data.target) || 80,
         startDate: data.startDate || today,
         createdAt: new Date().toISOString(),
@@ -328,6 +331,7 @@ function GN_addHabit(data) {
         icon: data.icon || 'default',
         penalty: parseFloat(data.penalty) || 5,
         reminder: data.reminder || '21:00',
+        frequency: data.frequency || 'daily',
         goalIds: data.goalIds || [],
         createdAt: new Date().toISOString()
     };
@@ -453,6 +457,63 @@ function GN_getActiveHabits() {
 }
 
 // ============================================================
+// FREQUENCY HELPERS
+// ============================================================
+
+// Check if a habit is due on a specific date, relative to its linked goal's start date
+function GN_isHabitDueOnDate(habit, dateStr) {
+    if (!habit) return false;
+    var freq = habit.frequency || 'daily';
+    if (freq === 'daily') return true;
+
+    // Find the earliest active goal start date for this habit
+    var startDate = null;
+    for (var i = 0; i < habit.goalIds.length; i++) {
+        var goal = GN_getGoalById(habit.goalIds[i]);
+        if (goal && goal.startDate) {
+            if (!startDate || goal.startDate < startDate) startDate = goal.startDate;
+        }
+    }
+    if (!startDate) startDate = habit.createdAt ? habit.createdAt.split('T')[0] : dateStr;
+
+    var daysSinceStart = GN_daysBetween(startDate, dateStr);
+    if (daysSinceStart < 0) return false;
+
+    if (freq === 'every2days') return daysSinceStart % 2 === 0;
+    if (freq === 'every3days') return daysSinceStart % 3 === 0;
+    if (freq === 'weekly') return daysSinceStart % 7 === 0;
+    if (freq === 'monthly') {
+        // Due on the same day-of-month as start date
+        var sd = new Date(startDate + 'T12:00:00');
+        var cd = new Date(dateStr + 'T12:00:00');
+        return cd.getDate() === sd.getDate();
+    }
+    return true;
+}
+
+function GN_isHabitDueToday(habit) {
+    return GN_isHabitDueOnDate(habit, GN_getTodayDateStr());
+}
+
+function GN_getFrequencyLabel(freq) {
+    if (freq === 'daily') return 'Every day';
+    if (freq === 'every2days') return 'Every 2 days';
+    if (freq === 'every3days') return 'Every 3 days';
+    if (freq === 'weekly') return 'Weekly';
+    if (freq === 'monthly') return 'Monthly';
+    return 'Every day';
+}
+
+function GN_getFrequencyShort(freq) {
+    if (freq === 'daily') return 'Daily';
+    if (freq === 'every2days') return 'Every 2d';
+    if (freq === 'every3days') return 'Every 3d';
+    if (freq === 'weekly') return 'Weekly';
+    if (freq === 'monthly') return 'Monthly';
+    return 'Daily';
+}
+
+// ============================================================
 // CHECK-IN OPERATIONS (per habit)
 // ============================================================
 
@@ -528,9 +589,15 @@ function GN_getHabitStats(habitId, goalId) {
     if (goal) {
         dayNumber = GN_daysBetween(goal.startDate, today) + 1;
         if (dayNumber < 1) dayNumber = 1;
-        if (dayNumber > goal.duration) dayNumber = goal.duration;
-        daysLeft = Math.max(0, goal.duration - dayNumber);
-        progress = Math.min(100, Math.round((dayNumber / goal.duration) * 100));
+        if (goal.duration > 0) {
+            if (dayNumber > goal.duration) dayNumber = goal.duration;
+            daysLeft = Math.max(0, goal.duration - dayNumber);
+            progress = Math.min(100, Math.round((dayNumber / goal.duration) * 100));
+        } else {
+            // No duration (ongoing) — no end, progress based on completion rate
+            daysLeft = -1; // -1 signals ongoing
+            progress = completionRate;
+        }
     }
 
     return {
@@ -598,9 +665,15 @@ function GN_getGoalStats(goalId) {
     var today = GN_getTodayDateStr();
     var dayNumber = GN_daysBetween(goal.startDate, today) + 1;
     if (dayNumber < 1) dayNumber = 1;
-    if (dayNumber > goal.duration) dayNumber = goal.duration;
-    var daysLeft = Math.max(0, goal.duration - dayNumber);
-    var progress = Math.min(100, Math.round((dayNumber / goal.duration) * 100));
+    var daysLeft, progress;
+    if (goal.duration > 0) {
+        if (dayNumber > goal.duration) dayNumber = goal.duration;
+        daysLeft = Math.max(0, goal.duration - dayNumber);
+        progress = Math.min(100, Math.round((dayNumber / goal.duration) * 100));
+    } else {
+        daysLeft = -1; // ongoing
+        progress = 0; // will be set to completionRate below
+    }
 
     var totalCompleted = 0;
     var totalCheckins = 0;
@@ -620,7 +693,8 @@ function GN_getGoalStats(goalId) {
     }
 
     var completionRate = totalCheckins > 0 ? Math.round((totalCompleted / totalCheckins) * 100) : 0;
-    var isComplete = dayNumber >= goal.duration;
+    if (goal.duration === 0) progress = completionRate;
+    var isComplete = goal.duration > 0 ? (dayNumber >= goal.duration) : false;
     var hitTarget = completionRate >= goal.target;
 
     return {
@@ -731,7 +805,7 @@ function GN_checkAndUpdateStatuses() {
 
         var habits = GN_getHabitsForGoal(g.id);
 
-        // Auto-fill missed days for each habit
+        // Auto-fill missed days for each habit (only on due days per frequency)
         for (var h = 0; h < habits.length; h++) {
             var checkins = GN_getCheckinsForHabit(habits[h].id);
             var startD = new Date(g.startDate + 'T12:00:00');
@@ -742,7 +816,7 @@ function GN_checkAndUpdateStatuses() {
             var cursor = new Date(startD);
             while (cursor <= yesterday) {
                 var dateStr = cursor.getFullYear() + '-' + String(cursor.getMonth() + 1).padStart(2, '0') + '-' + String(cursor.getDate()).padStart(2, '0');
-                if (!checkins[dateStr]) {
+                if (!checkins[dateStr] && GN_isHabitDueOnDate(habits[h], dateStr)) {
                     GN_recordHabitCheckin(habits[h].id, dateStr, 'missed');
                     changed = true;
                 }
@@ -750,12 +824,14 @@ function GN_checkAndUpdateStatuses() {
             }
         }
 
-        // Check if goal duration has expired
-        var dayNumber = GN_daysBetween(g.startDate, today) + 1;
-        if (dayNumber > g.duration) {
-            var stats = GN_getGoalStats(g.id);
-            goals[i].status = (stats && stats.hitTarget) ? 'completed' : 'failed';
-            changed = true;
+        // Check if goal duration has expired (skip for no-duration goals)
+        if (g.duration > 0) {
+            var dayNumber = GN_daysBetween(g.startDate, today) + 1;
+            if (dayNumber > g.duration) {
+                var stats = GN_getGoalStats(g.id);
+                goals[i].status = (stats && stats.hitTarget) ? 'completed' : 'failed';
+                changed = true;
+            }
         }
     }
 

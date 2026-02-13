@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#1a1a1a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png?v=2">
     <title>Goal Ninja - Home</title>
     <style>
         * {
@@ -671,6 +671,11 @@
                         <div class="date" id="currentDate">Tuesday, Feb 11</div>
                     </div>
                 </div>
+                <button class="profile-btn" onclick="window.location.href='goal-effect-leaderboard.html'" title="Leaderboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                    </svg>
+                </button>
                 <button class="profile-btn" onclick="toggleProfileDropdown()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -819,7 +824,8 @@
                 }
             }
 
-            var unchecked = allHabits.filter(function(h) { return !GN_hasHabitCheckedInToday(h.id); });
+            var unchecked = allHabits.filter(function(h) { return !GN_hasHabitCheckedInToday(h.id) && GN_isHabitDueToday(h); });
+            var offDay = allHabits.filter(function(h) { return !GN_hasHabitCheckedInToday(h.id) && !GN_isHabitDueToday(h); });
             var checked = allHabits.filter(function(h) { return GN_hasHabitCheckedInToday(h.id); });
 
             // Update stats
@@ -871,6 +877,21 @@
                 }
             }
 
+            // Off-day habits
+            if (offDay.length > 0) {
+                html += '<div style="font-size:13px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;margin-top:20px;">Off Day</div>';
+                for (var o = 0; o < offDay.length; o++) {
+                    html += '<div style="display:flex;align-items:center;gap:12px;background:var(--card-bg);border-radius:16px;padding:14px 16px;margin-bottom:8px;opacity:0.5;">' +
+                        '<div style="width:44px;height:44px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">' + GN_getIconSVG(offDay[o].icon, 22) + '</div>' +
+                        '<div style="flex:1;min-width:0;">' +
+                            '<div style="font-size:15px;font-weight:600;">' + offDay[o].name + ' <span style="font-size:11px;color:var(--text-muted);font-weight:400;">(off day)</span></div>' +
+                            '<div style="font-size:12px;color:var(--text-muted);">' + GN_getFrequencyShort(offDay[o].frequency) + '</div>' +
+                        '</div>' +
+                        '<div style="font-size:10px;color:var(--text-muted);">\u2014</div>' +
+                    '</div>';
+                }
+            }
+
             container.innerHTML = html;
         }
 
@@ -900,7 +921,7 @@
                 '<div style="width:44px;height:44px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">' + GN_getIconSVG(habit.icon, 22) + '</div>' +
                 '<div style="flex:1;min-width:0;">' +
                     '<div style="font-size:15px;font-weight:600;">' + habit.name + '</div>' +
-                    '<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">$' + habit.penalty + '/miss</div>' +
+                    '<div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">$' + habit.penalty + '/miss' + ((habit.frequency && habit.frequency !== 'daily') ? ' \u00b7 ' + GN_getFrequencyShort(habit.frequency) : '') + '</div>' +
                     '<div style="display:flex;gap:4px;flex-wrap:wrap;">' + tagsHtml + '</div>' +
                 '</div>' +
                 actionHtml +

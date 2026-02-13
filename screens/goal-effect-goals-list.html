@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#1a1a1a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png">
+    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png?v=2">
     <title>Goal Ninja - Goals</title>
     <style>
         * {
@@ -684,7 +684,12 @@
                             <line x1="5" y1="12" x2="19" y2="12"/>
                         </svg>
                     </button>
-                    <button class="profile-btn" onclick="toggleProfileDropdown()">
+                    <button class="profile-btn" onclick="window.location.href='goal-effect-leaderboard.html'" title="Leaderboard">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                    </svg>
+                </button>
+                <button class="profile-btn" onclick="toggleProfileDropdown()">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                             <circle cx="12" cy="7" r="4"/>
@@ -915,7 +920,7 @@
                 '<div class="goal-stats">' +
                     '<div class="goal-stat"><div class="goal-stat-value">' + (goalStats.currentStreak || 0) + '</div><div class="goal-stat-label">Streak</div></div>' +
                     '<div class="goal-stat"><div class="goal-stat-value">' + completionRate + '%</div><div class="goal-stat-label">Rate</div></div>' +
-                    '<div class="goal-stat"><div class="goal-stat-value">' + (goalStats.daysLeft || 0) + '</div><div class="goal-stat-label">Days Left</div></div>' +
+                    '<div class="goal-stat"><div class="goal-stat-value">' + (goal.duration === 0 ? '\u221e' : (goalStats.daysLeft || 0)) + '</div><div class="goal-stat-label">' + (goal.duration === 0 ? 'Ongoing' : 'Days Left') + '</div></div>' +
                     '<div class="goal-stat"><div class="goal-stat-value success">$' + vaultTotal.toFixed(0) + '</div><div class="goal-stat-label">In Vault</div></div>' +
                 '</div>' +
                 '<div class="goal-progress"><div class="goal-progress-fill" style="width:' + progressPct + '%"></div></div>' +
@@ -937,7 +942,7 @@
                     '<div class="goal-info">' +
                         '<div class="goal-icon">' + GN_getIconSVG(goal.icon, 22) + '</div>' +
                         '<div><div class="goal-name">' + goal.name + '</div>' +
-                        '<div class="goal-meta">' + goal.duration + ' days \u00b7 ' + habits.length + ' habit' + (habits.length !== 1 ? 's' : '') + '</div></div>' +
+                        '<div class="goal-meta">' + (goal.duration === 0 ? 'Ongoing' : goal.duration + ' days') + ' \u00b7 ' + habits.length + ' habit' + (habits.length !== 1 ? 's' : '') + '</div></div>' +
                     '</div>' +
                     badgeHtml +
                 '</div>' +
