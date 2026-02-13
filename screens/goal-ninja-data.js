@@ -1,5 +1,5 @@
 // ============================================================
-// GOAL NINJA — Shared Data Layer
+// GOAL NINJA — Shared Data Layer (v2: Goals + Habits)
 // All screens load this via <script src="goal-ninja-data.js">
 // Functions prefixed with GN_ to avoid conflicts
 // ============================================================
@@ -7,46 +7,36 @@
 // --- THEME ---
 
 (function() {
-    // Inject dark mode CSS immediately (before paint)
     var d = ':root[data-theme="dark"]';
     var darkCSS = [
-        // Core variables
         d+'{--bg:#121212;--card-bg:#1e1e1e;--text-primary:#f0f0f0;--text-secondary:#aaa;--text-muted:#777;--accent:#f0f0f0;--border:#333;--success:#22c55e;--success-light:#14532d;--danger:#ef4444;--danger-light:#7f1d1d;--warning:#f59e0b;--warning-light:#78350f;--pro-gradient:linear-gradient(135deg,#2a2a2a 0%,#444 100%)}',
-        // Body and frame
         d+' body{background:#121212;color:#f0f0f0}',
         d+' .phone-frame{background:#121212;border-color:#333}',
-        // Forms
         d+' input,'+d+' select,'+d+' textarea{background:#2a2a2a;color:#f0f0f0;border-color:#444}',
-        // Bottom nav (floating)
         d+' .bottom-nav{background:#1e1e1e;box-shadow:0 2px 20px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.06)}',
         d+' .nav-item{color:#777}',
         d+' .nav-item.active{color:#f0f0f0;background:rgba(255,255,255,0.1)}',
         d+' .nav-item:hover{color:#ccc}',
-        // Buttons - PRIMARY FIX: dark buttons need to invert in dark mode
         d+' .fab{background:#f0f0f0;color:#1a1a1a}',
         d+' .fab svg{color:#1a1a1a}',
         d+' .checkin-btn{background:#f0f0f0;color:#1a1a1a}',
         d+' .checkin-btn svg{color:#1a1a1a;stroke:#1a1a1a}',
         d+' .checkin-btn.paused-btn{background:#2a2a2a;color:#777}',
         d+' .add-btn{background:#f0f0f0;color:#1a1a1a}',
-        // Filter tabs
         d+' .filter-tab{background:#2a2a2a;color:#aaa;border-color:#333}',
         d+' .filter-tab.active{background:#f0f0f0;color:#1a1a1a}',
         d+' .metric-tab{color:#aaa}',
         d+' .metric-tab.active{color:#f0f0f0;border-color:#f0f0f0}',
-        // Cards
-        d+' .mission-card{background:#1e1e1e;border-color:#333}',
-        d+' .mission-card:hover{background:#252525}',
-        d+' .mission-name{color:#f0f0f0}',
-        d+' .mission-stat-value{color:#f0f0f0}',
-        d+' .mission-stat-label{color:#777}',
-        d+' .mission-meta{color:#777}',
-        d+' .mission-progress{background:#333}',
-        // Badges
+        d+' .mission-card,.goal-card,.habit-card{background:#1e1e1e;border-color:#333}',
+        d+' .mission-card:hover,.goal-card:hover,.habit-card:hover{background:#252525}',
+        d+' .mission-name,.goal-name,.habit-name{color:#f0f0f0}',
+        d+' .mission-stat-value,.goal-stat-value,.habit-stat-value{color:#f0f0f0}',
+        d+' .mission-stat-label,.goal-stat-label,.habit-stat-label{color:#777}',
+        d+' .mission-meta,.goal-meta,.habit-meta{color:#777}',
+        d+' .mission-progress,.goal-progress{background:#333}',
         d+' .completed-badge{background:#14532d;color:#4ade80}',
         d+' .failed-badge{background:#7f1d1d;color:#fca5a5}',
         d+' .pro-badge{background:#78350f;color:#fbbf24}',
-        // Modals
         d+' .modal{background:#1e1e1e}',
         d+' .modal-handle{background:#444}',
         d+' .modal-header .modal-title{color:#f0f0f0}',
@@ -60,7 +50,6 @@
         d+' .option-icon.complete{background:#14532d}',
         d+' .option-icon.missed{background:#7f1d1d}',
         d+' .photo-upload{background:#2a2a2a;color:#aaa}',
-        // Profile / Settings
         d+' .settings-group{background:#1e1e1e;border-color:#333}',
         d+' .settings-item{border-color:#333}',
         d+' .settings-label{color:#f0f0f0}',
@@ -74,25 +63,20 @@
         d+' .stat-label{color:#777}',
         d+' .toggle-switch.active{background:#22c55e}',
         d+' .toggle-switch{background:#444}',
-        // Activity page
         d+' .activity-item{background:#1e1e1e;border-color:#333}',
         d+' .activity-icon{background:#2a2a2a}',
         d+' .activity-group-header{color:#aaa}',
         d+' .summary-card{background:#1e1e1e}',
-        // Leaderboard
         d+' .mascot-card{background:#1e1e1e}',
         d+' .your-rank-card{background:#1e1e1e}',
         d+' .podium-card{background:#1e1e1e}',
         d+' .leaderboard-item{background:#1e1e1e;border-color:#333}',
-        // Savings / Vault
         d+' .vault-card{background:#1e1e1e}',
         d+' .vault-item{background:#1e1e1e}',
         d+' .transaction-item{background:#1e1e1e;border-color:#333}',
-        // Subscription
         d+' .plan-card{background:#1e1e1e;border-color:#333}',
         d+' .plan-card.current{border-color:#f0f0f0}',
         d+' .feature-item{color:#aaa}',
-        // Goal detail
         d+' .detail-card{background:#1e1e1e}',
         d+' .calendar-day{color:#f0f0f0}',
         d+' .calendar-day.other-month{color:#555}',
@@ -102,30 +86,33 @@
         d+' .menu-item{color:#f0f0f0}',
         d+' .menu-item:hover{background:#2a2a2a}',
         d+' .menu-item.danger{color:#ef4444}',
-        // Template / Create
         d+' .template-card{background:#1e1e1e;border-color:#333}',
         d+' .template-card:hover{background:#252525}',
         d+' .selector-field{background:#2a2a2a;border-color:#444;color:#f0f0f0}',
         d+' .step-header{color:#f0f0f0}',
         d+' .create-btn{background:#f0f0f0;color:#1a1a1a}',
-        // Generic overrides for common hardcoded backgrounds
         d+' [style*="background:#f3f4f6"],'+d+' [style*="background: #f3f4f6"]{background:#2a2a2a !important}',
         d+' [style*="background:#f0f0f0"],'+d+' [style*="background: #f0f0f0"]{background:#2a2a2a !important}',
         d+' [style*="color:#1a1a1a"],'+d+' [style*="color: #1a1a1a"]{color:#f0f0f0 !important}',
-        // Page header
         d+' .page-header{background:#121212}',
         d+' .page-title{color:#f0f0f0}',
         d+' h1,'+d+' h2,'+d+' h3,'+d+' h4{color:#f0f0f0}',
         d+' p{color:#ccc}',
         d+' a{color:#8bb4f0}',
-        // Dropdown
         d+' .profile-dropdown{background:#1e1e1e;border-color:#333;box-shadow:0 4px 20px rgba(0,0,0,0.5)}',
         d+' .profile-dropdown a,'+d+' .profile-dropdown button{color:#f0f0f0}',
         d+' .profile-dropdown a:hover,'+d+' .profile-dropdown button:hover{background:#2a2a2a}',
-        // Scroll container
         d+' .main-content{background:#121212}',
         d+' .scroll-container{background:#121212}',
-        // Desktop frame background
+        // Goal tag pills in habit cards
+        d+' .goal-tag{background:#2a2a2a;color:#aaa;border-color:#444}',
+        // Analytics ring chart
+        d+' .ring-label{color:#f0f0f0}',
+        d+' .ring-sublabel{color:#777}',
+        // Habit row inside goal detail
+        d+' .habit-row{background:#1e1e1e;border-color:#333}',
+        d+' .habit-row:hover{background:#252525}',
+        d+' .habit-analytics{background:#161616;border-color:#333}',
         '@media(min-width:500px){'+d+' body{background:#000}}'
     ].join('');
     var style = document.createElement('style');
@@ -139,16 +126,69 @@
         else if (pref === 'system' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) isDark = true;
         document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
     }
-
     applyTheme();
-
-    // Listen for system theme changes
     if (window.matchMedia) {
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
     }
-
-    // Expose for profile page to call after changing setting
     window.GN_applyTheme = applyTheme;
+})();
+
+// --- MIGRATION (runs once) ---
+
+(function() {
+    if (localStorage.getItem('goalNinjaMigrationDone')) return;
+    var raw = localStorage.getItem('goalNinjaMissions');
+    if (!raw) { localStorage.setItem('goalNinjaMigrationDone', 'true'); return; }
+    try {
+        var missions = JSON.parse(raw);
+        if (!missions || missions.length === 0) { localStorage.setItem('goalNinjaMigrationDone', 'true'); return; }
+    } catch(e) { localStorage.setItem('goalNinjaMigrationDone', 'true'); return; }
+
+    var oldCheckins = {};
+    try { var cr = localStorage.getItem('goalNinjaCheckins'); if (cr) oldCheckins = JSON.parse(cr); } catch(e) {}
+
+    var newGoals = [];
+    var newHabits = [];
+    var newCheckins = {};
+
+    for (var i = 0; i < missions.length; i++) {
+        var m = missions[i];
+        var goalId = 'goal_m_' + m.id;
+        var habitId = 'habit_m_' + m.id;
+
+        newGoals.push({
+            id: goalId,
+            name: m.name || 'Untitled Goal',
+            icon: m.icon || 'default',
+            description: m.description || '',
+            duration: m.duration || 30,
+            target: m.target || 80,
+            startDate: m.startDate,
+            createdAt: m.createdAt,
+            status: m.status || 'active',
+            habitIds: [habitId]
+        });
+
+        newHabits.push({
+            id: habitId,
+            name: m.name || 'Untitled Habit',
+            icon: m.icon || 'default',
+            penalty: m.penalty || 5,
+            reminder: m.reminder || '21:00',
+            goalIds: [goalId],
+            createdAt: m.createdAt
+        });
+
+        if (oldCheckins[m.id]) {
+            newCheckins[habitId] = oldCheckins[m.id];
+        }
+    }
+
+    localStorage.setItem('goalNinjaGoals', JSON.stringify(newGoals));
+    localStorage.setItem('goalNinjaHabits', JSON.stringify(newHabits));
+    localStorage.setItem('goalNinjaCheckins', JSON.stringify(newCheckins));
+    localStorage.setItem('goalNinjaMigrationDone', 'true');
+    // Old data kept as backup — don't delete goalNinjaMissions
 })();
 
 // --- HELPERS ---
@@ -170,212 +210,372 @@ function GN_daysBetween(dateStr1, dateStr2) {
     return Math.floor((d2 - d1) / (1000 * 60 * 60 * 24));
 }
 
-// --- MISSION CRUD ---
+// ============================================================
+// GOAL CRUD
+// ============================================================
 
-function GN_getMissions() {
-    try {
-        var data = localStorage.getItem('goalNinjaMissions');
-        return data ? JSON.parse(data) : [];
-    } catch (e) {
-        return [];
-    }
+function GN_getGoals() {
+    try { var d = localStorage.getItem('goalNinjaGoals'); return d ? JSON.parse(d) : []; }
+    catch(e) { return []; }
 }
 
-function GN_saveMissions(missions) {
-    localStorage.setItem('goalNinjaMissions', JSON.stringify(missions));
+function GN_saveGoals(goals) {
+    localStorage.setItem('goalNinjaGoals', JSON.stringify(goals));
 }
 
-function GN_getMissionById(missionId) {
-    var missions = GN_getMissions();
-    for (var i = 0; i < missions.length; i++) {
-        if (missions[i].id === missionId) return missions[i];
+function GN_getGoalById(goalId) {
+    var goals = GN_getGoals();
+    for (var i = 0; i < goals.length; i++) {
+        if (goals[i].id === goalId) return goals[i];
     }
     return null;
 }
 
-function GN_addMission(data) {
-    var missions = GN_getMissions();
+function GN_addGoal(data) {
+    var goals = GN_getGoals();
     var today = GN_getTodayDateStr();
-    var newMission = {
-        id: 'mission_' + Date.now(),
-        name: data.name || 'New Mission',
+    var goal = {
+        id: 'goal_' + Date.now(),
+        name: data.name || 'New Goal',
         icon: data.icon || 'default',
         description: data.description || '',
-        penalty: parseFloat(data.penalty) || 5,
         duration: parseInt(data.duration) || 30,
         target: parseInt(data.target) || 80,
-        reminder: data.reminder || '21:00',
-        createdAt: new Date().toISOString(),
         startDate: data.startDate || today,
-        status: 'active'
+        createdAt: new Date().toISOString(),
+        status: 'active',
+        habitIds: []
     };
-    missions.push(newMission);
-    GN_saveMissions(missions);
-
-    // Initialize empty check-in record
-    var checkins = GN_getAllCheckins();
-    checkins[newMission.id] = {};
-    localStorage.setItem('goalNinjaCheckins', JSON.stringify(checkins));
-
-    return newMission;
+    goals.push(goal);
+    GN_saveGoals(goals);
+    return goal;
 }
 
-function GN_updateMission(missionId, updates) {
-    var missions = GN_getMissions();
-    for (var i = 0; i < missions.length; i++) {
-        if (missions[i].id === missionId) {
+function GN_updateGoal(goalId, updates) {
+    var goals = GN_getGoals();
+    for (var i = 0; i < goals.length; i++) {
+        if (goals[i].id === goalId) {
             for (var key in updates) {
-                if (updates.hasOwnProperty(key)) {
-                    missions[i][key] = updates[key];
-                }
+                if (updates.hasOwnProperty(key)) goals[i][key] = updates[key];
             }
             break;
         }
     }
-    GN_saveMissions(missions);
+    GN_saveGoals(goals);
 }
 
-function GN_deleteMission(missionId) {
-    var missions = GN_getMissions().filter(function(m) { return m.id !== missionId; });
-    GN_saveMissions(missions);
+function GN_deleteGoal(goalId) {
+    var goal = GN_getGoalById(goalId);
+    if (!goal) return;
+
+    // Unlink habits — remove goalId from each habit's goalIds
+    var habits = GN_getHabits();
     var checkins = GN_getAllCheckins();
-    delete checkins[missionId];
+    for (var i = 0; i < habits.length; i++) {
+        var idx = habits[i].goalIds.indexOf(goalId);
+        if (idx > -1) {
+            habits[i].goalIds.splice(idx, 1);
+            // If habit has no more goals, delete it and its checkins
+            if (habits[i].goalIds.length === 0) {
+                delete checkins[habits[i].id];
+                habits.splice(i, 1);
+                i--;
+            }
+        }
+    }
+    GN_saveHabits(habits);
+    localStorage.setItem('goalNinjaCheckins', JSON.stringify(checkins));
+
+    // Remove the goal
+    var goals = GN_getGoals().filter(function(g) { return g.id !== goalId; });
+    GN_saveGoals(goals);
+}
+
+function GN_getActiveGoals() {
+    return GN_getGoals().filter(function(g) { return g.status === 'active' || g.status === 'paused'; });
+}
+
+function GN_getCompletedGoals() {
+    return GN_getGoals().filter(function(g) { return g.status === 'completed' || g.status === 'failed' || g.status === 'ended'; });
+}
+
+// ============================================================
+// HABIT CRUD
+// ============================================================
+
+function GN_getHabits() {
+    try { var d = localStorage.getItem('goalNinjaHabits'); return d ? JSON.parse(d) : []; }
+    catch(e) { return []; }
+}
+
+function GN_saveHabits(habits) {
+    localStorage.setItem('goalNinjaHabits', JSON.stringify(habits));
+}
+
+function GN_getHabitById(habitId) {
+    var habits = GN_getHabits();
+    for (var i = 0; i < habits.length; i++) {
+        if (habits[i].id === habitId) return habits[i];
+    }
+    return null;
+}
+
+function GN_addHabit(data) {
+    var habits = GN_getHabits();
+    var habit = {
+        id: 'habit_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
+        name: data.name || 'New Habit',
+        icon: data.icon || 'default',
+        penalty: parseFloat(data.penalty) || 5,
+        reminder: data.reminder || '21:00',
+        goalIds: data.goalIds || [],
+        createdAt: new Date().toISOString()
+    };
+    habits.push(habit);
+    GN_saveHabits(habits);
+
+    // Initialize empty check-in record
+    var checkins = GN_getAllCheckins();
+    checkins[habit.id] = {};
+    localStorage.setItem('goalNinjaCheckins', JSON.stringify(checkins));
+
+    // Link to goals
+    if (habit.goalIds.length > 0) {
+        var goals = GN_getGoals();
+        for (var i = 0; i < goals.length; i++) {
+            if (habit.goalIds.indexOf(goals[i].id) > -1 && goals[i].habitIds.indexOf(habit.id) === -1) {
+                goals[i].habitIds.push(habit.id);
+            }
+        }
+        GN_saveGoals(goals);
+    }
+
+    return habit;
+}
+
+function GN_updateHabit(habitId, updates) {
+    var habits = GN_getHabits();
+    for (var i = 0; i < habits.length; i++) {
+        if (habits[i].id === habitId) {
+            for (var key in updates) {
+                if (updates.hasOwnProperty(key)) habits[i][key] = updates[key];
+            }
+            break;
+        }
+    }
+    GN_saveHabits(habits);
+}
+
+function GN_deleteHabit(habitId) {
+    // Remove from all goals' habitIds
+    var goals = GN_getGoals();
+    for (var i = 0; i < goals.length; i++) {
+        var idx = goals[i].habitIds.indexOf(habitId);
+        if (idx > -1) goals[i].habitIds.splice(idx, 1);
+    }
+    GN_saveGoals(goals);
+
+    // Remove habit
+    var habits = GN_getHabits().filter(function(h) { return h.id !== habitId; });
+    GN_saveHabits(habits);
+
+    // Remove checkins
+    var checkins = GN_getAllCheckins();
+    delete checkins[habitId];
     localStorage.setItem('goalNinjaCheckins', JSON.stringify(checkins));
 }
 
-// --- CHECK-IN OPERATIONS ---
+function GN_getHabitsForGoal(goalId) {
+    var goal = GN_getGoalById(goalId);
+    if (!goal) return [];
+    var habits = GN_getHabits();
+    var result = [];
+    for (var i = 0; i < goal.habitIds.length; i++) {
+        for (var j = 0; j < habits.length; j++) {
+            if (habits[j].id === goal.habitIds[i]) {
+                result.push(habits[j]);
+                break;
+            }
+        }
+    }
+    return result;
+}
 
-function GN_getAllCheckins() {
-    try {
-        var data = localStorage.getItem('goalNinjaCheckins');
-        return data ? JSON.parse(data) : {};
-    } catch (e) {
-        return {};
+function GN_getGoalsForHabit(habitId) {
+    var habit = GN_getHabitById(habitId);
+    if (!habit) return [];
+    var goals = GN_getGoals();
+    var result = [];
+    for (var i = 0; i < habit.goalIds.length; i++) {
+        for (var j = 0; j < goals.length; j++) {
+            if (goals[j].id === habit.goalIds[i]) {
+                result.push(goals[j]);
+                break;
+            }
+        }
+    }
+    return result;
+}
+
+function GN_linkHabitToGoal(habitId, goalId) {
+    var habit = GN_getHabitById(habitId);
+    var goal = GN_getGoalById(goalId);
+    if (!habit || !goal) return;
+
+    if (habit.goalIds.indexOf(goalId) === -1) {
+        GN_updateHabit(habitId, { goalIds: habit.goalIds.concat([goalId]) });
+    }
+    if (goal.habitIds.indexOf(habitId) === -1) {
+        GN_updateGoal(goalId, { habitIds: goal.habitIds.concat([habitId]) });
     }
 }
 
-function GN_getCheckinsForMission(missionId) {
-    var all = GN_getAllCheckins();
-    return all[missionId] || {};
+function GN_unlinkHabitFromGoal(habitId, goalId) {
+    var habit = GN_getHabitById(habitId);
+    var goal = GN_getGoalById(goalId);
+    if (habit) {
+        GN_updateHabit(habitId, { goalIds: habit.goalIds.filter(function(id) { return id !== goalId; }) });
+    }
+    if (goal) {
+        GN_updateGoal(goalId, { habitIds: goal.habitIds.filter(function(id) { return id !== habitId; }) });
+    }
 }
 
-function GN_recordCheckin(missionId, dateStr, status) {
+// Get all active habits (habits that belong to at least one active goal)
+function GN_getActiveHabits() {
+    var activeGoalIds = GN_getActiveGoals().map(function(g) { return g.id; });
+    return GN_getHabits().filter(function(h) {
+        for (var i = 0; i < h.goalIds.length; i++) {
+            if (activeGoalIds.indexOf(h.goalIds[i]) > -1) return true;
+        }
+        return false;
+    });
+}
+
+// ============================================================
+// CHECK-IN OPERATIONS (per habit)
+// ============================================================
+
+function GN_getAllCheckins() {
+    try { var d = localStorage.getItem('goalNinjaCheckins'); return d ? JSON.parse(d) : {}; }
+    catch(e) { return {}; }
+}
+
+function GN_getCheckinsForHabit(habitId) {
+    var all = GN_getAllCheckins();
+    return all[habitId] || {};
+}
+
+function GN_recordHabitCheckin(habitId, dateStr, status) {
     var checkins = GN_getAllCheckins();
-    if (!checkins[missionId]) checkins[missionId] = {};
-    checkins[missionId][dateStr] = status;
+    if (!checkins[habitId]) checkins[habitId] = {};
+    checkins[habitId][dateStr] = status;
     localStorage.setItem('goalNinjaCheckins', JSON.stringify(checkins));
 }
 
-function GN_hasCheckedInToday(missionId) {
-    var checkins = GN_getCheckinsForMission(missionId);
-    var today = GN_getTodayDateStr();
-    return checkins.hasOwnProperty(today);
+function GN_hasHabitCheckedInToday(habitId) {
+    var checkins = GN_getCheckinsForHabit(habitId);
+    return checkins.hasOwnProperty(GN_getTodayDateStr());
 }
 
-function GN_getTodayCheckinStatus(missionId) {
-    var checkins = GN_getCheckinsForMission(missionId);
-    var today = GN_getTodayDateStr();
-    return checkins[today] || null;
+function GN_getHabitCheckinStatus(habitId, dateStr) {
+    var checkins = GN_getCheckinsForHabit(habitId);
+    return checkins[dateStr] || null;
 }
 
-// --- COMPUTED STATS (per mission) ---
+// ============================================================
+// STATS — Per Habit
+// ============================================================
 
-function GN_getMissionStats(missionId) {
-    var mission = GN_getMissionById(missionId);
-    if (!mission) return null;
+function GN_getHabitStats(habitId, goalId) {
+    // goalId is optional — used to scope stats to a specific goal's date range
+    var habit = GN_getHabitById(habitId);
+    if (!habit) return null;
 
-    var checkins = GN_getCheckinsForMission(missionId);
+    var checkins = GN_getCheckinsForHabit(habitId);
     var today = GN_getTodayDateStr();
-    var startDate = mission.startDate;
 
-    // Calculate day number (1-based)
-    var dayNumber = GN_daysBetween(startDate, today) + 1;
-    if (dayNumber < 1) dayNumber = 1;
-    if (dayNumber > mission.duration) dayNumber = mission.duration;
+    // If goalId provided, scope to that goal's date range
+    var goal = goalId ? GN_getGoalById(goalId) : null;
+    var startDate = goal ? goal.startDate : null;
+    var duration = goal ? goal.duration : null;
 
-    var daysLeft = Math.max(0, mission.duration - dayNumber);
-
-    // Count check-ins
+    // If no goal context, use all checkins
     var completedDays = 0;
     var missedDays = 0;
     var dates = Object.keys(checkins);
+
     for (var i = 0; i < dates.length; i++) {
+        // If scoped to a goal, only count checkins within the goal's date range
+        if (startDate) {
+            if (dates[i] < startDate) continue;
+            var dayNum = GN_daysBetween(startDate, dates[i]) + 1;
+            if (duration && dayNum > duration) continue;
+        }
         if (checkins[dates[i]] === 'complete') completedDays++;
         else if (checkins[dates[i]] === 'missed') missedDays++;
     }
 
     var totalCheckins = completedDays + missedDays;
     var completionRate = totalCheckins > 0 ? Math.round((completedDays / totalCheckins) * 100) : 0;
+    var currentStreak = GN_getCurrentStreakForHabit(habitId, startDate);
+    var bestStreak = GN_getBestStreakForHabit(habitId, startDate);
+    var vaultAmount = missedDays * habit.penalty;
 
-    // Streaks
-    var currentStreak = GN_getCurrentStreak(missionId);
-    var bestStreak = GN_getBestStreak(missionId);
-
-    // Vault amount
-    var vaultAmount = missedDays * mission.penalty;
-
-    // Progress through mission duration
-    var progress = Math.min(100, Math.round((dayNumber / mission.duration) * 100));
-
-    // Completion checks
-    var isComplete = dayNumber >= mission.duration;
-    var hitTarget = completionRate >= mission.target;
+    var dayNumber = 0;
+    var daysLeft = 0;
+    var progress = 0;
+    if (goal) {
+        dayNumber = GN_daysBetween(goal.startDate, today) + 1;
+        if (dayNumber < 1) dayNumber = 1;
+        if (dayNumber > goal.duration) dayNumber = goal.duration;
+        daysLeft = Math.max(0, goal.duration - dayNumber);
+        progress = Math.min(100, Math.round((dayNumber / goal.duration) * 100));
+    }
 
     return {
-        dayNumber: dayNumber,
-        daysLeft: daysLeft,
-        totalCheckins: totalCheckins,
         completedDays: completedDays,
         missedDays: missedDays,
+        totalCheckins: totalCheckins,
+        completionRate: completionRate,
         currentStreak: currentStreak,
         bestStreak: bestStreak,
-        completionRate: completionRate,
         vaultAmount: vaultAmount,
-        progress: progress,
-        isComplete: isComplete,
-        hitTarget: hitTarget
+        dayNumber: dayNumber,
+        daysLeft: daysLeft,
+        progress: progress
     };
 }
 
-function GN_getCurrentStreak(missionId) {
-    var checkins = GN_getCheckinsForMission(missionId);
-    var mission = GN_getMissionById(missionId);
-    if (!mission) return 0;
-
+function GN_getCurrentStreakForHabit(habitId, startDate) {
+    var checkins = GN_getCheckinsForHabit(habitId);
     var today = new Date();
     var streak = 0;
-
-    // Walk backward from today
     for (var i = 0; i < 365; i++) {
         var d = new Date(today);
         d.setDate(d.getDate() - i);
         var dateStr = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-
-        // Don't count before mission started
-        if (dateStr < mission.startDate) break;
-
+        if (startDate && dateStr < startDate) break;
         if (checkins[dateStr] === 'complete') {
             streak++;
         } else if (checkins[dateStr] === 'missed') {
             break;
         } else {
-            // No check-in for today is OK (haven't checked in yet), but past days break streak
-            if (i === 0) continue;
+            if (i === 0) continue; // Today not checked in yet is OK
             break;
         }
     }
     return streak;
 }
 
-function GN_getBestStreak(missionId) {
-    var checkins = GN_getCheckinsForMission(missionId);
+function GN_getBestStreakForHabit(habitId, startDate) {
+    var checkins = GN_getCheckinsForHabit(habitId);
     var dates = Object.keys(checkins).sort();
     if (dates.length === 0) return 0;
-
     var best = 0;
     var current = 0;
-
     for (var i = 0; i < dates.length; i++) {
+        if (startDate && dates[i] < startDate) continue;
         if (checkins[dates[i]] === 'complete') {
             current++;
             if (current > best) best = current;
@@ -386,58 +586,112 @@ function GN_getBestStreak(missionId) {
     return best;
 }
 
-// --- AGGREGATE STATS ---
+// ============================================================
+// STATS — Per Goal (aggregate across habits)
+// ============================================================
 
-function GN_getActiveMissions() {
-    return GN_getMissions().filter(function(m) { return m.status === 'active' || m.status === 'paused'; });
+function GN_getGoalStats(goalId) {
+    var goal = GN_getGoalById(goalId);
+    if (!goal) return null;
+
+    var habits = GN_getHabitsForGoal(goalId);
+    var today = GN_getTodayDateStr();
+    var dayNumber = GN_daysBetween(goal.startDate, today) + 1;
+    if (dayNumber < 1) dayNumber = 1;
+    if (dayNumber > goal.duration) dayNumber = goal.duration;
+    var daysLeft = Math.max(0, goal.duration - dayNumber);
+    var progress = Math.min(100, Math.round((dayNumber / goal.duration) * 100));
+
+    var totalCompleted = 0;
+    var totalCheckins = 0;
+    var totalVault = 0;
+    var bestStreak = 0;
+    var habitStats = [];
+
+    for (var i = 0; i < habits.length; i++) {
+        var hs = GN_getHabitStats(habits[i].id, goalId);
+        if (hs) {
+            totalCompleted += hs.completedDays;
+            totalCheckins += hs.totalCheckins;
+            totalVault += hs.vaultAmount;
+            if (hs.bestStreak > bestStreak) bestStreak = hs.bestStreak;
+            habitStats.push({ habit: habits[i], stats: hs });
+        }
+    }
+
+    var completionRate = totalCheckins > 0 ? Math.round((totalCompleted / totalCheckins) * 100) : 0;
+    var isComplete = dayNumber >= goal.duration;
+    var hitTarget = completionRate >= goal.target;
+
+    return {
+        dayNumber: dayNumber,
+        daysLeft: daysLeft,
+        progress: progress,
+        habitCount: habits.length,
+        completionRate: completionRate,
+        vaultAmount: totalVault,
+        bestStreak: bestStreak,
+        isComplete: isComplete,
+        hitTarget: hitTarget,
+        habitStats: habitStats
+    };
 }
 
-function GN_getCompletedMissions() {
-    return GN_getMissions().filter(function(m) { return m.status === 'completed' || m.status === 'failed' || m.status === 'ended'; });
-}
+// ============================================================
+// VAULT / SAVINGS
+// ============================================================
 
 function GN_getVaultTotal() {
-    var missions = GN_getMissions();
+    var habits = GN_getHabits();
     var total = 0;
-    for (var i = 0; i < missions.length; i++) {
-        var stats = GN_getMissionStats(missions[i].id);
+    for (var i = 0; i < habits.length; i++) {
+        var stats = GN_getHabitStats(habits[i].id);
         if (stats) total += stats.vaultAmount;
     }
     return total;
 }
 
+function GN_getGoalVaultTotal(goalId) {
+    var stats = GN_getGoalStats(goalId);
+    return stats ? stats.vaultAmount : 0;
+}
+
 function GN_getLockedVaultTotal() {
-    var missions = GN_getActiveMissions();
+    var goals = GN_getActiveGoals();
     var total = 0;
-    for (var i = 0; i < missions.length; i++) {
-        var stats = GN_getMissionStats(missions[i].id);
-        if (stats) total += stats.vaultAmount;
+    for (var i = 0; i < goals.length; i++) {
+        total += GN_getGoalVaultTotal(goals[i].id);
     }
     return total;
 }
 
 function GN_getUnlockedVaultTotal() {
-    var missions = GN_getCompletedMissions();
+    var goals = GN_getCompletedGoals();
     var total = 0;
-    for (var i = 0; i < missions.length; i++) {
-        var stats = GN_getMissionStats(missions[i].id);
-        if (stats) total += stats.vaultAmount;
+    for (var i = 0; i < goals.length; i++) {
+        var stats = GN_getGoalStats(goals[i].id);
+        if (stats && stats.hitTarget) total += stats.vaultAmount;
     }
     return total;
 }
 
+// ============================================================
+// OVERALL STATS
+// ============================================================
+
 function GN_getOverallStats() {
-    var missions = GN_getMissions();
-    var active = GN_getActiveMissions();
-    var completed = GN_getCompletedMissions();
+    var goals = GN_getGoals();
+    var habits = GN_getHabits();
+    var active = GN_getActiveGoals();
+    var completed = GN_getCompletedGoals();
     var totalVault = GN_getVaultTotal();
 
     var bestStreak = 0;
     var totalCompleted = 0;
     var totalCheckins = 0;
 
-    for (var i = 0; i < missions.length; i++) {
-        var stats = GN_getMissionStats(missions[i].id);
+    for (var i = 0; i < habits.length; i++) {
+        var stats = GN_getHabitStats(habits[i].id);
         if (stats) {
             if (stats.bestStreak > bestStreak) bestStreak = stats.bestStreak;
             totalCompleted += stats.completedDays;
@@ -448,9 +702,11 @@ function GN_getOverallStats() {
     var overallRate = totalCheckins > 0 ? Math.round((totalCompleted / totalCheckins) * 100) : 0;
 
     return {
-        totalMissions: missions.length,
-        activeMissions: active.length,
-        completedMissions: completed.length,
+        totalGoals: goals.length,
+        activeGoals: active.length,
+        completedGoals: completed.length,
+        totalHabits: habits.length,
+        activeHabits: GN_getActiveHabits().length,
         overallCompletionRate: overallRate,
         bestStreak: bestStreak,
         totalVault: totalVault,
@@ -459,61 +715,162 @@ function GN_getOverallStats() {
     };
 }
 
-// --- MISSION LIFECYCLE ---
+// ============================================================
+// LIFECYCLE — Auto-miss + expiration
+// ============================================================
 
-function GN_checkAndUpdateMissionStatuses() {
-    var missions = GN_getMissions();
+function GN_checkAndUpdateStatuses() {
+    var goals = GN_getGoals();
     var today = GN_getTodayDateStr();
     var changed = false;
 
-    for (var i = 0; i < missions.length; i++) {
-        var m = missions[i];
-        if (m.status !== 'active' && m.status !== 'paused') continue;
-        if (m.status === 'paused') continue; // Skip auto-miss for paused missions
+    for (var i = 0; i < goals.length; i++) {
+        var g = goals[i];
+        if (g.status !== 'active' && g.status !== 'paused') continue;
+        if (g.status === 'paused') continue; // Skip auto-miss for paused goals
 
-        var checkins = GN_getCheckinsForMission(m.id);
+        var habits = GN_getHabitsForGoal(g.id);
 
-        // Auto-fill missed days (from startDate to yesterday)
-        var startD = new Date(m.startDate + 'T12:00:00');
-        var todayD = new Date(today + 'T12:00:00');
-        var yesterday = new Date(todayD);
-        yesterday.setDate(yesterday.getDate() - 1);
+        // Auto-fill missed days for each habit
+        for (var h = 0; h < habits.length; h++) {
+            var checkins = GN_getCheckinsForHabit(habits[h].id);
+            var startD = new Date(g.startDate + 'T12:00:00');
+            var todayD = new Date(today + 'T12:00:00');
+            var yesterday = new Date(todayD);
+            yesterday.setDate(yesterday.getDate() - 1);
 
-        var cursor = new Date(startD);
-        while (cursor <= yesterday) {
-            var dateStr = cursor.getFullYear() + '-' + String(cursor.getMonth() + 1).padStart(2, '0') + '-' + String(cursor.getDate()).padStart(2, '0');
-            if (!checkins[dateStr]) {
-                GN_recordCheckin(m.id, dateStr, 'missed');
-                changed = true;
+            var cursor = new Date(startD);
+            while (cursor <= yesterday) {
+                var dateStr = cursor.getFullYear() + '-' + String(cursor.getMonth() + 1).padStart(2, '0') + '-' + String(cursor.getDate()).padStart(2, '0');
+                if (!checkins[dateStr]) {
+                    GN_recordHabitCheckin(habits[h].id, dateStr, 'missed');
+                    changed = true;
+                }
+                cursor.setDate(cursor.getDate() + 1);
             }
-            cursor.setDate(cursor.getDate() + 1);
         }
 
-        // Check if mission duration has expired
-        var dayNumber = GN_daysBetween(m.startDate, today) + 1;
-        if (dayNumber > m.duration) {
-            var stats = GN_getMissionStats(m.id);
-            missions[i].status = (stats && stats.hitTarget) ? 'completed' : 'failed';
+        // Check if goal duration has expired
+        var dayNumber = GN_daysBetween(g.startDate, today) + 1;
+        if (dayNumber > g.duration) {
+            var stats = GN_getGoalStats(g.id);
+            goals[i].status = (stats && stats.hitTarget) ? 'completed' : 'failed';
             changed = true;
         }
     }
 
     if (changed) {
-        GN_saveMissions(missions);
+        GN_saveGoals(goals);
     }
 }
 
-// --- SELECTED MISSION (navigation) ---
+// ============================================================
+// NAVIGATION STATE
+// ============================================================
 
-function GN_setSelectedMission(missionId) {
-    localStorage.setItem('goalNinjaSelectedMission', missionId);
+function GN_setSelectedGoal(goalId) {
+    localStorage.setItem('goalNinjaSelectedGoal', goalId);
 }
 
-function GN_getSelectedMission() {
-    return localStorage.getItem('goalNinjaSelectedMission') || null;
+function GN_getSelectedGoal() {
+    return localStorage.getItem('goalNinjaSelectedGoal') || null;
 }
 
-// --- ICON SVG MAPPING ---
+// ============================================================
+// LEGACY WRAPPERS (backward compat during transition)
+// Screens not yet updated can still call old function names
+// ============================================================
+
+function GN_getMissions() { return GN_getGoals(); }
+function GN_saveMissions(m) { GN_saveGoals(m); }
+function GN_getMissionById(id) { return GN_getGoalById(id); }
+function GN_addMission(data) {
+    // Old flow: single mission = 1 goal + 1 habit
+    var goal = GN_addGoal(data);
+    GN_addHabit({
+        name: data.name || 'New Habit',
+        icon: data.icon || 'default',
+        penalty: parseFloat(data.penalty) || 5,
+        reminder: data.reminder || '21:00',
+        goalIds: [goal.id]
+    });
+    return goal;
+}
+function GN_updateMission(id, updates) { GN_updateGoal(id, updates); }
+function GN_deleteMission(id) { GN_deleteGoal(id); }
+function GN_getActiveMissions() { return GN_getActiveGoals(); }
+function GN_getCompletedMissions() { return GN_getCompletedGoals(); }
+function GN_setSelectedMission(id) { GN_setSelectedGoal(id); }
+function GN_getSelectedMission() { return GN_getSelectedGoal(); }
+
+// Legacy check-in wrappers — route to first habit of a goal
+function GN_getCheckinsForMission(goalId) {
+    var goal = GN_getGoalById(goalId);
+    if (goal && goal.habitIds && goal.habitIds.length > 0) {
+        return GN_getCheckinsForHabit(goal.habitIds[0]);
+    }
+    return {};
+}
+function GN_recordCheckin(goalId, dateStr, status) {
+    var goal = GN_getGoalById(goalId);
+    if (goal && goal.habitIds) {
+        for (var i = 0; i < goal.habitIds.length; i++) {
+            GN_recordHabitCheckin(goal.habitIds[i], dateStr, status);
+        }
+    }
+}
+function GN_hasCheckedInToday(goalId) {
+    var goal = GN_getGoalById(goalId);
+    if (goal && goal.habitIds && goal.habitIds.length > 0) {
+        return GN_hasHabitCheckedInToday(goal.habitIds[0]);
+    }
+    return false;
+}
+function GN_getTodayCheckinStatus(goalId) {
+    var goal = GN_getGoalById(goalId);
+    if (goal && goal.habitIds && goal.habitIds.length > 0) {
+        return GN_getHabitCheckinStatus(goal.habitIds[0], GN_getTodayDateStr());
+    }
+    return null;
+}
+function GN_getMissionStats(goalId) {
+    var stats = GN_getGoalStats(goalId);
+    if (!stats) return null;
+    // Map to old shape
+    return {
+        dayNumber: stats.dayNumber,
+        daysLeft: stats.daysLeft,
+        totalCheckins: stats.habitStats.length > 0 ? stats.habitStats[0].stats.totalCheckins : 0,
+        completedDays: stats.habitStats.length > 0 ? stats.habitStats[0].stats.completedDays : 0,
+        missedDays: stats.habitStats.length > 0 ? stats.habitStats[0].stats.missedDays : 0,
+        currentStreak: stats.habitStats.length > 0 ? stats.habitStats[0].stats.currentStreak : 0,
+        bestStreak: stats.bestStreak,
+        completionRate: stats.completionRate,
+        vaultAmount: stats.vaultAmount,
+        progress: stats.progress,
+        isComplete: stats.isComplete,
+        hitTarget: stats.hitTarget
+    };
+}
+function GN_getCurrentStreak(goalId) {
+    var goal = GN_getGoalById(goalId);
+    if (goal && goal.habitIds && goal.habitIds.length > 0) {
+        return GN_getCurrentStreakForHabit(goal.habitIds[0], goal.startDate);
+    }
+    return 0;
+}
+function GN_getBestStreak(goalId) {
+    var goal = GN_getGoalById(goalId);
+    if (goal && goal.habitIds && goal.habitIds.length > 0) {
+        return GN_getBestStreakForHabit(goal.habitIds[0], goal.startDate);
+    }
+    return 0;
+}
+function GN_checkAndUpdateMissionStatuses() { GN_checkAndUpdateStatuses(); }
+
+// ============================================================
+// ICON SVG MAPPING
+// ============================================================
 
 function GN_getIconSVG(iconId, size) {
     size = size || 22;
@@ -532,7 +889,6 @@ function GN_getIconSVG(iconId, size) {
         target: '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>'
     };
 
-    // Aliases
     icons['reading'] = icons.book;
     icons['workout'] = icons.exercise;
     icons['run'] = icons.exercise;
