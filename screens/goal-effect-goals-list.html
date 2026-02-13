@@ -896,7 +896,7 @@
             if (goal.status === 'paused') {
                 checkinBtnHtml = '<button class="checkin-btn paused-btn" style="background:#f0f0f0;color:var(--text-secondary);">Goal Paused</button>';
             } else if (allCheckedIn) {
-                checkinBtnHtml = '<button class="checkin-btn" style="background:#22c55e;color:white;cursor:default;">All habits checked in</button>';
+                checkinBtnHtml = '<button class="checkin-btn" style="background:#e8e8e8;color:#999;cursor:default;">All habits checked in</button>';
             } else {
                 var label = someCheckedIn ? 'Check In (' + checkedCount + '/' + habitCount + ')' : 'Check In Habits';
                 checkinBtnHtml = '<button class="checkin-btn" onclick="event.stopPropagation();openCheckinFromList(\'' + goal.id + '\')">' + label + '</button>';
