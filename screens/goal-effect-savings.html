@@ -831,18 +831,18 @@
                     <div class="withdraw-details">
                         <div class="withdraw-row">
                             <span class="withdraw-row-label">Locked Savings</span>
-                            <span class="withdraw-row-value">$28.00</span>
+                            <span class="withdraw-row-value" id="withdrawLocked">$0.00</span>
                         </div>
                         <div class="withdraw-row">
                             <span class="withdraw-row-label">Early Withdrawal Fee (10%)</span>
-                            <span class="withdraw-row-value fee">-$2.80</span>
+                            <span class="withdraw-row-value fee" id="withdrawFee">-$0.00</span>
                         </div>
                         <div class="withdraw-row">
                             <span class="withdraw-row-label">You'd receive</span>
-                            <span class="withdraw-row-value total">$25.20</span>
+                            <span class="withdraw-row-value total" id="withdrawReceive">$0.00</span>
                         </div>
                     </div>
-                    <button class="withdraw-btn" onclick="initiateWithdraw()">Withdraw $25.20</button>
+                    <button class="withdraw-btn" id="withdrawBtn" onclick="initiateWithdraw()">Withdraw $0.00</button>
                     <p class="withdraw-note">Pro subscribers pay only 5% fee</p>
                 </div>
             </div>
@@ -1052,6 +1052,19 @@
             if (subtextEl) {
                 subtextEl.textContent = 'From ' + activeGoals.length + ' active goal' + (activeGoals.length !== 1 ? 's' : '');
             }
+
+            // Update withdraw section with live data
+            var feeRate = 0.10; // 10% for free tier, 5% for Pro
+            var fee = lockedVault * feeRate;
+            var receive = lockedVault - fee;
+            var wLocked = document.getElementById('withdrawLocked');
+            if (wLocked) wLocked.textContent = '$' + lockedVault.toFixed(2);
+            var wFee = document.getElementById('withdrawFee');
+            if (wFee) wFee.textContent = '-$' + fee.toFixed(2);
+            var wReceive = document.getElementById('withdrawReceive');
+            if (wReceive) wReceive.textContent = '$' + receive.toFixed(2);
+            var wBtn = document.getElementById('withdrawBtn');
+            if (wBtn) wBtn.textContent = 'Withdraw $' + receive.toFixed(2);
 
             // Render per-goal vault breakdown
             var container = document.getElementById('breakdownContainer');
