@@ -764,11 +764,28 @@
             gap: 6px;
             margin-top: 6px;
         }
-        .habit-freq-row span {
+        .habit-freq-row span.freq-label {
             font-size: 12px;
             color: var(--text-muted);
         }
-        .habit-freq-select {
+        .habit-freq-row span.freq-every {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .habit-freq-num {
+            width: 36px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 2px 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+            background: var(--bg);
+            text-align: center;
+            font-family: inherit;
+        }
+        .habit-freq-unit {
             border: 1px solid var(--border);
             border-radius: 6px;
             padding: 2px 6px;
@@ -943,7 +960,7 @@
                         <span class="summary-value" id="summaryHabitCount">1 habit</span>
                     </div>
                     <div class="summary-row">
-                        <span class="summary-label">Max daily penalty</span>
+                        <span class="summary-label">Penalty per check-in</span>
                         <span class="summary-value" id="maxDailyPenalty">$5</span>
                     </div>
                     <div class="summary-row">
@@ -960,7 +977,7 @@
                     <line x1="12" y1="16" x2="12" y2="12"/>
                     <line x1="12" y1="8" x2="12.01" y2="8"/>
                 </svg>
-                <p>You can edit any of these settings — the template is just a starting point. Make it yours, ninja!</p>
+                <p id="infoTipText">You can edit any of these settings — the template is just a starting point. Make it yours, ninja!</p>
             </div>
         </div>
 
@@ -973,7 +990,7 @@
         <div class="toast-overlay" id="toastOverlay"></div>
         <div class="toast" id="successToast">
             <div class="toast-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:48px;height:48px;color:#1a1a1a"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
-            <div class="toast-title">Goal Created!</div>
+            <div class="toast-title" id="toastTitle">Goal Created!</div>
             <div class="toast-desc" id="toastDesc">Time to prove yourself, ninja!</div>
         </div>
     </div>
@@ -987,6 +1004,7 @@
         var selectedStartDate = '';
         var habitCounter = 0;
         var habitFields = [];
+        var editGoalId = null; // Set when editing an existing goal
 
         function goBack() {
             window.history.back();
@@ -997,27 +1015,46 @@
         }
 
         // ---- HABITS MANAGEMENT ----
+        function parseFrequency(freq) {
+            // Parse stored frequency string into {num, unit}
+            if (!freq || freq === 'daily') return { num: 1, unit: 'days' };
+            if (freq === 'every2days') return { num: 2, unit: 'days' };
+            if (freq === 'every3days') return { num: 3, unit: 'days' };
+            if (freq === 'weekly') return { num: 1, unit: 'weeks' };
+            if (freq === 'monthly') return { num: 1, unit: 'months' };
+            // Custom format: "everyXunit" e.g. "every5days", "every2weeks"
+            var m = (freq || '').match(/^every(\d+)(days|weeks|months)$/);
+            if (m) return { num: parseInt(m[1]), unit: m[2] };
+            return { num: 1, unit: 'days' };
+        }
+
+        function buildFrequencyString(num, unit) {
+            num = parseInt(num) || 1;
+            if (num === 1 && unit === 'days') return 'daily';
+            if (num === 1 && unit === 'weeks') return 'weekly';
+            if (num === 1 && unit === 'months') return 'monthly';
+            return 'every' + num + unit;
+        }
+
         function addHabitField(name, penalty, icon, frequency) {
             habitCounter++;
             var id = 'habit_field_' + habitCounter;
             var habitName = name || '';
             var habitPenalty = penalty || 5;
             var habitIcon = icon || 'default';
-            var habitFreq = frequency || 'daily';
+            var parsed = parseFrequency(frequency || 'daily');
+
             habitFields.push({ id: id, icon: habitIcon });
 
-            var freqOptions = [
-                { value: 'daily', label: 'Every day' },
-                { value: 'every2days', label: 'Every 2 days' },
-                { value: 'every3days', label: 'Every 3 days' },
-                { value: 'weekly', label: 'Weekly' },
-                { value: 'monthly', label: 'Monthly' }
-            ];
-            var freqHtml = '<select class="habit-freq-select">';
-            for (var f = 0; f < freqOptions.length; f++) {
-                freqHtml += '<option value="' + freqOptions[f].value + '"' + (freqOptions[f].value === habitFreq ? ' selected' : '') + '>' + freqOptions[f].label + '</option>';
-            }
-            freqHtml += '</select>';
+            var freqHtml = '<div class="habit-freq-row">' +
+                '<span class="freq-label">Every</span>' +
+                '<input type="number" class="habit-freq-num" value="' + parsed.num + '" min="1" max="365" onchange="updateSummary()" onclick="event.stopPropagation()">' +
+                '<select class="habit-freq-unit" onchange="updateSummary()">' +
+                    '<option value="days"' + (parsed.unit === 'days' ? ' selected' : '') + '>day' + (parsed.num > 1 ? 's' : '') + '</option>' +
+                    '<option value="weeks"' + (parsed.unit === 'weeks' ? ' selected' : '') + '>week' + (parsed.num > 1 ? 's' : '') + '</option>' +
+                    '<option value="months"' + (parsed.unit === 'months' ? ' selected' : '') + '>month' + (parsed.num > 1 ? 's' : '') + '</option>' +
+                '</select>' +
+            '</div>';
 
             var container = document.getElementById('habitsFormContainer');
             var card = document.createElement('div');
@@ -1028,7 +1065,7 @@
                 '<div class="habit-form-fields">' +
                     '<input type="text" class="habit-name-input" placeholder="Habit name (e.g., 100 push-ups)" value="' + habitName.replace(/"/g, '&quot;') + '">' +
                     '<div class="habit-penalty-row"><span>Penalty: $</span><input type="number" class="habit-penalty-input" value="' + habitPenalty + '" min="1"></div>' +
-                    '<div class="habit-freq-row"><span>Frequency:</span>' + freqHtml + '</div>' +
+                    freqHtml +
                 '</div>' +
             '</div>' +
             (habitFields.length > 1 ? '<button class="remove-habit-btn" onclick="removeHabitField(\'' + id + '\')" title="Remove habit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' : '');
@@ -1049,14 +1086,19 @@
             cards.forEach(function(card) {
                 var nameInput = card.querySelector('.habit-name-input');
                 var penaltyInput = card.querySelector('.habit-penalty-input');
-                var freqSelect = card.querySelector('.habit-freq-select');
+                var freqNum = card.querySelector('.habit-freq-num');
+                var freqUnit = card.querySelector('.habit-freq-unit');
                 var fieldData = habitFields.find(function(f) { return f.id === card.id; });
+                var freq = 'daily';
+                if (freqNum && freqUnit) {
+                    freq = buildFrequencyString(freqNum.value, freqUnit.value);
+                }
                 if (nameInput && nameInput.value.trim()) {
                     habits.push({
                         name: nameInput.value.trim(),
                         icon: fieldData ? fieldData.icon : 'default',
                         penalty: parseInt(penaltyInput.value) || 5,
-                        frequency: freqSelect ? freqSelect.value : 'daily',
+                        frequency: freq,
                         reminder: selectedReminder
                     });
                 }
@@ -1093,19 +1135,34 @@
 
         function updateSummary() {
             var habits = getHabitsFromForm();
-            var totalDailyPenalty = habits.reduce(function(sum, h) { return sum + h.penalty; }, 0);
-            if (totalDailyPenalty === 0 && habitFields.length > 0) {
-                // If no names filled yet, estimate from penalty inputs
-                var penaltyInputs = document.querySelectorAll('.habit-penalty-input');
-                penaltyInputs.forEach(function(inp) { totalDailyPenalty += parseInt(inp.value) || 5; });
-            }
             var habitCount = Math.max(habitFields.length, habits.length);
             document.getElementById('summaryHabitCount').textContent = habitCount + ' habit' + (habitCount !== 1 ? 's' : '');
-            document.getElementById('maxDailyPenalty').textContent = '$' + totalDailyPenalty;
+
+            // Calculate max penalty per check-in day (sum of all habit penalties)
+            var totalPerOccurrence = 0;
+            var totalOverDuration = 0;
+            if (habits.length > 0) {
+                for (var i = 0; i < habits.length; i++) {
+                    totalPerOccurrence += habits[i].penalty;
+                    if (selectedDuration > 0) {
+                        totalOverDuration += habits[i].penalty * GN_getFrequencyMultiplier(habits[i].frequency, selectedDuration);
+                    }
+                }
+            } else {
+                // Estimate from penalty inputs when no names filled yet
+                var penaltyInputs = document.querySelectorAll('.habit-penalty-input');
+                penaltyInputs.forEach(function(inp) {
+                    var p = parseInt(inp.value) || 5;
+                    totalPerOccurrence += p;
+                    if (selectedDuration > 0) totalOverDuration += p * selectedDuration;
+                });
+            }
+
+            document.getElementById('maxDailyPenalty').textContent = '$' + totalPerOccurrence;
             if (selectedDuration === 0) {
                 document.getElementById('maxPenalty').textContent = 'Ongoing';
             } else {
-                document.getElementById('maxPenalty').textContent = '$' + (totalDailyPenalty * selectedDuration).toFixed(2);
+                document.getElementById('maxPenalty').textContent = '$' + totalOverDuration.toFixed(2);
             }
         }
 
@@ -1137,7 +1194,7 @@
             input.value = today;
         })();
 
-        // ---- CREATE GOAL ----
+        // ---- CREATE / UPDATE GOAL ----
         function createMission() {
             var goalName = document.getElementById('missionName').value;
             if (!goalName.trim()) {
@@ -1153,48 +1210,190 @@
 
             var desc = document.querySelector('textarea');
 
-            // Create the goal
-            var goalData = {
-                name: goalName,
-                icon: selectedIcon || 'default',
-                description: desc ? desc.value : '',
-                duration: selectedDuration,
-                target: selectedTarget,
-                habitIds: []
-            };
-            if (selectedStartDate) goalData.startDate = selectedStartDate;
-            var newGoal = GN_addGoal(goalData);
-
-            // Create habits and link to goal
-            for (var i = 0; i < habits.length; i++) {
-                var h = habits[i];
-                var newHabit = GN_addHabit({
-                    name: h.name,
-                    icon: h.icon,
-                    penalty: h.penalty,
-                    frequency: h.frequency || 'daily',
-                    reminder: h.reminder,
-                    goalIds: [newGoal.id]
+            if (editGoalId) {
+                // --- UPDATE existing goal ---
+                GN_updateGoal(editGoalId, {
+                    name: goalName,
+                    icon: selectedIcon || 'default',
+                    description: desc ? desc.value : '',
+                    duration: selectedDuration,
+                    target: selectedTarget
                 });
-                GN_linkHabitToGoal(newHabit.id, newGoal.id);
+
+                // Update existing habits and add new ones
+                var existingHabits = GN_getHabitsForGoal(editGoalId);
+                for (var i = 0; i < habits.length; i++) {
+                    var h = habits[i];
+                    if (i < existingHabits.length) {
+                        // Update existing habit
+                        GN_updateHabit(existingHabits[i].id, {
+                            name: h.name,
+                            icon: h.icon,
+                            penalty: h.penalty,
+                            frequency: h.frequency || 'daily'
+                        });
+                    } else {
+                        // Add new habit
+                        var newHabit = GN_addHabit({
+                            name: h.name,
+                            icon: h.icon,
+                            penalty: h.penalty,
+                            frequency: h.frequency || 'daily',
+                            reminder: h.reminder,
+                            goalIds: [editGoalId]
+                        });
+                        GN_linkHabitToGoal(newHabit.id, editGoalId);
+                    }
+                }
+                // Remove habits that were deleted from the form
+                for (var j = habits.length; j < existingHabits.length; j++) {
+                    GN_unlinkHabitFromGoal(existingHabits[j].id, editGoalId);
+                    // If habit has no other goals, delete it
+                    var hb = GN_getHabitById(existingHabits[j].id);
+                    if (hb && hb.goalIds.length === 0) {
+                        GN_deleteHabit(existingHabits[j].id);
+                    }
+                }
+
+                // Show success toast
+                document.getElementById('toastTitle').textContent = 'Goal Updated!';
+                document.getElementById('toastDesc').textContent = goalName + ' has been updated';
+                document.getElementById('successToast').classList.add('visible');
+                document.getElementById('toastOverlay').classList.add('visible');
+
+                localStorage.removeItem('goalNinjaEditGoal');
+                setTimeout(function() {
+                    window.location.href = 'goal-effect-goal-detail.html';
+                }, 1800);
+            } else {
+                // --- CREATE new goal ---
+                var goalData = {
+                    name: goalName,
+                    icon: selectedIcon || 'default',
+                    description: desc ? desc.value : '',
+                    duration: selectedDuration,
+                    target: selectedTarget,
+                    habitIds: []
+                };
+                if (selectedStartDate) goalData.startDate = selectedStartDate;
+                var newGoal = GN_addGoal(goalData);
+
+                for (var k = 0; k < habits.length; k++) {
+                    var hc = habits[k];
+                    var newHab = GN_addHabit({
+                        name: hc.name,
+                        icon: hc.icon,
+                        penalty: hc.penalty,
+                        frequency: hc.frequency || 'daily',
+                        reminder: hc.reminder,
+                        goalIds: [newGoal.id]
+                    });
+                    GN_linkHabitToGoal(newHab.id, newGoal.id);
+                }
+
+                // Show success toast
+                var durationText = selectedDuration === 0 ? 'ongoing' : selectedDuration + ' days';
+                document.getElementById('toastDesc').textContent = goalName + ' — ' + habits.length + ' habit' + (habits.length > 1 ? 's' : '') + ', ' + durationText;
+                document.getElementById('successToast').classList.add('visible');
+                document.getElementById('toastOverlay').classList.add('visible');
+
+                setTimeout(function() {
+                    window.location.href = 'goal-effect-goals-list.html';
+                }, 1800);
             }
-
-            // Show success toast
-            var durationText = selectedDuration === 0 ? 'ongoing' : selectedDuration + ' days';
-            document.getElementById('toastDesc').textContent = goalName + ' — ' + habits.length + ' habit' + (habits.length > 1 ? 's' : '') + ', ' + durationText;
-            document.getElementById('successToast').classList.add('visible');
-            document.getElementById('toastOverlay').classList.add('visible');
-
-            // Navigate to goals page after a short delay
-            setTimeout(function() {
-                window.location.href = 'goal-effect-goals-list.html';
-            }, 1800);
         }
 
         // ---- INITIALIZE ----
-        addHabitField('No Social Media', 5, 'phone');
-        updateTarget();
-        updateSummary();
+        (function initPage() {
+            var editId = localStorage.getItem('goalNinjaEditGoal');
+            if (editId) {
+                var goal = GN_getGoalById(editId);
+                if (goal) {
+                    editGoalId = editId;
+
+                    // Update nav / buttons for edit mode
+                    document.querySelector('.nav-title').textContent = 'Edit Goal';
+                    document.querySelector('.save-btn').textContent = 'Save';
+                    document.querySelector('.start-btn').textContent = 'Save Changes';
+
+                    // Hide template badge and update info tip in edit mode
+                    var badge = document.querySelector('.template-badge');
+                    if (badge) badge.style.display = 'none';
+                    var infoTip = document.getElementById('infoTipText');
+                    if (infoTip) infoTip.textContent = 'Update your goal settings below. Changes take effect immediately, ninja!';
+
+                    // Pre-fill goal name
+                    document.getElementById('missionName').value = goal.name || '';
+
+                    // Pre-fill description
+                    var descEl = document.querySelector('textarea');
+                    if (descEl) descEl.value = goal.description || '';
+
+                    // Pre-fill icon
+                    selectedIcon = goal.icon || 'default';
+                    var iconDisplay = document.querySelector('.mission-icon-large');
+                    if (iconDisplay) {
+                        var badgeHtml = iconDisplay.querySelector('.edit-icon-badge').outerHTML;
+                        iconDisplay.innerHTML = GN_getIconSVG(selectedIcon, 40) + badgeHtml;
+                    }
+
+                    // Pre-fill duration
+                    selectedDuration = goal.duration || 0;
+                    var durationMatched = false;
+                    document.querySelectorAll('.duration-option').forEach(function(el) {
+                        el.classList.remove('selected');
+                        if (parseInt(el.dataset.days) === selectedDuration) {
+                            el.classList.add('selected');
+                            durationMatched = true;
+                        }
+                    });
+                    if (!durationMatched && selectedDuration > 0) {
+                        document.getElementById('customDurationInput').value = selectedDuration;
+                    }
+
+                    // Pre-fill target
+                    selectedTarget = goal.target || 80;
+                    document.getElementById('targetSlider').value = selectedTarget;
+
+                    // Pre-fill start date (don't allow changing if goal already started)
+                    if (goal.startDate) {
+                        selectedStartDate = goal.startDate;
+                        var dateInput = document.getElementById('startDateInput');
+                        dateInput.value = goal.startDate;
+                        var today = GN_getTodayDateStr();
+                        var dateLabel = goal.startDate === today ? 'Today' : GN_formatDate(goal.startDate);
+                        document.getElementById('startDateDisplay').innerHTML = dateLabel + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
+                    }
+
+                    // Pre-fill reminder
+                    if (goal.reminder) {
+                        selectedReminder = goal.reminder;
+                        document.getElementById('reminderTimeInput').value = goal.reminder;
+                        onReminderChange(goal.reminder);
+                    }
+
+                    // Pre-fill habits
+                    var existingHabits = GN_getHabitsForGoal(editId);
+                    for (var i = 0; i < existingHabits.length; i++) {
+                        var h = existingHabits[i];
+                        addHabitField(h.name, h.penalty, h.icon, h.frequency);
+                    }
+                    if (existingHabits.length === 0) {
+                        addHabitField(); // blank habit if none exist
+                    }
+                } else {
+                    // Goal not found, fall back to create mode
+                    localStorage.removeItem('goalNinjaEditGoal');
+                    addHabitField('No Social Media', 5, 'phone');
+                }
+            } else {
+                // Normal create mode — show template defaults
+                addHabitField('No Social Media', 5, 'phone');
+            }
+
+            updateTarget();
+            updateSummary();
+        })();
 
         // Listen for penalty changes to update summary
         document.getElementById('habitsFormContainer').addEventListener('input', function(e) {

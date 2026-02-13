@@ -1,4 +1,4 @@
-var CACHE_NAME = 'goal-ninja-v24';
+var CACHE_NAME = 'goal-ninja-v25';
 var urlsToCache = [
   './screens/goal-ninja-data.js',
   './screens/goal-effect-home.html',

@@ -460,11 +460,27 @@ function GN_getActiveHabits() {
 // FREQUENCY HELPERS
 // ============================================================
 
+// Parse frequency string into { intervalDays } for comparison
+function GN_parseFrequency(freq) {
+    if (!freq || freq === 'daily') return { type: 'days', num: 1 };
+    if (freq === 'weekly') return { type: 'weeks', num: 1 };
+    if (freq === 'monthly') return { type: 'months', num: 1 };
+    // Legacy formats
+    if (freq === 'every2days') return { type: 'days', num: 2 };
+    if (freq === 'every3days') return { type: 'days', num: 3 };
+    // Custom: "every5days", "every2weeks", "every3months"
+    var m = (freq || '').match(/^every(\d+)(days|weeks|months)$/);
+    if (m) return { type: m[2], num: parseInt(m[1]) };
+    return { type: 'days', num: 1 };
+}
+
 // Check if a habit is due on a specific date, relative to its linked goal's start date
 function GN_isHabitDueOnDate(habit, dateStr) {
     if (!habit) return false;
     var freq = habit.frequency || 'daily';
     if (freq === 'daily') return true;
+
+    var parsed = GN_parseFrequency(freq);
 
     // Find the earliest active goal start date for this habit
     var startDate = null;
@@ -479,14 +495,17 @@ function GN_isHabitDueOnDate(habit, dateStr) {
     var daysSinceStart = GN_daysBetween(startDate, dateStr);
     if (daysSinceStart < 0) return false;
 
-    if (freq === 'every2days') return daysSinceStart % 2 === 0;
-    if (freq === 'every3days') return daysSinceStart % 3 === 0;
-    if (freq === 'weekly') return daysSinceStart % 7 === 0;
-    if (freq === 'monthly') {
-        // Due on the same day-of-month as start date
+    if (parsed.type === 'days') {
+        return daysSinceStart % parsed.num === 0;
+    }
+    if (parsed.type === 'weeks') {
+        return daysSinceStart % (parsed.num * 7) === 0;
+    }
+    if (parsed.type === 'months') {
         var sd = new Date(startDate + 'T12:00:00');
         var cd = new Date(dateStr + 'T12:00:00');
-        return cd.getDate() === sd.getDate();
+        var monthsDiff = (cd.getFullYear() - sd.getFullYear()) * 12 + (cd.getMonth() - sd.getMonth());
+        return cd.getDate() === sd.getDate() && monthsDiff >= 0 && monthsDiff % parsed.num === 0;
     }
     return true;
 }
@@ -496,21 +515,35 @@ function GN_isHabitDueToday(habit) {
 }
 
 function GN_getFrequencyLabel(freq) {
-    if (freq === 'daily') return 'Every day';
-    if (freq === 'every2days') return 'Every 2 days';
-    if (freq === 'every3days') return 'Every 3 days';
-    if (freq === 'weekly') return 'Weekly';
-    if (freq === 'monthly') return 'Monthly';
+    var p = GN_parseFrequency(freq);
+    if (p.type === 'days' && p.num === 1) return 'Every day';
+    if (p.type === 'days') return 'Every ' + p.num + ' days';
+    if (p.type === 'weeks' && p.num === 1) return 'Every week';
+    if (p.type === 'weeks') return 'Every ' + p.num + ' weeks';
+    if (p.type === 'months' && p.num === 1) return 'Every month';
+    if (p.type === 'months') return 'Every ' + p.num + ' months';
     return 'Every day';
 }
 
 function GN_getFrequencyShort(freq) {
-    if (freq === 'daily') return 'Daily';
-    if (freq === 'every2days') return 'Every 2d';
-    if (freq === 'every3days') return 'Every 3d';
-    if (freq === 'weekly') return 'Weekly';
-    if (freq === 'monthly') return 'Monthly';
+    var p = GN_parseFrequency(freq);
+    if (p.type === 'days' && p.num === 1) return 'Daily';
+    if (p.type === 'days') return 'Every ' + p.num + 'd';
+    if (p.type === 'weeks' && p.num === 1) return 'Weekly';
+    if (p.type === 'weeks') return 'Every ' + p.num + 'w';
+    if (p.type === 'months' && p.num === 1) return 'Monthly';
+    if (p.type === 'months') return 'Every ' + p.num + 'mo';
     return 'Daily';
+}
+
+// Get how many times per duration period a habit would be due (for penalty calculations)
+function GN_getFrequencyMultiplier(freq, durationDays) {
+    if (durationDays <= 0) return 0;
+    var p = GN_parseFrequency(freq);
+    if (p.type === 'days') return Math.floor(durationDays / p.num);
+    if (p.type === 'weeks') return Math.floor(durationDays / (p.num * 7));
+    if (p.type === 'months') return Math.floor(durationDays / (p.num * 30));
+    return durationDays;
 }
 
 // ============================================================
