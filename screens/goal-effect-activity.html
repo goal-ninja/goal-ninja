@@ -529,7 +529,7 @@
             <div class="summary-row animate-in delay-2">
                 <div class="summary-card">
                     <div class="summary-value success" id="summaryTotal">$0</div>
-                    <div class="summary-label">Total Vault</div>
+                    <div class="summary-label">Total Savings</div>
                 </div>
                 <div class="summary-card">
                     <div class="summary-value" id="summaryCompleted">0</div>
@@ -675,7 +675,7 @@
                     if (item.type === 'checkin') {
                         html += '<div class="activity-item"><div class="activity-icon info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="activity-details"><div class="activity-title">Completed check-in</div><div class="activity-meta">' + item.habitName + (item.goalName ? ' · ' + item.goalName : '') + '</div></div></div>';
                     } else if (item.type === 'charge') {
-                        html += '<div class="activity-item"><div class="activity-icon success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div class="activity-details"><div class="activity-title">Missed — vault charged</div><div class="activity-meta">' + item.habitName + (item.goalName ? ' · ' + item.goalName : '') + '</div></div><div class="activity-amount positive">+$' + item.amount + '</div></div>';
+                        html += '<div class="activity-item"><div class="activity-icon success"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div class="activity-details"><div class="activity-title">Missed — savings charged</div><div class="activity-meta">' + item.habitName + (item.goalName ? ' · ' + item.goalName : '') + '</div></div><div class="activity-amount positive">+$' + item.amount + '</div></div>';
                     } else if (item.type === 'goal_started') {
                         html += '<div class="activity-item"><div class="activity-icon purple"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div><div class="activity-details"><div class="activity-title">Goal started</div><div class="activity-meta">' + item.name + '</div></div></div>';
                     }

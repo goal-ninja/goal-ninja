@@ -1319,7 +1319,7 @@
                 </div>
                 <div class="stat-item">
                     <div class="stat-value success" id="statVault">$0</div>
-                    <div class="stat-label">In Vault</div>
+                    <div class="stat-label">Savings</div>
                 </div>
             </div>
 
@@ -1367,7 +1367,7 @@
             <!-- Vault Card -->
             <div class="section animate-in delay-4">
                 <div class="section-header">
-                    <span class="section-title">Vault</span>
+                    <span class="section-title">Savings</span>
                 </div>
                 <div class="gold-card">
                     <div class="gold-header">
@@ -1539,7 +1539,7 @@
             var vaultTotal = goalStats.vaultTotal || 0;
             var completionRate = goalStats.completionRate || 0;
             document.getElementById('vaultAmount').textContent = '$' + vaultTotal.toFixed(2);
-            var missedTotal = goalStats.habitStats ? goalStats.habitStats.reduce(function(s, hs) { return s + hs.missedDays; }, 0) : 0;
+            var missedTotal = goalStats.habitStats ? goalStats.habitStats.reduce(function(s, hs) { return s + (hs.missedDays || 0); }, 0) : 0;
             document.getElementById('vaultLabel').textContent = 'From ' + missedTotal + ' missed habit check-in' + (missedTotal !== 1 ? 's' : '');
             var vaultBadge = document.getElementById('vaultBadge');
             var hitTarget = completionRate >= goal.target;
@@ -1549,8 +1549,8 @@
             var progressPct = goal.target > 0 ? Math.min(100, Math.round((completionRate / goal.target) * 100)) : 0;
             document.getElementById('vaultProgressFill').style.width = progressPct + '%';
             document.getElementById('vaultInfo').innerHTML = hitTarget
-                ? '<strong>Target reached!</strong> Your vault is unlocked.'
-                : 'Keep checking in to reach your ' + goal.target + '% target and unlock your vault.';
+                ? '<strong>Target reached!</strong> Your savings are unlocked.'
+                : 'Keep checking in to reach your ' + goal.target + '% target and unlock your savings.';
 
             // Settings
             var chevron = ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
@@ -1638,7 +1638,7 @@
                             '<div class="habit-analytics-grid" style="flex:1;">' +
                                 '<div class="habit-analytics-stat"><div class="habit-analytics-value">' + (stats.currentStreak || 0) + '</div><div class="habit-analytics-label">Current</div></div>' +
                                 '<div class="habit-analytics-stat"><div class="habit-analytics-value">' + (stats.bestStreak || 0) + '</div><div class="habit-analytics-label">Best</div></div>' +
-                                '<div class="habit-analytics-stat"><div class="habit-analytics-value">$' + (stats.vaultAmount || 0).toFixed(0) + '</div><div class="habit-analytics-label">Vault</div></div>' +
+                                '<div class="habit-analytics-stat"><div class="habit-analytics-value">$' + (stats.vaultAmount || 0).toFixed(0) + '</div><div class="habit-analytics-label">Savings</div></div>' +
                             '</div>' +
                         '</div>' +
                         '<div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.3px;margin-bottom:6px;">Last 30 days</div>' +
