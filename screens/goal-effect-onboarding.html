@@ -697,6 +697,171 @@
             color: #D97706;
             font-weight: 600;
         }
+
+        /* Habit Form Fields (onboarding) */
+        .habit-form-card {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+        .habit-form-row {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        .habit-form-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .habit-form-fields {
+            flex: 1;
+            min-width: 0;
+        }
+        .habit-name-input {
+            width: 100%;
+            border: none;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            background: none;
+            outline: none;
+            padding: 0;
+            margin-bottom: 6px;
+            font-family: inherit;
+        }
+        .habit-name-input::placeholder {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+        .habit-penalty-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .habit-penalty-row span {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .habit-penalty-input {
+            width: 50px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 4px 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-align: center;
+            background: var(--bg);
+            font-family: inherit;
+        }
+        .habit-freq-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+        }
+        .habit-freq-row .freq-label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .habit-freq-unit {
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 4px 6px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-primary);
+            background: var(--bg);
+            font-family: inherit;
+            cursor: pointer;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .habit-freq-num {
+            width: 40px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+            background: var(--bg);
+            text-align: center;
+            font-family: inherit;
+        }
+        .remove-habit-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+        .add-habit-btn {
+            width: 100%;
+            padding: 12px;
+            border: 2px dashed var(--border);
+            border-radius: 14px;
+            background: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: inherit;
+            margin-top: 4px;
+        }
+        .summary-habits-list {
+            margin-top: 16px;
+            border-top: 1px solid var(--border);
+            padding-top: 12px;
+        }
+        .summary-habit-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+        }
+        .summary-habit-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .summary-habit-info {
+            flex: 1;
+        }
+        .summary-habit-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .summary-habit-detail {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
     </style>
 </head>
 <body>
@@ -861,32 +1026,13 @@
                             </div>
                         </div>
 
-                        <div class="form-section" id="penaltySection">
-                            <label class="form-label">Daily Penalty</label>
-                            <div class="penalty-options" id="penaltyOptions">
-                                <div class="penalty-option" data-amount="1">
-                                    <div class="penalty-amount">$1</div>
-                                    <div class="penalty-label">light</div>
-                                </div>
-                                <div class="penalty-option selected" data-amount="5">
-                                    <div class="penalty-amount">$5</div>
-                                    <div class="penalty-label">medium</div>
-                                </div>
-                                <div class="penalty-option" data-amount="10">
-                                    <div class="penalty-amount">$10</div>
-                                    <div class="penalty-label">serious</div>
-                                </div>
-                                <div class="penalty-option" data-amount="20">
-                                    <div class="penalty-amount">$20</div>
-                                    <div class="penalty-label">intense</div>
-                                </div>
-                            </div>
-                            <div class="custom-input-row">
-                                <span>Or set custom:</span>
-                                <span>$</span>
-                                <input type="number" class="custom-input" id="customPenalty" placeholder="25" min="1" max="100" oninput="setCustomPenalty()">
-                                <span>per day</span>
-                            </div>
+                        <div class="form-section" id="habitsSection">
+                            <label class="form-label">Habits <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:12px;color:var(--text-muted);">— daily actions toward this goal</span></label>
+                            <div id="habitsFormContainer"></div>
+                            <button type="button" class="add-habit-btn" onclick="addHabitField()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                Add Another Habit
+                            </button>
                         </div>
 
                         <div class="form-section">
@@ -923,8 +1069,8 @@
                     </div>
 
                     <div class="screen-footer">
-                        <button class="primary-btn" id="createGoalBtn" onclick="nextScreen()" disabled>Create Goal</button>
-                        <p class="hint-text">Enter a goal name to continue</p>
+                        <button class="primary-btn" id="createGoalBtn" onclick="createAndSaveGoal()" disabled>Create Goal</button>
+                        <p class="hint-text" id="hintText">Enter a goal name and at least one habit</p>
                     </div>
                 </div>
             </div>
@@ -959,10 +1105,11 @@
                                     <div class="success-detail-label">Target</div>
                                 </div>
                                 <div class="success-detail">
-                                    <div class="success-detail-value" id="summaryPenalty">$5</div>
-                                    <div class="success-detail-label">Per miss</div>
+                                    <div class="success-detail-value" id="summaryHabitCount">1</div>
+                                    <div class="success-detail-label">Habits</div>
                                 </div>
                             </div>
+                            <div class="summary-habits-list" id="summaryHabitsList"></div>
                         </div>
 
                         <div class="ninja-wisdom">
@@ -983,21 +1130,23 @@
         <script src="goal-ninja-data.js"></script>
         <script src="ninja-buddy.js"></script>
 <script>
-        let currentScreen = 0;
-        const totalScreens = 5;
-        let paymentConnected = false;
-        let selectedPenalty = 5;
-        let selectedDuration = 30;
-        let selectedTarget = 80;
-        let selectedIcon = 'coffee';
+        var currentScreen = 0;
+        var totalScreens = 5;
+        var paymentConnected = false;
+        var selectedDuration = 30;
+        var selectedTarget = 80;
+        var selectedIcon = 'coffee';
+        var habitCounter = 0;
+        var habitFields = [];
 
         function updateScreen() {
-            const container = document.getElementById('screensContainer');
-            container.style.transform = `translateX(-${currentScreen * 20}%)`;
-            
-            document.querySelectorAll('.dot').forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentScreen);
-            });
+            var container = document.getElementById('screensContainer');
+            container.style.transform = 'translateX(-' + (currentScreen * 20) + '%)';
+
+            var dots = document.querySelectorAll('.dot');
+            for (var i = 0; i < dots.length; i++) {
+                dots[i].classList.toggle('active', i === currentScreen);
+            }
 
             document.querySelector('.back-btn').classList.toggle('visible', currentScreen > 0);
             document.querySelector('.skip-btn').style.display = currentScreen >= totalScreens - 1 ? 'none' : 'block';
@@ -1025,15 +1174,12 @@
         function connectPayment() {
             paymentConnected = true;
             document.getElementById('liteBanner').classList.remove('visible');
-            document.getElementById('penaltySection').style.opacity = '1';
             nextScreen();
         }
 
         function skipPayment() {
             paymentConnected = false;
             document.getElementById('liteBanner').classList.add('visible');
-            // Don't disable the section - let users still set it up for when they add payment later
-            document.getElementById('penaltySection').style.opacity = '1';
             nextScreen();
         }
 
@@ -1043,49 +1189,267 @@
         }
 
         function selectIcon(element) {
-            document.querySelectorAll('.icon-option').forEach(el => el.classList.remove('selected'));
+            var allIcons = document.querySelectorAll('.icon-option');
+            for (var i = 0; i < allIcons.length; i++) {
+                allIcons[i].classList.remove('selected');
+            }
             element.classList.add('selected');
-            selectedIcon = element.textContent;
-            document.getElementById('summaryIcon').textContent = selectedIcon;
-        }
-
-        function setCustomPenalty() {
-            const customValue = parseInt(document.getElementById('customPenalty').value);
-            if (customValue && customValue > 0) {
-                document.querySelectorAll('.penalty-option').forEach(el => el.classList.remove('selected'));
-                selectedPenalty = customValue;
-                updateSummary();
+            selectedIcon = element.dataset.icon || 'coffee';
+            var summaryIconEl = document.getElementById('summaryIcon');
+            if (summaryIconEl && typeof GN_getIconSVG === 'function') {
+                summaryIconEl.innerHTML = GN_getIconSVG(selectedIcon, 22);
             }
         }
 
+        // --- Habit Management Functions ---
+
+        function parseFrequency(freq) {
+            if (!freq || freq === 'daily') return { num: 1, unit: 'days' };
+            if (freq === 'every2days') return { num: 2, unit: 'days' };
+            if (freq === 'every3days') return { num: 3, unit: 'days' };
+            if (freq === 'weekly') return { num: 1, unit: 'weeks' };
+            if (freq === 'monthly') return { num: 1, unit: 'months' };
+            var m = (freq || '').match(/^every(\d+)(days|weeks|months)$/);
+            if (m) return { num: parseInt(m[1]), unit: m[2] };
+            return { num: 1, unit: 'days' };
+        }
+
+        function buildFrequencyString(num, unit) {
+            num = parseInt(num) || 1;
+            if (num === 1 && unit === 'days') return 'daily';
+            if (num === 1 && unit === 'weeks') return 'weekly';
+            if (num === 1 && unit === 'months') return 'monthly';
+            return 'every' + num + unit;
+        }
+
+        function addHabitField(name, penalty, icon, frequency) {
+            habitCounter++;
+            var id = 'habit_field_' + habitCounter;
+            var habitName = name || '';
+            var habitPenalty = penalty || 5;
+            var habitIcon = icon || 'default';
+            var parsed = parseFrequency(frequency || 'daily');
+
+            habitFields.push({ id: id, icon: habitIcon });
+
+            var container = document.getElementById('habitsFormContainer');
+            var card = document.createElement('div');
+            card.className = 'habit-form-card';
+            card.id = id;
+
+            var iconSvg = (typeof GN_getIconSVG === 'function') ? GN_getIconSVG(habitIcon, 20) : '';
+
+            var removeBtn = '';
+            if (habitFields.length > 1) {
+                removeBtn = '<button class="remove-habit-btn" onclick="removeHabitField(\'' + id + '\')" title="Remove habit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
+            }
+
+            card.innerHTML = '<div class="habit-form-row">' +
+                '<div class="habit-form-icon">' + iconSvg + '</div>' +
+                '<div class="habit-form-fields">' +
+                    '<input type="text" class="habit-name-input" placeholder="Habit name (e.g., 30 min exercise)" value="' + habitName.replace(/"/g, '&quot;') + '" oninput="updateGoalPreview()">' +
+                    '<div class="habit-penalty-row"><span>Penalty: $</span><input type="number" class="habit-penalty-input" value="' + habitPenalty + '" min="1" max="100" oninput="updateGoalPreview()"><span>/miss</span></div>' +
+                    '<div class="habit-freq-row">' +
+                        '<span class="freq-label">Every</span>' +
+                        '<input type="number" class="habit-freq-num" value="' + parsed.num + '" min="1" max="365" onchange="updateGoalPreview()">' +
+                        '<select class="habit-freq-unit" onchange="updateGoalPreview()">' +
+                            '<option value="days"' + (parsed.unit === 'days' ? ' selected' : '') + '>days</option>' +
+                            '<option value="weeks"' + (parsed.unit === 'weeks' ? ' selected' : '') + '>weeks</option>' +
+                            '<option value="months"' + (parsed.unit === 'months' ? ' selected' : '') + '>months</option>' +
+                        '</select>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' + removeBtn;
+
+            container.appendChild(card);
+            updateGoalPreview();
+        }
+
+        function removeHabitField(id) {
+            var el = document.getElementById(id);
+            if (el) el.remove();
+            habitFields = habitFields.filter(function(h) { return h.id !== id; });
+            // Update remove buttons visibility (hide if only 1 left)
+            var cards = document.querySelectorAll('.habit-form-card');
+            if (cards.length === 1) {
+                var btn = cards[0].querySelector('.remove-habit-btn');
+                if (btn) btn.remove();
+            }
+            updateGoalPreview();
+        }
+
+        function getHabitsFromForm() {
+            var habits = [];
+            var cards = document.querySelectorAll('.habit-form-card');
+            for (var i = 0; i < cards.length; i++) {
+                var card = cards[i];
+                var nameInput = card.querySelector('.habit-name-input');
+                var penaltyInput = card.querySelector('.habit-penalty-input');
+                var freqNum = card.querySelector('.habit-freq-num');
+                var freqUnit = card.querySelector('.habit-freq-unit');
+                var fieldData = null;
+                for (var j = 0; j < habitFields.length; j++) {
+                    if (habitFields[j].id === card.id) { fieldData = habitFields[j]; break; }
+                }
+                var freq = 'daily';
+                if (freqNum && freqUnit) {
+                    freq = buildFrequencyString(freqNum.value, freqUnit.value);
+                }
+                if (nameInput && nameInput.value.trim()) {
+                    habits.push({
+                        name: nameInput.value.trim(),
+                        icon: fieldData ? fieldData.icon : 'default',
+                        penalty: parseInt(penaltyInput.value) || 5,
+                        frequency: freq
+                    });
+                }
+            }
+            return habits;
+        }
+
+        // --- Duration Functions ---
+
         function setCustomDuration() {
-            const customValue = parseInt(document.getElementById('customDuration').value);
+            var customValue = parseInt(document.getElementById('customDuration').value);
             if (customValue && customValue > 0) {
-                document.querySelectorAll('.duration-option').forEach(el => el.classList.remove('selected'));
+                var opts = document.querySelectorAll('.duration-option');
+                for (var i = 0; i < opts.length; i++) opts[i].classList.remove('selected');
                 selectedDuration = customValue;
                 updateTarget();
                 updateSummary();
             }
         }
-        
-        // Event delegation for penalty options
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('penaltyOptions').addEventListener('click', function(e) {
-                const option = e.target.closest('.penalty-option');
-                if (option) {
-                    document.querySelectorAll('.penalty-option').forEach(el => el.classList.remove('selected'));
-                    option.classList.add('selected');
-                    selectedPenalty = parseInt(option.dataset.amount);
-                    document.getElementById('customPenalty').value = '';
-                    updateSummary();
+
+        // --- Core UI Functions ---
+
+        function updateTarget() {
+            var slider = document.getElementById('targetSlider');
+            selectedTarget = parseInt(slider.value);
+            document.getElementById('targetValue').textContent = selectedTarget + '%';
+            var targetDays = Math.round(selectedDuration * (selectedTarget / 100));
+            document.getElementById('targetDays').textContent = targetDays;
+
+            var durationText = document.querySelector('.target-desc');
+            durationText.innerHTML = 'Complete <span id="targetDays">' + targetDays + '</span> of ' + selectedDuration + ' days to unlock savings';
+
+            updateSummary();
+        }
+
+        function updateGoalPreview() {
+            var goalName = document.getElementById('goalName').value;
+            var habits = getHabitsFromForm();
+            var createBtn = document.getElementById('createGoalBtn');
+            var hint = document.getElementById('hintText');
+
+            if (goalName.trim().length > 0 && habits.length > 0) {
+                createBtn.disabled = false;
+                if (hint) hint.style.display = 'none';
+            } else {
+                createBtn.disabled = true;
+                if (hint) hint.style.display = 'block';
+            }
+
+            updateSummary();
+        }
+
+        function updateSummary() {
+            var goalName = document.getElementById('goalName').value || 'Your Goal';
+            var habits = getHabitsFromForm();
+            var totalPenalty = 0;
+            for (var i = 0; i < habits.length; i++) {
+                totalPenalty += habits[i].penalty;
+            }
+
+            document.getElementById('summaryGoalName').textContent = goalName;
+
+            var desc = selectedDuration + ' days';
+            if (habits.length > 0) {
+                desc += ' \u00b7 ' + habits.length + ' habit' + (habits.length !== 1 ? 's' : '');
+                if (paymentConnected) desc += ' \u00b7 $' + totalPenalty + '/day max';
+            }
+            document.getElementById('summaryGoalDesc').textContent = desc;
+
+            document.getElementById('summaryDuration').textContent = selectedDuration;
+            document.getElementById('summaryTarget').textContent = selectedTarget + '%';
+
+            var countEl = document.getElementById('summaryHabitCount');
+            if (countEl) countEl.textContent = habits.length || habitFields.length;
+
+            // Build habits list for Screen 4
+            var listEl = document.getElementById('summaryHabitsList');
+            if (listEl && habits.length > 0) {
+                var html = '';
+                for (var j = 0; j < habits.length; j++) {
+                    var h = habits[j];
+                    var freqLabel = (typeof GN_getFrequencyShort === 'function') ? GN_getFrequencyShort(h.frequency) : h.frequency;
+                    var iconHtml = (typeof GN_getIconSVG === 'function') ? GN_getIconSVG(h.icon || 'default', 16) : '';
+                    html += '<div class="summary-habit-item">' +
+                        '<div class="summary-habit-icon">' + iconHtml + '</div>' +
+                        '<div class="summary-habit-info">' +
+                            '<div class="summary-habit-name">' + h.name + '</div>' +
+                            '<div class="summary-habit-detail">$' + h.penalty + ' penalty \u00b7 ' + freqLabel + '</div>' +
+                        '</div>' +
+                    '</div>';
                 }
-            });
-            
-            // Event delegation for duration options
+                listEl.innerHTML = html;
+            }
+        }
+
+        // --- Save & Finish Functions ---
+
+        function createAndSaveGoal() {
+            var goalName = document.getElementById('goalName').value;
+            if (!goalName || !goalName.trim()) return;
+
+            var habits = getHabitsFromForm();
+            if (habits.length === 0) return;
+
+            // Create the goal
+            var goalData = {
+                name: goalName.trim(),
+                icon: selectedIcon || 'coffee',
+                description: '',
+                duration: selectedDuration,
+                target: selectedTarget,
+                habitIds: []
+            };
+            var newGoal = GN_addGoal(goalData);
+
+            // Create each habit and link to goal
+            for (var i = 0; i < habits.length; i++) {
+                var h = habits[i];
+                var newHabit = GN_addHabit({
+                    name: h.name,
+                    icon: h.icon,
+                    penalty: h.penalty,
+                    frequency: h.frequency || 'daily',
+                    reminder: '21:00',
+                    goalIds: [newGoal.id]
+                });
+                GN_linkHabitToGoal(newHabit.id, newGoal.id);
+            }
+
+            // Mark onboarding as complete
+            localStorage.setItem('goalNinjaOnboarded', 'true');
+
+            // Update summary and go to success screen
+            updateSummary();
+            nextScreen();
+        }
+
+        function finishOnboarding() {
+            window.location.href = 'goal-effect-home.html';
+        }
+
+        // --- Init ---
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Duration options
             document.getElementById('durationOptions').addEventListener('click', function(e) {
-                const option = e.target.closest('.duration-option');
+                var option = e.target.closest('.duration-option');
                 if (option) {
-                    document.querySelectorAll('.duration-option').forEach(el => el.classList.remove('selected'));
+                    var opts = document.querySelectorAll('.duration-option');
+                    for (var i = 0; i < opts.length; i++) opts[i].classList.remove('selected');
                     option.classList.add('selected');
                     selectedDuration = parseInt(option.dataset.days);
                     document.getElementById('customDuration').value = '';
@@ -1093,62 +1457,19 @@
                     updateSummary();
                 }
             });
-            
-            // Custom penalty input - also select when focused/clicked
-            document.getElementById('customPenalty').addEventListener('focus', function() {
-                document.querySelectorAll('.penalty-option').forEach(el => el.classList.remove('selected'));
-            });
-            
-            // Custom duration input - also select when focused/clicked
+
+            // Custom duration
             document.getElementById('customDuration').addEventListener('focus', function() {
-                document.querySelectorAll('.duration-option').forEach(el => el.classList.remove('selected'));
+                var opts = document.querySelectorAll('.duration-option');
+                for (var i = 0; i < opts.length; i++) opts[i].classList.remove('selected');
             });
-            
+
             updateScreen();
             updateTarget();
+
+            // Add one blank habit field to start
+            addHabitField('', 5, selectedIcon, 'daily');
         });
-
-        function updateTarget() {
-            const slider = document.getElementById('targetSlider');
-            selectedTarget = parseInt(slider.value);
-            document.getElementById('targetValue').textContent = selectedTarget + '%';
-            const targetDays = Math.round(selectedDuration * (selectedTarget / 100));
-            document.getElementById('targetDays').textContent = targetDays;
-            
-            const durationText = document.querySelector('.target-desc');
-            durationText.innerHTML = `Complete <span id="targetDays">${targetDays}</span> of ${selectedDuration} days to unlock savings`;
-            
-            updateSummary();
-        }
-
-        function updateGoalPreview() {
-            const goalName = document.getElementById('goalName').value;
-            const createBtn = document.getElementById('createGoalBtn');
-            const hint = document.querySelector('.hint-text');
-            
-            if (goalName.trim().length > 0) {
-                createBtn.disabled = false;
-                hint.style.display = 'none';
-            } else {
-                createBtn.disabled = true;
-                hint.style.display = 'block';
-            }
-            
-            updateSummary();
-        }
-
-        function updateSummary() {
-            const goalName = document.getElementById('goalName').value || 'Your Goal';
-            document.getElementById('summaryGoalName').textContent = goalName;
-            document.getElementById('summaryGoalDesc').textContent = `${selectedDuration} days · ${paymentConnected ? '$' + selectedPenalty + ' penalty' : 'No stakes (lite mode)'}`;
-            document.getElementById('summaryDuration').textContent = selectedDuration;
-            document.getElementById('summaryTarget').textContent = selectedTarget + '%';
-            document.getElementById('summaryPenalty').textContent = paymentConnected ? '$' + selectedPenalty : '—';
-        }
-
-        function finishOnboarding() {
-            alert('Welcome to Goal Ninja! In the full app, this would take you to your dashboard.');
-        }
     </script>
     <script>
     if ('serviceWorker' in navigator) {

@@ -1008,6 +1008,8 @@ function GN_getIconSVG(iconId, size) {
     icons['nosocial'] = icons.phone;
     icons['nocoffee'] = icons.coffee;
     icons['saving'] = icons.money;
+    icons['fitness'] = icons.exercise;
+    icons['meditate'] = icons.meditation;
     icons['default'] = icons.target;
 
     return icons[iconId] || icons['default'];
