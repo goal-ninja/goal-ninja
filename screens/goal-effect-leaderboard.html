@@ -135,16 +135,17 @@
             color: var(--text-secondary);
         }
 
-        .filters-row {
+        .rank-filters {
             display: flex;
             gap: 8px;
-            margin-bottom: 16px;
-            align-items: center;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255,255,255,0.1);
         }
 
         .filter-tabs {
             display: flex;
-            background: var(--card-bg);
+            background: rgba(255,255,255,0.1);
             border-radius: 10px;
             padding: 3px;
             flex: 1;
@@ -155,23 +156,22 @@
             background: none;
             border: none;
             border-radius: 8px;
-            padding: 8px 6px;
-            font-size: 12px;
+            padding: 7px 4px;
+            font-size: 11px;
             font-weight: 600;
-            color: var(--text-secondary);
+            color: rgba(255,255,255,0.5);
             cursor: pointer;
             transition: all 0.2s;
         }
 
         .filter-tab.active {
-            background: var(--text-primary);
+            background: rgba(255,255,255,0.2);
             color: white;
         }
 
         .metric-tabs {
             display: flex;
-            gap: 4px;
-            background: var(--card-bg);
+            background: rgba(255,255,255,0.1);
             border-radius: 10px;
             padding: 3px;
         }
@@ -180,25 +180,25 @@
             background: none;
             border: none;
             border-radius: 8px;
-            padding: 8px 10px;
-            font-size: 12px;
+            padding: 7px 8px;
+            font-size: 11px;
             font-weight: 600;
-            color: var(--text-secondary);
+            color: rgba(255,255,255,0.5);
             cursor: pointer;
             white-space: nowrap;
             transition: all 0.2s;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 3px;
         }
 
         .metric-tab svg {
-            width: 12px;
-            height: 12px;
+            width: 11px;
+            height: 11px;
         }
 
         .metric-tab.active {
-            background: var(--text-primary);
+            background: rgba(255,255,255,0.2);
             color: white;
         }
 
@@ -274,6 +274,7 @@
             display: flex;
             align-items: center;
             gap: 16px;
+            flex-wrap: wrap;
         }
 
         .your-rank-position {
@@ -762,30 +763,30 @@
                     </div>
                 </div>
                 <div class="your-rank-badge">↑ 3</div>
+                <div class="rank-filters">
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" onclick="setTimeFilter('week')">Week</button>
+                        <button class="filter-tab" onclick="setTimeFilter('month')">Month</button>
+                        <button class="filter-tab" onclick="setTimeFilter('all')">All</button>
+                    </div>
+                    <div class="metric-tabs">
+                        <button class="metric-tab active" onclick="setMetric('streak')">
+                            <svg viewBox="0 0 24 24" fill="currentColor" width="11" height="11"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                            Streak
+                        </button>
+                        <button class="metric-tab" onclick="setMetric('rate')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                            Rate
+                        </button>
+                        <button class="metric-tab" onclick="setMetric('saved')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            Savings
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <div class="filters-row animate-in delay-1">
-            <div class="filter-tabs">
-                <button class="filter-tab active" onclick="setTimeFilter('week')">This Week</button>
-                <button class="filter-tab" onclick="setTimeFilter('month')">This Month</button>
-                <button class="filter-tab" onclick="setTimeFilter('all')">All Time</button>
-            </div>
 
-            <div class="metric-tabs">
-                <button class="metric-tab active" onclick="setMetric('streak')">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                    Streak
-                </button>
-                <button class="metric-tab" onclick="setMetric('rate')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                    Success Rate
-                </button>
-                <button class="metric-tab" onclick="setMetric('saved')">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                    Savings
-                </button>
-            </div>
-            </div>
 
             <!-- Ninja Mascot -->
             
