@@ -892,11 +892,6 @@
 
             <!-- Today's Habits -->
             <div class="section animate-in delay-4">
-                <div class="section-header">
-                    <span class="section-title">Today's Habits</span>
-                    <span class="section-action" id="goalsCount">3 remaining</span>
-                </div>
-
                 <div id="homeMissionsContainer"></div>
             </div>
 
@@ -1067,9 +1062,7 @@
                 unlockedEl.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg> $' + unlocked.toFixed(0) + ' Unlocked';
             }
 
-            // Update section count (completed/total format)
-            var countEl = document.getElementById('goalsCount');
-            if (countEl) countEl.textContent = doneToday + '/' + dueToday;
+
 
             var container = document.getElementById('homeMissionsContainer');
             if (!container) return;
