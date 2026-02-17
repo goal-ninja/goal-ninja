@@ -517,6 +517,89 @@
             text-align: right;
         }
 
+        /* Success Pattern Charts */
+        .sp-chart-card { padding: 14px; }
+        .sp-chart-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        .sp-chart-subtitle {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+        .sp-bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            height: 70px;
+            padding-bottom: 18px;
+            position: relative;
+        }
+        .sp-bar-col {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+        }
+        .sp-bar {
+            width: 100%;
+            border-radius: 4px 4px 0 0;
+            min-height: 3px;
+            transition: height 0.3s ease;
+        }
+        .sp-bar-label {
+            font-size: 9px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        .sp-bar-pct {
+            font-size: 8px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        .sp-line-chart {
+            display: flex;
+            gap: 6px;
+            height: 100px;
+        }
+        .sp-y-axis {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 8px;
+            color: var(--text-muted);
+            padding-bottom: 16px;
+            min-width: 28px;
+            text-align: right;
+        }
+        .sp-chart-area {
+            flex: 1;
+            position: relative;
+            border-left: 1px solid var(--bg);
+            border-bottom: 1px solid var(--bg);
+        }
+        .sp-chart-area svg {
+            width: 100%;
+            height: calc(100% - 16px);
+            overflow: visible;
+        }
+        .sp-x-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 8px;
+            color: var(--text-muted);
+            padding-top: 3px;
+        }
+        .sp-no-data {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 20px 0;
+        }
+
         /* Pro Lock Overlay */
         .pro-section { position: relative; }
         .pro-section .pro-content {
@@ -764,30 +847,53 @@
                     </div>
                 </div>
 
-                <!-- Success Patterns (PRO) -->
+                <!-- Success Patterns -->
                 <div class="section animate-in delay-4">
                     <h3 class="section-title">Success Patterns</h3>
-                    <div class="card">
-                        <div class="pro-content" id="successPatternsContent">
-                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
-                                <div style="padding:10px;background:var(--bg);border-radius:10px;">
-                                    <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px">Best Day</div>
-                                    <div style="font-size:15px;font-weight:700" id="spBestDay">—</div>
-                                </div>
-                                <div style="padding:10px;background:var(--bg);border-radius:10px;">
-                                    <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px">Penalty Impact</div>
-                                    <div style="font-size:15px;font-weight:700" id="spPenalty">—</div>
-                                </div>
-                                <div style="padding:10px;background:var(--bg);border-radius:10px;">
-                                    <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px">Simple Goals</div>
-                                    <div style="font-size:15px;font-weight:700" id="spSimple">—</div>
-                                </div>
-                                <div style="padding:10px;background:var(--bg);border-radius:10px;">
-                                    <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px">30-Day Goals</div>
-                                    <div style="font-size:15px;font-weight:700" id="sp30Day">—</div>
-                                </div>
+
+                    <!-- Best Day Bar Chart -->
+                    <div class="card sp-chart-card">
+                        <div class="sp-chart-title">Best Day to Complete Habits</div>
+                        <div class="sp-chart-subtitle" id="spBestDayLabel">—</div>
+                        <div class="sp-bar-chart" id="spBestDayChart"></div>
+                    </div>
+
+                    <!-- Penalty Impact Line Chart -->
+                    <div class="card sp-chart-card" style="margin-top:10px">
+                        <div class="sp-chart-title">Penalty vs Completion Rate</div>
+                        <div class="sp-chart-subtitle" id="spPenaltyLabel">—</div>
+                        <div class="sp-line-chart">
+                            <div class="sp-y-axis"><span>100%</span><span>50%</span><span>0%</span></div>
+                            <div class="sp-chart-area">
+                                <svg id="spPenaltySvg" viewBox="0 0 200 80" preserveAspectRatio="none"></svg>
+                                <div class="sp-x-labels" id="spPenaltyLabels"></div>
                             </div>
-                            <div style="font-size:11px;color:var(--text-secondary);text-align:center" id="spInsight"></div>
+                        </div>
+                    </div>
+
+                    <!-- Goal Complexity Line Chart -->
+                    <div class="card sp-chart-card" style="margin-top:10px">
+                        <div class="sp-chart-title">Goal Complexity vs Completion Rate</div>
+                        <div class="sp-chart-subtitle" id="spComplexityLabel">—</div>
+                        <div class="sp-line-chart">
+                            <div class="sp-y-axis"><span>100%</span><span>50%</span><span>0%</span></div>
+                            <div class="sp-chart-area">
+                                <svg id="spComplexitySvg" viewBox="0 0 200 80" preserveAspectRatio="none"></svg>
+                                <div class="sp-x-labels" id="spComplexityLabels"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Goal Timeframe Line Chart -->
+                    <div class="card sp-chart-card" style="margin-top:10px">
+                        <div class="sp-chart-title">Goal Duration vs Completion Rate</div>
+                        <div class="sp-chart-subtitle" id="spTimeframeLabel">—</div>
+                        <div class="sp-line-chart">
+                            <div class="sp-y-axis"><span>100%</span><span>50%</span><span>0%</span></div>
+                            <div class="sp-chart-area">
+                                <svg id="spTimeframeSvg" viewBox="0 0 200 80" preserveAspectRatio="none"></svg>
+                                <div class="sp-x-labels" id="spTimeframeLabels"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1259,14 +1365,11 @@
             document.getElementById('categoryContainer').innerHTML = html;
         }
 
-        // ---- SUCCESS PATTERNS ----
-        function buildSuccessPatterns() {
+        // ---- SUCCESS PATTERNS: BEST DAY BAR CHART ----
+        function buildBestDayChart() {
             var allCheckins = GN_getAllCheckins();
-            var habits = GN_getHabits();
-            var goals = GN_getGoals();
-
-            // Best day of week
-            var dayCounts = [0,0,0,0,0,0,0]; // Sun-Sat
+            // Count completions per day of week (Mon-Sun order for display)
+            var dayCounts = [0,0,0,0,0,0,0]; // Sun=0 .. Sat=6
             var dayTotals = [0,0,0,0,0,0,0];
             for (var hid in allCheckins) {
                 for (var dateStr in allCheckins[hid]) {
@@ -1277,70 +1380,219 @@
                     if (allCheckins[hid][dateStr] === 'complete') dayCounts[dow]++;
                 }
             }
-            var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-            var bestDay = 'N/A';
-            var bestDayRate = 0;
-            for (var i = 0; i < 7; i++) {
-                if (dayTotals[i] > 0) {
-                    var rate = dayCounts[i] / dayTotals[i];
-                    if (rate > bestDayRate) { bestDayRate = rate; bestDay = dayNames[i]; }
-                }
-            }
-            document.getElementById('spBestDay').textContent = bestDay;
 
-            // Penalty impact: compare habits with penalty >= $5 vs < $5
-            var highPenComp = 0, highPenTotal = 0, lowPenComp = 0, lowPenTotal = 0;
+            // Reorder to Mon-Sun: [1,2,3,4,5,6,0]
+            var order = [1,2,3,4,5,6,0];
+            var labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+            var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+            var rates = [];
+            var bestIdx = -1, bestRate = -1;
+
+            for (var i = 0; i < 7; i++) {
+                var idx = order[i];
+                var rate = dayTotals[idx] > 0 ? Math.round((dayCounts[idx] / dayTotals[idx]) * 100) : 0;
+                rates.push(rate);
+                if (rate > bestRate) { bestRate = rate; bestIdx = i; }
+            }
+
+            var container = document.getElementById('spBestDayChart');
+            if (bestRate <= 0) {
+                container.innerHTML = '<div class="sp-no-data">No checkin data yet</div>';
+                return;
+            }
+
+            var maxRate = Math.max.apply(null, rates) || 1;
+            var html = '';
+            for (var i = 0; i < 7; i++) {
+                var height = Math.max(3, (rates[i] / maxRate) * 100);
+                var color = i === bestIdx ? '#22c55e' : 'var(--bg)';
+                var border = i === bestIdx ? '' : 'border:1px solid rgba(0,0,0,0.06);';
+                html += '<div class="sp-bar-col">' +
+                    '<div class="sp-bar-pct">' + rates[i] + '%</div>' +
+                    '<div class="sp-bar" style="height:' + height + '%;background:' + color + ';' + border + '"></div>' +
+                    '<div class="sp-bar-label">' + labels[i] + '</div></div>';
+            }
+            container.innerHTML = html;
+
+            var bestDayName = dayNames[order[bestIdx]];
+            document.getElementById('spBestDayLabel').textContent = bestDayName + ' is your best day (' + bestRate + '% completion)';
+        }
+
+        // ---- SUCCESS PATTERNS: PENALTY IMPACT LINE CHART ----
+        function buildPenaltyChart() {
+            var habits = GN_getHabits();
+            var points = []; // {x: penalty, y: completionRate, name: habitName}
+
             habits.forEach(function(h) {
                 var stats = GN_getHabitStats(h.id);
                 if (!stats || stats.totalCheckins === 0) return;
-                if (h.penalty >= 5) { highPenComp += stats.completionRate; highPenTotal++; }
-                else { lowPenComp += stats.completionRate; lowPenTotal++; }
+                points.push({ x: h.penalty || 0, y: stats.completionRate, name: h.name });
             });
-            var highAvg = highPenTotal > 0 ? Math.round(highPenComp / highPenTotal) : 0;
-            var lowAvg = lowPenTotal > 0 ? Math.round(lowPenComp / lowPenTotal) : 0;
-            var penDiff = highAvg - lowAvg;
-            if (highPenTotal > 0 && lowPenTotal > 0) {
-                document.getElementById('spPenalty').textContent = '$5+ = ' + (penDiff >= 0 ? '+' : '') + penDiff + '%';
-            } else if (highPenTotal > 0) {
-                document.getElementById('spPenalty').textContent = highAvg + '% avg';
-            } else {
-                document.getElementById('spPenalty').textContent = lowAvg + '% avg';
+
+            if (points.length < 2) {
+                document.getElementById('spPenaltySvg').innerHTML = '';
+                document.getElementById('spPenaltyLabels').innerHTML = '';
+                document.getElementById('spPenaltyLabel').textContent = points.length === 1 ?
+                    'Need more habits with different penalties to show trend' : 'No habit data yet';
+                return;
             }
 
-            // Simple goals (<=3 habits) vs complex (4+)
-            var simpleRate = 0, simpleCount = 0, complexRate = 0, complexCount = 0;
+            points.sort(function(a, b) { return a.x - b.x; });
+            var minX = points[0].x, maxX = points[points.length - 1].x;
+            var rangeX = maxX - minX || 1;
+
+            // Build SVG
+            var svgPts = points.map(function(p) {
+                var px = 10 + ((p.x - minX) / rangeX) * 180;
+                var py = 75 - (p.y / 100) * 70;
+                return { px: px, py: py, data: p };
+            });
+
+            var polyline = svgPts.map(function(p) { return p.px + ',' + p.py; }).join(' ');
+            var dots = svgPts.map(function(p) {
+                return '<circle cx="' + p.px + '" cy="' + p.py + '" r="3.5" fill="#E67E22" stroke="white" stroke-width="1.5"/>';
+            }).join('');
+
+            document.getElementById('spPenaltySvg').innerHTML =
+                '<polyline points="' + polyline + '" fill="none" stroke="#E67E22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>' + dots;
+
+            // X labels
+            var uniquePenalties = [];
+            points.forEach(function(p) { if (uniquePenalties.indexOf(p.x) === -1) uniquePenalties.push(p.x); });
+            var labelHtml = uniquePenalties.map(function(p) { return '<span>$' + p + '</span>'; }).join('');
+            document.getElementById('spPenaltyLabels').innerHTML = labelHtml;
+
+            // Insight
+            var first = points[0].y, last = points[points.length - 1].y;
+            var diff = last - first;
+            if (diff > 5) {
+                document.getElementById('spPenaltyLabel').textContent = 'Higher penalties correlate with +' + Math.round(diff) + '% completion';
+            } else if (diff < -5) {
+                document.getElementById('spPenaltyLabel').textContent = 'Lower penalties show ' + Math.abs(Math.round(diff)) + '% better completion';
+            } else {
+                document.getElementById('spPenaltyLabel').textContent = 'Penalty amount has minimal impact on your completion rate';
+            }
+        }
+
+        // ---- SUCCESS PATTERNS: GOAL COMPLEXITY LINE CHART ----
+        function buildComplexityChart() {
+            var goals = GN_getGoals();
+            var groups = {}; // habitCount -> { totalRate, count }
+
             goals.forEach(function(g) {
                 if (g.status !== 'active' && g.status !== 'paused' && g.status !== 'completed') return;
                 var gHabits = GN_getHabitsForGoal(g.id);
                 var stats = GN_getGoalStats(g.id);
-                if (!stats) return;
-                if (gHabits.length <= 3) { simpleRate += stats.completionRate; simpleCount++; }
-                else { complexRate += stats.completionRate; complexCount++; }
+                if (!stats || !gHabits.length) return;
+                var key = gHabits.length;
+                if (!groups[key]) groups[key] = { totalRate: 0, count: 0 };
+                groups[key].totalRate += stats.completionRate;
+                groups[key].count++;
             });
-            var simpleAvg = simpleCount > 0 ? Math.round(simpleRate / simpleCount) : 0;
-            var complexAvg = complexCount > 0 ? Math.round(complexRate / complexCount) : 0;
-            document.getElementById('spSimple').textContent = simpleCount > 0 ? simpleAvg + '% rate' : 'No data';
 
-            // 30-day goals vs longer
-            var shortRate = 0, shortCount = 0, longRate = 0, longCount = 0;
+            var points = [];
+            for (var k in groups) {
+                points.push({ x: parseInt(k), y: Math.round(groups[k].totalRate / groups[k].count) });
+            }
+
+            if (points.length < 2) {
+                document.getElementById('spComplexitySvg').innerHTML = '';
+                document.getElementById('spComplexityLabels').innerHTML = '';
+                document.getElementById('spComplexityLabel').textContent = points.length === 1 ?
+                    'Need goals with different habit counts to show trend' : 'No goal data yet';
+                return;
+            }
+
+            points.sort(function(a, b) { return a.x - b.x; });
+            var minX = points[0].x, maxX = points[points.length - 1].x;
+            var rangeX = maxX - minX || 1;
+
+            var svgPts = points.map(function(p) {
+                var px = 10 + ((p.x - minX) / rangeX) * 180;
+                var py = 75 - (p.y / 100) * 70;
+                return { px: px, py: py, data: p };
+            });
+
+            var polyline = svgPts.map(function(p) { return p.px + ',' + p.py; }).join(' ');
+            var dots = svgPts.map(function(p) {
+                return '<circle cx="' + p.px + '" cy="' + p.py + '" r="3.5" fill="#3b82f6" stroke="white" stroke-width="1.5"/>';
+            }).join('');
+
+            document.getElementById('spComplexitySvg').innerHTML =
+                '<polyline points="' + polyline + '" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>' + dots;
+
+            var labelHtml = points.map(function(p) { return '<span>' + p.x + ' habit' + (p.x !== 1 ? 's' : '') + '</span>'; }).join('');
+            document.getElementById('spComplexityLabels').innerHTML = labelHtml;
+
+            // Insight
+            var first = points[0].y, last = points[points.length - 1].y;
+            var diff = first - last;
+            if (diff > 5) {
+                document.getElementById('spComplexityLabel').textContent = 'Simpler goals outperform complex ones by ' + Math.round(diff) + '%';
+            } else if (diff < -5) {
+                document.getElementById('spComplexityLabel').textContent = 'Complex goals outperform simpler ones by ' + Math.abs(Math.round(diff)) + '%';
+            } else {
+                document.getElementById('spComplexityLabel').textContent = 'Goal complexity has minimal impact on your completion rate';
+            }
+        }
+
+        // ---- SUCCESS PATTERNS: GOAL TIMEFRAME LINE CHART ----
+        function buildTimeframeChart() {
+            var goals = GN_getGoals();
+            var points = []; // {x: duration, y: completionRate}
+
             goals.forEach(function(g) {
                 if (g.status !== 'active' && g.status !== 'paused' && g.status !== 'completed') return;
                 var stats = GN_getGoalStats(g.id);
                 if (!stats) return;
-                if (g.duration > 0 && g.duration <= 30) { shortRate += stats.completionRate; shortCount++; }
-                else { longRate += stats.completionRate; longCount++; }
+                var dur = g.duration > 0 ? g.duration : 0;
+                if (dur === 0) return; // Skip ongoing goals (no timeframe)
+                points.push({ x: dur, y: stats.completionRate, name: g.name });
             });
-            var shortAvg = shortCount > 0 ? Math.round(shortRate / shortCount) : 0;
-            document.getElementById('sp30Day').textContent = shortCount > 0 ? shortAvg + '% rate' : 'No data';
 
-            // Insight text
-            var insight = '';
-            if (bestDay !== 'N/A') insight = 'You perform best on ' + bestDay + 's. ';
-            if (simpleCount > 0 && complexCount > 0) {
-                if (simpleAvg > complexAvg) insight += 'Simpler goals outperform complex ones by ' + (simpleAvg - complexAvg) + '%.';
-                else insight += 'Complex goals outperform simple ones by ' + (complexAvg - simpleAvg) + '%.';
+            if (points.length < 2) {
+                document.getElementById('spTimeframeSvg').innerHTML = '';
+                document.getElementById('spTimeframeLabels').innerHTML = '';
+                document.getElementById('spTimeframeLabel').textContent = points.length === 1 ?
+                    'Need goals with different durations to show trend' : 'No timed goal data yet';
+                return;
             }
-            document.getElementById('spInsight').textContent = insight;
+
+            points.sort(function(a, b) { return a.x - b.x; });
+            var minX = points[0].x, maxX = points[points.length - 1].x;
+            var rangeX = maxX - minX || 1;
+
+            var svgPts = points.map(function(p) {
+                var px = 10 + ((p.x - minX) / rangeX) * 180;
+                var py = 75 - (p.y / 100) * 70;
+                return { px: px, py: py, data: p };
+            });
+
+            var polyline = svgPts.map(function(p) { return p.px + ',' + p.py; }).join(' ');
+            var dots = svgPts.map(function(p) {
+                return '<circle cx="' + p.px + '" cy="' + p.py + '" r="3.5" fill="#8b5cf6" stroke="white" stroke-width="1.5"/>';
+            }).join('');
+
+            document.getElementById('spTimeframeSvg').innerHTML =
+                '<polyline points="' + polyline + '" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>' + dots;
+
+            // Labels: show duration in friendly format
+            var labelHtml = points.map(function(p) {
+                var lbl = p.x <= 7 ? p.x + 'd' : p.x <= 60 ? p.x + 'd' : Math.round(p.x / 30) + 'mo';
+                return '<span>' + lbl + '</span>';
+            }).join('');
+            document.getElementById('spTimeframeLabels').innerHTML = labelHtml;
+
+            // Insight
+            var first = points[0].y, last = points[points.length - 1].y;
+            var diff = first - last;
+            if (diff > 5) {
+                document.getElementById('spTimeframeLabel').textContent = 'Shorter goals outperform longer ones by ' + Math.round(diff) + '%';
+            } else if (diff < -5) {
+                document.getElementById('spTimeframeLabel').textContent = 'Longer goals outperform shorter ones by ' + Math.abs(Math.round(diff)) + '%';
+            } else {
+                document.getElementById('spTimeframeLabel').textContent = 'Goal duration has minimal impact on your completion rate';
+            }
         }
 
         // ---- COMMUNITY BENCHMARKS ----
@@ -1641,7 +1893,10 @@
             buildStreaks();
             buildGoalProgress();
             buildCategories();
-            buildSuccessPatterns();
+            buildBestDayChart();
+            buildPenaltyChart();
+            buildComplexityChart();
+            buildTimeframeChart();
             buildBenchmarks();
             buildDropoff();
             buildTimeframe();
