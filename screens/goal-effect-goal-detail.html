@@ -1235,12 +1235,12 @@
             <!-- Stats Grid -->
             <div class="stats-grid animate-in delay-1">
                 <div class="stat-item">
-                    <div class="stat-value" id="statStreak">0</div>
-                    <div class="stat-label">Streak</div>
+                    <div class="stat-value" id="statTarget">0%</div>
+                    <div class="stat-label">Target</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value" id="statRate">0%</div>
-                    <div class="stat-label">Rate</div>
+                    <div class="stat-value" id="statStreak">0</div>
+                    <div class="stat-label">Streak</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value" id="statDaysLeft">0</div>
@@ -1419,8 +1419,13 @@
             document.getElementById('goalSubtitle').innerHTML = subtitleText + ' &middot; ' + habits.length + ' habit' + (habits.length !== 1 ? 's' : '') + ' &middot; <span style="font-weight:600;">$' + totalPenalty + '</span>/day max';
 
             // Stats
-            document.getElementById('statStreak').textContent = goalStats.currentStreak || 0;
-            document.getElementById('statRate').textContent = (goalStats.completionRate || 0) + '%';
+            document.getElementById('statTarget').textContent = goal.target + '%';
+            var bestCurrentStreak = 0;
+            for (var si = 0; si < goalStats.habitStats.length; si++) {
+                var hs = goalStats.habitStats[si];
+                if ((hs.stats.currentStreak || 0) > bestCurrentStreak) bestCurrentStreak = hs.stats.currentStreak;
+            }
+            document.getElementById('statStreak').textContent = bestCurrentStreak;
             if (goal.duration === 0) {
                 document.getElementById('statDaysLeft').textContent = '∞';
             } else {
