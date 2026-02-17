@@ -598,56 +598,6 @@
         .delay-2 { animation-delay: 0.2s; }
         .delay-3 { animation-delay: 0.3s; }
 
-        /* Profile Dropdown */
-        .profile-dropdown {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            z-index: 1000;
-            display: none;
-        }
-        .dropdown-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.3);
-            animation: fadeIn 0.2s ease-out;
-        }
-        .dropdown-menu {
-            position: absolute;
-            top: 60px;
-            right: 20px;
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 8px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-            min-width: 200px;
-            animation: dropdownSlide 0.25s ease-out;
-        }
-        @keyframes dropdownSlide {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
-            border-radius: 10px;
-            text-decoration: none;
-            color: var(--text-primary);
-            font-size: 15px;
-            font-weight: 500;
-            transition: background 0.2s;
-        }
-        .dropdown-item:hover { background: var(--bg); }
-        .dropdown-item svg {
-            width: 20px; height: 20px;
-            color: var(--text-secondary);
-            flex-shrink: 0;
-        }
     </style>
 </head>
 <body>
@@ -662,7 +612,7 @@
                     </div>
                 </div>
                 <div style="display:flex;gap:8px;align-items:center;">
-                    <button class="profile-btn" onclick="window.location.href='goal-effect-create-from-template.html'" title="New Goal" style="background:var(--text-primary);">
+                    <button class="profile-btn" onclick="window.location.href='goal-effect-templates.html'" title="New Goal" style="background:var(--text-primary);">
                         <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
                         </svg>
@@ -670,12 +620,6 @@
                     <button class="profile-btn" onclick="window.location.href='goal-effect-leaderboard.html'" title="Leaderboard">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
-                        </svg>
-                    </button>
-                    <button class="profile-btn" onclick="toggleProfileDropdown()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                            <circle cx="12" cy="7" r="4"/>
                         </svg>
                     </button>
                 </div>
@@ -729,34 +673,6 @@
         </div>
 
         <!-- Bottom Navigation -->
-        <!-- Profile Dropdown -->
-        <div class="profile-dropdown" id="profileDropdown" style="display:none;">
-            <div class="dropdown-overlay" onclick="closeProfileDropdown()"></div>
-            <div class="dropdown-menu">
-                <a href="goal-effect-profile.html" class="dropdown-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    Profile
-                </a>
-                <a href="goal-effect-activity.html" class="dropdown-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                    Activity
-                </a>
-                <a href="goal-effect-subscription.html" class="dropdown-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    Upgrade
-                </a>
-                <a href="goal-effect-savings-lock.html" class="dropdown-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                    How Savings Work
-                </a>
-                            <a href="goal-effect-onboarding.html" class="dropdown-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-                    App Tour
-                </a>
-            </div>
-        </div>
-
-        <!-- Bottom Navigation -->
         <nav class="bottom-nav">
             <button class="nav-item active" onclick="goTo('home')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -782,11 +698,12 @@
                 </svg>
                 <span>Savings</span>
             </button>
-            <button class="nav-item" onclick="goTo('explore')">
+            <button class="nav-item" onclick="goTo('profile')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
                 </svg>
-                <span>Explore</span>
+                <span>Profile</span>
             </button>
         </nav>
 
@@ -1039,19 +956,7 @@
             else if (page === 'goals') window.location.href = 'goal-effect-goals-list.html';
             else if (page === 'habits') window.location.href = 'goal-effect-habits-list.html';
             else if (page === 'savings') window.location.href = 'goal-effect-savings.html';
-            else if (page === 'explore') window.location.href = 'goal-effect-templates.html';
-        }
-
-        function toggleProfileDropdown() {
-            var dropdown = document.getElementById('profileDropdown');
-            if (dropdown.style.display === 'none' || !dropdown.style.display) {
-                dropdown.style.display = 'block';
-            } else {
-                dropdown.style.display = 'none';
-            }
-        }
-        function closeProfileDropdown() {
-            document.getElementById('profileDropdown').style.display = 'none';
+            else if (page === 'profile') window.location.href = 'goal-effect-profile.html';
         }
 
         setDate();

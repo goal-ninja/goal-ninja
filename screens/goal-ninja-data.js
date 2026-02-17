@@ -99,9 +99,6 @@
         d+' h1,'+d+' h2,'+d+' h3,'+d+' h4{color:#f0f0f0}',
         d+' p{color:#ccc}',
         d+' a{color:#8bb4f0}',
-        d+' .profile-dropdown{background:#1e1e1e;border-color:#333;box-shadow:0 4px 20px rgba(0,0,0,0.5)}',
-        d+' .profile-dropdown a,'+d+' .profile-dropdown button{color:#f0f0f0}',
-        d+' .profile-dropdown a:hover,'+d+' .profile-dropdown button:hover{background:#2a2a2a}',
         d+' .main-content{background:#121212}',
         d+' .scroll-container{background:#121212}',
         // Goal tag pills in habit cards
