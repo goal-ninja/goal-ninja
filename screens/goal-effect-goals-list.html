@@ -319,14 +319,14 @@
         }
 
         .goal-icon {
-            width: 48px;
-            height: 48px;
+            width: 38px;
+            height: 38px;
             background: var(--bg);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
         }
 
         .goal-name {
@@ -968,7 +968,7 @@
             return '<div class="goal-card" onclick="openGoalDetail(\'' + goal.id + '\')">' +
                 '<div class="goal-card-header">' +
                     '<div class="goal-info">' +
-                        '<div class="goal-icon">' + GN_getIconSVG(goal.icon, 22) + '</div>' +
+                        '<div class="goal-icon">' + GN_getIconSVG(goal.icon, 18) + '</div>' +
                         '<div><div class="goal-name">' + goal.name + '</div></div>' +
                     '</div>' +
                     '<div class="goal-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg></div>' +
@@ -996,7 +996,7 @@
             return '<div class="goal-card completed" onclick="openGoalDetail(\'' + goal.id + '\')">' +
                 '<div class="goal-card-header">' +
                     '<div class="goal-info">' +
-                        '<div class="goal-icon">' + GN_getIconSVG(goal.icon, 22) + '</div>' +
+                        '<div class="goal-icon">' + GN_getIconSVG(goal.icon, 18) + '</div>' +
                         '<div><div class="goal-name">' + goal.name + '</div>' +
                         '<div class="goal-meta">' + (goal.duration === 0 ? 'Ongoing' : goal.duration + ' days') + ' \u00b7 ' + habits.length + ' habit' + (habits.length !== 1 ? 's' : '') + '</div></div>' +
                     '</div>' +
