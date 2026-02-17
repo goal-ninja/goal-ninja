@@ -419,6 +419,12 @@
     </style>
 </head>
 <body>
+    <script>
+    // When embedded in iframe, hide nav and adjust styling
+    if (window.location.search.indexOf('embed=1') !== -1) {
+        document.write('<style>.top-nav{display:none!important}.phone-frame{border-radius:0!important;box-shadow:none!important}.main-content{padding-top:8px!important}@media(min-width:500px){body{background:var(--bg)!important;padding:0!important}}</style>');
+    }
+    </script>
     <div class="phone-frame">
         <div class="top-nav">
             <button class="back-btn" onclick="goBack()">
