@@ -1442,7 +1442,7 @@
             var vaultTotal = goalStats.vaultAmount || 0;
             var completionRate = goalStats.completionRate || 0;
             document.getElementById('vaultAmount').textContent = '$' + vaultTotal.toFixed(2);
-            var missedTotal = goalStats.habitStats ? goalStats.habitStats.reduce(function(s, hs) { return s + (hs.missedDays || 0); }, 0) : 0;
+            var missedTotal = goalStats.habitStats ? goalStats.habitStats.reduce(function(s, hs) { return s + (hs.stats.missedDays || 0); }, 0) : 0;
             document.getElementById('vaultLabel').textContent = 'From ' + missedTotal + ' missed habit check-in' + (missedTotal !== 1 ? 's' : '');
             var vaultBadge = document.getElementById('vaultBadge');
             var hitTarget = completionRate >= goal.target;
