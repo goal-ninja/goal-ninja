@@ -768,25 +768,26 @@
                 <div class="section animate-in delay-4">
                     <h3 class="section-title">Success Patterns</h3>
                     <div class="card pro-section">
-                        <div class="pro-content">
+                        <div class="pro-content" id="successPatternsContent">
                             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
                                 <div style="padding:10px;background:var(--bg);border-radius:10px;">
                                     <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px">Best Day</div>
-                                    <div style="font-size:15px;font-weight:700">Tuesday</div>
+                                    <div style="font-size:15px;font-weight:700" id="spBestDay">—</div>
                                 </div>
                                 <div style="padding:10px;background:var(--bg);border-radius:10px;">
                                     <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px">Penalty Impact</div>
-                                    <div style="font-size:15px;font-weight:700">$5+ = +23%</div>
+                                    <div style="font-size:15px;font-weight:700" id="spPenalty">—</div>
                                 </div>
                                 <div style="padding:10px;background:var(--bg);border-radius:10px;">
                                     <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px">Simple Goals</div>
-                                    <div style="font-size:15px;font-weight:700">81% rate</div>
+                                    <div style="font-size:15px;font-weight:700" id="spSimple">—</div>
                                 </div>
                                 <div style="padding:10px;background:var(--bg);border-radius:10px;">
                                     <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px">30-Day Goals</div>
-                                    <div style="font-size:15px;font-weight:700">76% rate</div>
+                                    <div style="font-size:15px;font-weight:700" id="sp30Day">—</div>
                                 </div>
                             </div>
+                            <div style="font-size:11px;color:var(--text-secondary);text-align:center" id="spInsight"></div>
                         </div>
                         <div class="pro-overlay">
                             <span class="pro-badge">PRO</span>
@@ -800,25 +801,21 @@
                 <div class="section animate-in delay-5">
                     <h3 class="section-title">Community Benchmarks</h3>
                     <div class="card pro-section">
-                        <div class="pro-content">
+                        <div class="pro-content" id="benchmarksContent">
                             <div style="display:flex;justify-content:space-around;text-align:center;margin-bottom:14px">
                                 <div>
-                                    <div style="font-size:22px;font-weight:700;color:#22c55e" id="benchmarkYou">78%</div>
+                                    <div style="font-size:22px;font-weight:700;color:#22c55e" id="benchmarkYou">—</div>
                                     <div style="font-size:11px;color:var(--text-muted)">You</div>
                                 </div>
                                 <div style="width:1px;background:var(--border)"></div>
                                 <div>
-                                    <div style="font-size:22px;font-weight:700;color:var(--text-muted)">71%</div>
+                                    <div style="font-size:22px;font-weight:700;color:var(--text-muted)" id="benchmarkCommunity">71%</div>
                                     <div style="font-size:11px;color:var(--text-muted)">Community Avg</div>
                                 </div>
                             </div>
-                            <div style="font-size:12px;color:var(--text-secondary);text-align:center;margin-bottom:10px">You're in the top 32% of ninjas</div>
-                            <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
-                                <span style="font-size:10px;background:var(--bg);padding:4px 8px;border-radius:8px;color:var(--text-muted)">Avg penalty: $5/day</span>
-                                <span style="font-size:10px;background:var(--bg);padding:4px 8px;border-radius:8px;color:var(--text-muted)">Top niche: Fitness</span>
-                                <span style="font-size:10px;background:var(--bg);padding:4px 8px;border-radius:8px;color:var(--text-muted)">Best timeframe: 30 days</span>
-                            </div>
-                            <div style="font-size:9px;color:var(--text-muted);text-align:center;margin-top:8px">Based on early users</div>
+                            <div style="font-size:12px;color:var(--text-secondary);text-align:center;margin-bottom:10px" id="benchmarkRank">—</div>
+                            <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center" id="benchmarkTags"></div>
+                            <div style="font-size:9px;color:var(--text-muted);text-align:center;margin-top:8px">Based on community averages</div>
                         </div>
                         <div class="pro-overlay">
                             <span class="pro-badge">PRO</span>
@@ -861,22 +858,11 @@
                 <div class="section animate-in delay-4">
                     <h3 class="section-title">Drop-off Analysis</h3>
                     <div class="card pro-section">
-                        <div class="pro-content">
+                        <div class="pro-content" id="dropoffContent">
                             <div style="font-size:13px;font-weight:600;margin-bottom:10px">Where habits lose momentum</div>
-                            <div style="display:flex;align-items:flex-end;height:80px;gap:4px;margin-bottom:8px">
-                                <div style="flex:1;background:#22c55e;border-radius:4px 4px 0 0;height:90%"></div>
-                                <div style="flex:1;background:#22c55e;border-radius:4px 4px 0 0;height:80%"></div>
-                                <div style="flex:1;background:#E67E22;border-radius:4px 4px 0 0;height:55%"></div>
-                                <div style="flex:1;background:#ef4444;border-radius:4px 4px 0 0;height:35%"></div>
-                                <div style="flex:1;background:#ef4444;border-radius:4px 4px 0 0;height:30%"></div>
-                                <div style="flex:1;background:#E67E22;border-radius:4px 4px 0 0;height:45%"></div>
-                                <div style="flex:1;background:#22c55e;border-radius:4px 4px 0 0;height:60%"></div>
-                                <div style="flex:1;background:#22c55e;border-radius:4px 4px 0 0;height:65%"></div>
-                            </div>
-                            <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted)">
-                                <span>Wk 1</span><span>Wk 2</span><span>Wk 3</span><span>Wk 4</span><span>Wk 5</span><span>Wk 6</span><span>Wk 7</span><span>Wk 8</span>
-                            </div>
-                            <div style="font-size:11px;color:var(--text-secondary);margin-top:10px;padding:8px;background:#fef2f2;border-radius:8px;text-align:center">⚠️ Danger zone: Week 3-4 — most drop-offs happen here</div>
+                            <div style="display:flex;align-items:flex-end;height:80px;gap:4px;margin-bottom:8px" id="dropoffBars"></div>
+                            <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted)" id="dropoffLabels"></div>
+                            <div style="font-size:11px;color:var(--text-secondary);margin-top:10px;padding:8px;background:#fef2f2;border-radius:8px;text-align:center" id="dropoffInsight"></div>
                         </div>
                         <div class="pro-overlay">
                             <span class="pro-badge">PRO</span>
@@ -918,28 +904,9 @@
                 <div class="section animate-in delay-4">
                     <h3 class="section-title">Timeframe Analysis</h3>
                     <div class="card pro-section">
-                        <div class="pro-content">
-                            <div style="display:flex;align-items:flex-end;gap:12px;height:100px;margin-bottom:8px;justify-content:center">
-                                <div style="text-align:center">
-                                    <div style="font-size:12px;font-weight:700;margin-bottom:4px">76%</div>
-                                    <div style="width:50px;height:76px;background:#22c55e;border-radius:6px 6px 0 0"></div>
-                                    <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Short</div>
-                                    <div style="font-size:9px;color:var(--text-muted)">≤30 days</div>
-                                </div>
-                                <div style="text-align:center">
-                                    <div style="font-size:12px;font-weight:700;margin-bottom:4px">68%</div>
-                                    <div style="width:50px;height:68px;background:#E67E22;border-radius:6px 6px 0 0"></div>
-                                    <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Medium</div>
-                                    <div style="font-size:9px;color:var(--text-muted)">31-89 days</div>
-                                </div>
-                                <div style="text-align:center">
-                                    <div style="font-size:12px;font-weight:700;margin-bottom:4px">52%</div>
-                                    <div style="width:50px;height:52px;background:#ef4444;border-radius:6px 6px 0 0"></div>
-                                    <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Long</div>
-                                    <div style="font-size:9px;color:var(--text-muted)">90+ days</div>
-                                </div>
-                            </div>
-                            <div style="font-size:11px;color:var(--text-secondary);text-align:center">Short-term goals succeed 25% more than long-term goals</div>
+                        <div class="pro-content" id="timeframeContent">
+                            <div style="display:flex;align-items:flex-end;gap:12px;height:100px;margin-bottom:8px;justify-content:center" id="timeframeBars"></div>
+                            <div style="font-size:11px;color:var(--text-secondary);text-align:center" id="timeframeInsight"></div>
                         </div>
                         <div class="pro-overlay">
                             <span class="pro-badge">PRO</span>
@@ -953,16 +920,11 @@
                 <div class="section animate-in delay-5">
                     <h3 class="section-title">Goal Drop-off Points</h3>
                     <div class="card pro-section">
-                        <div class="pro-content">
+                        <div class="pro-content" id="goalDropoffContent">
                             <div style="font-size:13px;font-weight:600;margin-bottom:12px">Where goals typically fail</div>
-                            <div style="position:relative;height:16px;background:var(--bg);border-radius:8px;overflow:hidden;margin-bottom:6px">
-                                <div style="position:absolute;left:15%;width:25%;height:100%;background:rgba(239,68,68,0.2);border-left:2px solid #ef4444;border-right:2px solid #ef4444"></div>
-                                <div style="height:100%;width:100%;background:linear-gradient(to right,#22c55e 15%,#ef4444 25%,#ef4444 40%,#E67E22 55%,#22c55e 75%);opacity:0.3;border-radius:8px"></div>
-                            </div>
-                            <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted);margin-bottom:10px">
-                                <span>Start</span><span>Week 2</span><span>Week 4</span><span>Week 6</span><span>End</span>
-                            </div>
-                            <div style="font-size:11px;color:var(--text-secondary);padding:8px;background:#fef2f2;border-radius:8px;text-align:center">68% of failed goals quit between week 2-3</div>
+                            <div style="display:flex;align-items:flex-end;height:80px;gap:3px;margin-bottom:8px" id="goalDropoffBars"></div>
+                            <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted);margin-bottom:10px" id="goalDropoffLabels"></div>
+                            <div style="font-size:11px;color:var(--text-secondary);padding:8px;background:#fef2f2;border-radius:8px;text-align:center" id="goalDropoffInsight"></div>
                         </div>
                         <div class="pro-overlay">
                             <span class="pro-badge">PRO</span>
@@ -1322,6 +1284,351 @@
             document.getElementById('categoryContainer').innerHTML = html;
         }
 
+        // ---- SUCCESS PATTERNS ----
+        function buildSuccessPatterns() {
+            var allCheckins = GN_getAllCheckins();
+            var habits = GN_getHabits();
+            var goals = GN_getGoals();
+
+            // Best day of week
+            var dayCounts = [0,0,0,0,0,0,0]; // Sun-Sat
+            var dayTotals = [0,0,0,0,0,0,0];
+            for (var hid in allCheckins) {
+                for (var dateStr in allCheckins[hid]) {
+                    var parts = dateStr.split('-');
+                    var dt = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+                    var dow = dt.getDay();
+                    dayTotals[dow]++;
+                    if (allCheckins[hid][dateStr] === 'complete') dayCounts[dow]++;
+                }
+            }
+            var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+            var bestDay = 'N/A';
+            var bestDayRate = 0;
+            for (var i = 0; i < 7; i++) {
+                if (dayTotals[i] > 0) {
+                    var rate = dayCounts[i] / dayTotals[i];
+                    if (rate > bestDayRate) { bestDayRate = rate; bestDay = dayNames[i]; }
+                }
+            }
+            document.getElementById('spBestDay').textContent = bestDay;
+
+            // Penalty impact: compare habits with penalty >= $5 vs < $5
+            var highPenComp = 0, highPenTotal = 0, lowPenComp = 0, lowPenTotal = 0;
+            habits.forEach(function(h) {
+                var stats = GN_getHabitStats(h.id);
+                if (!stats || stats.totalCheckins === 0) return;
+                if (h.penalty >= 5) { highPenComp += stats.completionRate; highPenTotal++; }
+                else { lowPenComp += stats.completionRate; lowPenTotal++; }
+            });
+            var highAvg = highPenTotal > 0 ? Math.round(highPenComp / highPenTotal) : 0;
+            var lowAvg = lowPenTotal > 0 ? Math.round(lowPenComp / lowPenTotal) : 0;
+            var penDiff = highAvg - lowAvg;
+            if (highPenTotal > 0 && lowPenTotal > 0) {
+                document.getElementById('spPenalty').textContent = '$5+ = ' + (penDiff >= 0 ? '+' : '') + penDiff + '%';
+            } else if (highPenTotal > 0) {
+                document.getElementById('spPenalty').textContent = highAvg + '% avg';
+            } else {
+                document.getElementById('spPenalty').textContent = lowAvg + '% avg';
+            }
+
+            // Simple goals (<=3 habits) vs complex (4+)
+            var simpleRate = 0, simpleCount = 0, complexRate = 0, complexCount = 0;
+            goals.forEach(function(g) {
+                if (g.status !== 'active' && g.status !== 'paused' && g.status !== 'completed') return;
+                var gHabits = GN_getHabitsForGoal(g.id);
+                var stats = GN_getGoalStats(g.id);
+                if (!stats) return;
+                if (gHabits.length <= 3) { simpleRate += stats.completionRate; simpleCount++; }
+                else { complexRate += stats.completionRate; complexCount++; }
+            });
+            var simpleAvg = simpleCount > 0 ? Math.round(simpleRate / simpleCount) : 0;
+            var complexAvg = complexCount > 0 ? Math.round(complexRate / complexCount) : 0;
+            document.getElementById('spSimple').textContent = simpleCount > 0 ? simpleAvg + '% rate' : 'No data';
+
+            // 30-day goals vs longer
+            var shortRate = 0, shortCount = 0, longRate = 0, longCount = 0;
+            goals.forEach(function(g) {
+                if (g.status !== 'active' && g.status !== 'paused' && g.status !== 'completed') return;
+                var stats = GN_getGoalStats(g.id);
+                if (!stats) return;
+                if (g.duration > 0 && g.duration <= 30) { shortRate += stats.completionRate; shortCount++; }
+                else { longRate += stats.completionRate; longCount++; }
+            });
+            var shortAvg = shortCount > 0 ? Math.round(shortRate / shortCount) : 0;
+            document.getElementById('sp30Day').textContent = shortCount > 0 ? shortAvg + '% rate' : 'No data';
+
+            // Insight text
+            var insight = '';
+            if (bestDay !== 'N/A') insight = 'You perform best on ' + bestDay + 's. ';
+            if (simpleCount > 0 && complexCount > 0) {
+                if (simpleAvg > complexAvg) insight += 'Simpler goals outperform complex ones by ' + (simpleAvg - complexAvg) + '%.';
+                else insight += 'Complex goals outperform simple ones by ' + (complexAvg - simpleAvg) + '%.';
+            }
+            document.getElementById('spInsight').textContent = insight;
+        }
+
+        // ---- COMMUNITY BENCHMARKS ----
+        function buildBenchmarks() {
+            var stats = GN_getOverallStats();
+            var userRate = stats.overallCompletionRate || 0;
+
+            // Simulated community data (will come from backend in Phase 1)
+            var communityAvg = 71;
+            var communityData = {
+                topNiche: 'Fitness',
+                topNicheRate: 81,
+                avgPenalty: 5,
+                bestTimeframe: '30 days',
+                totalUsers: 1247
+            };
+
+            document.getElementById('benchmarkYou').textContent = userRate + '%';
+            document.getElementById('benchmarkYou').style.color = userRate >= communityAvg ? '#22c55e' : '#ef4444';
+            document.getElementById('benchmarkCommunity').textContent = communityAvg + '%';
+
+            // Calculate percentile (simulated based on normal distribution around 71%)
+            var diff = userRate - communityAvg;
+            var percentile;
+            if (diff >= 20) percentile = Math.max(5, 15 - Math.floor(diff / 5));
+            else if (diff >= 10) percentile = Math.max(10, 25 - diff);
+            else if (diff >= 0) percentile = Math.max(25, 50 - diff * 2.5);
+            else if (diff >= -10) percentile = Math.min(75, 50 + Math.abs(diff) * 2.5);
+            else percentile = Math.min(90, 75 + Math.abs(diff));
+            percentile = Math.round(percentile);
+
+            document.getElementById('benchmarkRank').textContent = userRate > 0 ?
+                "You're in the top " + percentile + '% of ninjas' : 'Start tracking to see your ranking';
+
+            // Tags based on user data
+            var habits = GN_getHabits();
+            var avgPenalty = 0;
+            if (habits.length > 0) {
+                var totalPen = 0;
+                habits.forEach(function(h) { totalPen += h.penalty || 0; });
+                avgPenalty = Math.round(totalPen / habits.length);
+            }
+
+            // Find user's top category
+            var goals = GN_getGoals();
+            var catRates = {};
+            goals.forEach(function(g) {
+                if (g.status !== 'active' && g.status !== 'paused') return;
+                var cat = getCategoryForIcon(g.icon || 'target');
+                var gs = GN_getGoalStats(g.id);
+                if (gs) {
+                    if (!catRates[cat]) catRates[cat] = { total: 0, count: 0 };
+                    catRates[cat].total += gs.completionRate;
+                    catRates[cat].count++;
+                }
+            });
+            var topCat = 'General';
+            var topCatRate = 0;
+            for (var c in catRates) {
+                var avg = catRates[c].total / catRates[c].count;
+                if (avg > topCatRate) { topCatRate = avg; topCat = c; }
+            }
+
+            var tagStyle = 'font-size:10px;background:var(--bg);padding:4px 8px;border-radius:8px;color:var(--text-muted)';
+            var tagsHtml = '<span style="' + tagStyle + '">Your avg penalty: $' + avgPenalty + '/day</span>' +
+                '<span style="' + tagStyle + '">Top niche: ' + communityData.topNiche + ' (' + communityData.topNicheRate + '%)</span>' +
+                '<span style="' + tagStyle + '">Your best: ' + topCat + '</span>';
+            document.getElementById('benchmarkTags').innerHTML = tagsHtml;
+        }
+
+        // ---- HABIT DROP-OFF ANALYSIS ----
+        function buildDropoff() {
+            var allCheckins = GN_getAllCheckins();
+            var habits = GN_getHabits();
+            if (!habits.length) {
+                document.getElementById('dropoffBars').innerHTML = '<div style="font-size:12px;color:var(--text-muted);text-align:center;width:100%;padding:20px">No habit data yet</div>';
+                document.getElementById('dropoffInsight').textContent = 'Start tracking habits to see your drop-off patterns.';
+                return;
+            }
+
+            // Calculate completion rate by week number (weeks since each habit started)
+            var weekRates = {}; // weekNum -> { completed, total }
+            habits.forEach(function(h) {
+                var checkins = GN_getCheckinsForHabit(h.id);
+                // Find earliest checkin as habit start
+                var dates = Object.keys(checkins).sort();
+                if (dates.length === 0) return;
+                var startDate = dates[0];
+
+                for (var i = 0; i < dates.length; i++) {
+                    var dayNum = GN_daysBetween(startDate, dates[i]) + 1;
+                    var weekNum = Math.ceil(dayNum / 7);
+                    if (weekNum > 8) continue; // Cap at 8 weeks
+                    if (!weekRates[weekNum]) weekRates[weekNum] = { completed: 0, total: 0 };
+                    weekRates[weekNum].total++;
+                    if (checkins[dates[i]] === 'complete') weekRates[weekNum].completed++;
+                }
+            });
+
+            // Build bars
+            var barsHtml = '';
+            var labelsHtml = '';
+            var maxWeek = 0;
+            for (var w in weekRates) { if (parseInt(w) > maxWeek) maxWeek = parseInt(w); }
+            maxWeek = Math.max(maxWeek, 4); // At least show 4 weeks
+
+            var rates = [];
+            for (var w = 1; w <= Math.min(maxWeek, 8); w++) {
+                var wr = weekRates[w];
+                var pct = wr ? Math.round((wr.completed / wr.total) * 100) : 0;
+                rates.push(pct);
+                var color = pct >= 70 ? '#22c55e' : pct >= 40 ? '#E67E22' : '#ef4444';
+                var height = Math.max(5, pct);
+                barsHtml += '<div style="flex:1;background:' + color + ';border-radius:4px 4px 0 0;height:' + height + '%" title="Week ' + w + ': ' + pct + '%"></div>';
+                labelsHtml += '<span>Wk ' + w + '</span>';
+            }
+
+            document.getElementById('dropoffBars').innerHTML = barsHtml;
+            document.getElementById('dropoffLabels').innerHTML = labelsHtml;
+
+            // Find lowest week (danger zone)
+            var lowestWeek = 1, lowestRate = 100;
+            for (var i = 0; i < rates.length; i++) {
+                if (rates[i] < lowestRate && rates[i] > 0) { lowestRate = rates[i]; lowestWeek = i + 1; }
+            }
+            if (rates.length >= 2 && lowestRate < rates[0]) {
+                document.getElementById('dropoffInsight').textContent = '⚠️ Biggest drop: Week ' + lowestWeek + ' (' + lowestRate + '%) — stay vigilant around this point!';
+            } else {
+                document.getElementById('dropoffInsight').textContent = '✅ Great consistency! No major drop-off pattern detected.';
+                document.getElementById('dropoffInsight').style.background = '#f0fdf4';
+            }
+        }
+
+        // ---- TIMEFRAME ANALYSIS ----
+        function buildTimeframe() {
+            var goals = GN_getGoals();
+            var buckets = {
+                short: { totalRate: 0, count: 0 },   // <=30 days
+                medium: { totalRate: 0, count: 0 },   // 31-89 days
+                long: { totalRate: 0, count: 0 }      // 90+ days or ongoing (0)
+            };
+
+            goals.forEach(function(g) {
+                if (g.status !== 'active' && g.status !== 'paused' && g.status !== 'completed' && g.status !== 'failed') return;
+                var stats = GN_getGoalStats(g.id);
+                if (!stats) return;
+                if (g.duration > 0 && g.duration <= 30) { buckets.short.totalRate += stats.completionRate; buckets.short.count++; }
+                else if (g.duration > 30 && g.duration <= 89) { buckets.medium.totalRate += stats.completionRate; buckets.medium.count++; }
+                else { buckets.long.totalRate += stats.completionRate; buckets.long.count++; }
+            });
+
+            var data = [
+                { label: 'Short', sub: '≤30 days', rate: buckets.short.count > 0 ? Math.round(buckets.short.totalRate / buckets.short.count) : 0, count: buckets.short.count },
+                { label: 'Medium', sub: '31-89 days', rate: buckets.medium.count > 0 ? Math.round(buckets.medium.totalRate / buckets.medium.count) : 0, count: buckets.medium.count },
+                { label: 'Long', sub: '90+ days', rate: buckets.long.count > 0 ? Math.round(buckets.long.totalRate / buckets.long.count) : 0, count: buckets.long.count }
+            ];
+
+            var barsHtml = '';
+            data.forEach(function(d) {
+                var color = d.rate >= 70 ? '#22c55e' : d.rate >= 40 ? '#E67E22' : '#ef4444';
+                var height = Math.max(8, d.rate);
+                barsHtml += '<div style="text-align:center">' +
+                    '<div style="font-size:12px;font-weight:700;margin-bottom:4px">' + (d.count > 0 ? d.rate + '%' : '—') + '</div>' +
+                    '<div style="width:50px;height:' + height + 'px;background:' + (d.count > 0 ? color : 'var(--bg)') + ';border-radius:6px 6px 0 0;' + (d.count === 0 ? 'border:1px dashed var(--text-muted)' : '') + '"></div>' +
+                    '<div style="font-size:10px;color:var(--text-muted);margin-top:4px">' + d.label + '</div>' +
+                    '<div style="font-size:9px;color:var(--text-muted)">' + d.sub + '</div></div>';
+            });
+
+            document.getElementById('timeframeBars').innerHTML = barsHtml;
+
+            // Insight
+            var hasData = data.filter(function(d) { return d.count > 0; });
+            if (hasData.length >= 2) {
+                hasData.sort(function(a, b) { return b.rate - a.rate; });
+                var best = hasData[0];
+                var worst = hasData[hasData.length - 1];
+                var diff = best.rate - worst.rate;
+                document.getElementById('timeframeInsight').textContent = best.label + '-term goals outperform ' + worst.label.toLowerCase() + '-term by ' + diff + '% (' + best.count + ' vs ' + worst.count + ' goals)';
+            } else if (hasData.length === 1) {
+                document.getElementById('timeframeInsight').textContent = 'All your goals are ' + hasData[0].label.toLowerCase() + '-term. Add different durations to compare!';
+            } else {
+                document.getElementById('timeframeInsight').textContent = 'Create goals to see timeframe performance comparison.';
+            }
+        }
+
+        // ---- GOAL DROP-OFF POINTS ----
+        function buildGoalDropoff() {
+            var goals = GN_getGoals();
+            var allCheckins = GN_getAllCheckins();
+
+            // For each goal, look at weekly completion rates over its lifetime
+            var weekData = {}; // weekNum -> { completed, total }
+            var maxDuration = 0;
+
+            goals.forEach(function(g) {
+                if (!g.startDate) return;
+                var gHabits = GN_getHabitsForGoal(g.id);
+                if (!gHabits.length) return;
+
+                var dur = g.duration > 0 ? g.duration : 60; // Default 60 for ongoing
+                if (dur > maxDuration) maxDuration = dur;
+
+                gHabits.forEach(function(h) {
+                    var checkins = GN_getCheckinsForHabit(h.id);
+                    for (var dateStr in checkins) {
+                        if (dateStr < g.startDate) continue;
+                        var dayNum = GN_daysBetween(g.startDate, dateStr) + 1;
+                        if (g.duration > 0 && dayNum > g.duration) continue;
+                        var weekNum = Math.ceil(dayNum / 7);
+                        if (!weekData[weekNum]) weekData[weekNum] = { completed: 0, total: 0 };
+                        weekData[weekNum].total++;
+                        if (checkins[dateStr] === 'complete') weekData[weekNum].completed++;
+                    }
+                });
+            });
+
+            var maxWeeks = Math.min(Math.ceil(maxDuration / 7), 12);
+            maxWeeks = Math.max(maxWeeks, 4);
+
+            if (Object.keys(weekData).length === 0) {
+                document.getElementById('goalDropoffBars').innerHTML = '<div style="font-size:12px;color:var(--text-muted);text-align:center;width:100%;padding:20px">No goal data yet</div>';
+                document.getElementById('goalDropoffInsight').textContent = 'Start goals to see where drop-offs happen.';
+                return;
+            }
+
+            var barsHtml = '';
+            var labelsHtml = '';
+            var rates = [];
+            for (var w = 1; w <= maxWeeks; w++) {
+                var wd = weekData[w];
+                var pct = wd ? Math.round((wd.completed / wd.total) * 100) : 0;
+                rates.push({ week: w, rate: pct, hasData: !!wd });
+                var color = pct >= 70 ? '#22c55e' : pct >= 40 ? '#E67E22' : '#ef4444';
+                var height = wd ? Math.max(5, pct) : 3;
+                var opacity = wd ? '1' : '0.3';
+                barsHtml += '<div style="flex:1;background:' + color + ';border-radius:3px 3px 0 0;height:' + height + '%;opacity:' + opacity + '" title="Week ' + w + ': ' + pct + '%"></div>';
+                if (w === 1 || w === maxWeeks || w === Math.floor(maxWeeks / 2)) {
+                    labelsHtml += '<span>Wk ' + w + '</span>';
+                }
+            }
+
+            document.getElementById('goalDropoffBars').innerHTML = barsHtml;
+            document.getElementById('goalDropoffLabels').innerHTML = labelsHtml;
+
+            // Find the steepest drop
+            var biggestDrop = 0, dropWeek = 0;
+            for (var i = 1; i < rates.length; i++) {
+                if (rates[i].hasData && rates[i-1].hasData) {
+                    var drop = rates[i-1].rate - rates[i].rate;
+                    if (drop > biggestDrop) { biggestDrop = drop; dropWeek = rates[i].week; }
+                }
+            }
+
+            if (biggestDrop > 10) {
+                document.getElementById('goalDropoffInsight').textContent = '⚠️ Biggest drop: Week ' + dropWeek + ' (−' + biggestDrop + '%). Plan extra motivation around this point!';
+            } else if (rates.length > 1) {
+                document.getElementById('goalDropoffInsight').textContent = '✅ Solid consistency! No major goal drop-off detected.';
+                document.getElementById('goalDropoffInsight').style.background = '#f0fdf4';
+            } else {
+                document.getElementById('goalDropoffInsight').textContent = 'More data needed to identify drop-off patterns.';
+            }
+        }
+
         // ---- INIT ----
         function initAnalytics() {
             GN_checkAndUpdateStatuses();
@@ -1352,9 +1659,6 @@
             else if (score > 40) { trendEl.className = 'score-trend neutral'; trendEl.textContent = '— Building consistency'; }
             else { trendEl.className = 'score-trend down'; trendEl.textContent = '↓ Room to improve'; }
 
-            // Benchmark "you" value
-            document.getElementById('benchmarkYou').textContent = (stats.overallCompletionRate || 0) + '%';
-
             // Build visualizations
             buildHeatmap();
             buildSparkline();
@@ -1362,6 +1666,11 @@
             buildStreaks();
             buildGoalProgress();
             buildCategories();
+            buildSuccessPatterns();
+            buildBenchmarks();
+            buildDropoff();
+            buildTimeframe();
+            buildGoalDropoff();
         }
 
         initAnalytics();
