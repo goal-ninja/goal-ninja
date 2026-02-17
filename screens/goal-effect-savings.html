@@ -924,7 +924,7 @@
         function buildSavingsGoalCard(goal, index) {
             var goalStats = GN_getGoalStats(goal.id);
             var habits = GN_getHabitsForGoal(goal.id);
-            var vaultTotal = goalStats.vaultTotal || 0;
+            var vaultTotal = goalStats.vaultAmount || 0;
             var completionRate = goalStats.completionRate || 0;
             var isUnlocked = completionRate >= goal.target;
 
