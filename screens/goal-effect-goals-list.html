@@ -518,7 +518,7 @@
             color: white;
         }
     
-/* Habits Check-In Modal */
+/* Check-in Modal */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -531,7 +531,7 @@
             transition: all 0.3s;
             z-index: 1000;
         }
-        .modal-overlay.active {
+        .modal-overlay.visible {
             opacity: 1;
             visibility: visible;
         }
@@ -541,12 +541,10 @@
             padding: 20px 24px 40px;
             width: 100%;
             max-width: 390px;
-            max-height: 80vh;
-            overflow-y: auto;
             transform: translateY(100%);
             transition: transform 0.3s;
         }
-        .modal-overlay.active .modal-sheet {
+        .modal-overlay.visible .modal-sheet {
             transform: translateY(0);
         }
         .modal-handle {
@@ -558,123 +556,125 @@
         }
         .modal-header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
-        .modal-goal-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--bg);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px;
+        .modal-ninja {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 16px;
+        }
+        .modal-ninja img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
         .modal-title {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
             margin-bottom: 4px;
         }
         .modal-subtitle {
-            font-size: 14px;
+            font-size: 15px;
             color: var(--text-secondary);
         }
-        .modal-habits-list {
+        .modal-options {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        .modal-habit-row {
-            display: flex;
-            align-items: center;
             gap: 12px;
-            padding: 12px 14px;
+            margin-bottom: 24px;
+        }
+        .modal-option {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
             background: var(--bg);
-            border-radius: 12px;
-        }
-        .modal-habit-row.done {
-            opacity: 0.5;
-        }
-        .modal-habit-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--card-bg);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        .modal-habit-info {
-            flex: 1;
-            min-width: 0;
-        }
-        .modal-habit-name {
-            font-size: 14px;
-            font-weight: 600;
-        }
-        .modal-habit-penalty {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-        .modal-habit-status {
-            font-size: 16px;
-            font-weight: 600;
-        }
-        .modal-habit-actions {
-            display: flex;
-            gap: 6px;
-            flex-shrink: 0;
-        }
-        .habit-action-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: 2px solid var(--border);
-            background: var(--card-bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 14px;
             cursor: pointer;
+            border: 2px solid transparent;
             transition: all 0.2s;
         }
-        .habit-action-btn.complete.selected {
-            background: #22c55e;
-            border-color: #22c55e;
-            color: white;
-        }
-        .habit-action-btn.missed.selected {
-            background: var(--text-primary);
+        .modal-option.selected {
             border-color: var(--text-primary);
-            color: white;
         }
-        .modal-confirm-btn {
+        .option-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .option-icon.success {
+            background: #f3f4f6;
+            color: var(--text-primary);
+        }
+        .option-icon.missed {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+        .option-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+        .option-content h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .option-content p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .modal-btn {
             width: 100%;
             padding: 16px;
-            border: none;
             border-radius: 14px;
             font-size: 16px;
             font-weight: 600;
+            border: none;
             cursor: pointer;
+            margin-bottom: 12px;
+        }
+        .modal-btn.primary {
             background: var(--text-primary);
             color: white;
-            margin-bottom: 8px;
         }
-        .modal-confirm-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
+        .modal-btn.primary:disabled {
+            background: var(--border);
+            color: var(--text-muted);
         }
-        .modal-cancel-btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 14px;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
+        .modal-btn.secondary {
             background: var(--bg);
             color: var(--text-secondary);
+        }
+        .photo-upload {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            background: var(--bg);
+            border-radius: 14px;
+            margin-bottom: 24px;
+            cursor: pointer;
+            border: 2px dashed var(--border);
+        }
+        .photo-upload:hover {
+            border-color: var(--text-muted);
+        }
+        .photo-upload svg {
+            width: 32px;
+            height: 32px;
+            color: var(--text-muted);
+        }
+        .photo-upload p {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .photo-upload span {
+            font-size: 13px;
+            color: var(--text-muted);
         }
         .checkin-btn {
             display: flex;
@@ -841,22 +841,60 @@
 
     
 <!-- Check-in Modal -->
-<div class="modal-overlay" onclick="if(event.target===this)closeCheckin()">
-            <div class="modal-sheet">
-                <div class="modal-handle"></div>
-                <div class="modal-ninja" style="text-align:center;margin-bottom:8px;">
-                    <img id="modalNinjaImg" src="../ninja-poses/ninja-thumbsup.png" alt="" style="width:80px;height:80px;object-fit:contain;">
+<div class="modal-overlay" id="checkinModal">
+    <div class="modal-sheet">
+        <div class="modal-handle"></div>
+        <div class="modal-header">
+            <div class="modal-ninja" id="modalNinja">
+                <img src="../ninja-poses/ninja-thumbsup.png" alt="">
+            </div>
+            <h2 class="modal-title" id="modalHabitName">Habit Name</h2>
+            <p class="modal-subtitle">Did you complete this today?</p>
+            <p class="modal-queue-info" id="modalQueueInfo" style="font-size:13px;color:var(--text-muted);margin-top:4px;"></p>
+        </div>
+
+        <div class="modal-options">
+            <div class="modal-option" id="optionComplete" onclick="selectOption('complete')">
+                <div class="option-icon success">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
                 </div>
-                <div class="modal-header">
-                    <div class="modal-goal-icon" id="modalGoalIcon"></div>
-                    <h2 class="modal-title" id="modalGoalName">Goal Name</h2>
-                    <p class="modal-subtitle">Check in your habits for today</p>
+                <div class="option-content">
+                    <h3>Yes, I did it!</h3>
+                    <p>Mark as complete for today</p>
                 </div>
-                <div class="modal-habits-list" id="modalHabitsList"></div>
-                <button class="modal-confirm-btn" id="confirmCheckinBtn" onclick="confirmCheckin()" disabled>Select habits above</button>
-                <button class="modal-cancel-btn" onclick="closeCheckin()">Cancel</button>
+            </div>
+            <div class="modal-option" id="optionMissed" onclick="selectOption('missed')">
+                <div class="option-icon missed">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </div>
+                <div class="option-content">
+                    <h3>I missed today</h3>
+                    <p id="missedPenaltyText">Penalty goes to your savings</p>
+                </div>
             </div>
         </div>
+
+        <div class="photo-upload" id="photoUpload" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            <div>
+                <p>Add a photo (optional)</p>
+                <span>Prove you did it!</span>
+            </div>
+        </div>
+
+        <button class="modal-btn primary" id="confirmBtn" onclick="confirmCheckin()" disabled>Select an option</button>
+        <button class="modal-btn secondary" onclick="closeCheckin()">Cancel</button>
+    </div>
+</div>
 
 
 <script src="goal-ninja-data.js"></script>
@@ -1022,100 +1060,76 @@
         }
 
 
-        var currentCheckinGoalId = null;
-        var checkinSelections = {};
+        var currentHabitId = null;
+        var currentSelectedOption = null;
+        var checkinQueue = [];
 
         function openCheckinFromList(goalId) {
-            var goal = GN_getGoalById(goalId);
-            if (!goal) return;
             var habits = GN_getHabitsForGoal(goalId);
             if (habits.length === 0) return;
-            currentCheckinGoalId = goalId;
-            checkinSelections = {};
-
-            document.getElementById('modalGoalIcon').innerHTML = GN_getIconSVG(goal.icon, 22);
-            document.getElementById('modalGoalName').textContent = goal.name;
-
-            var habitsHtml = habits.map(function(habit) {
-                var checkedIn = GN_hasHabitCheckedInToday(habit.id);
-                var statusObj = GN_getHabitCheckinStatus(habit.id, GN_getTodayDateStr());
-                if (checkedIn) {
-                    var isComplete = statusObj === 'complete';
-                    return '<div class="modal-habit-row done">' +
-                        '<div class="modal-habit-icon">' + GN_getIconSVG(habit.icon, 18) + '</div>' +
-                        '<div class="modal-habit-info"><div class="modal-habit-name">' + habit.name + '</div>' +
-                        '<div class="modal-habit-penalty">' + (isComplete ? 'Completed' : 'Missed \u00b7 +$' + habit.penalty) + '</div></div>' +
-                        '<div class="modal-habit-status">' + (isComplete ? '\u2713' : '\u2717') + '</div>' +
-                    '</div>';
-                }
-                return '<div class="modal-habit-row" id="habitRow_' + habit.id + '">' +
-                    '<div class="modal-habit-icon">' + GN_getIconSVG(habit.icon, 18) + '</div>' +
-                    '<div class="modal-habit-info"><div class="modal-habit-name">' + habit.name + '</div>' +
-                    '<div class="modal-habit-penalty">$' + habit.penalty + ' penalty</div></div>' +
-                    '<div class="modal-habit-actions">' +
-                        '<button class="habit-action-btn complete" onclick="event.stopPropagation();toggleHabitCheckin(\'' + habit.id + '\',\'complete\')" title="Complete"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><polyline points="20 6 9 17 4 12"/></svg></button>' +
-                        '<button class="habit-action-btn missed" onclick="event.stopPropagation();toggleHabitCheckin(\'' + habit.id + '\',\'missed\')" title="Missed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' +
-                    '</div>' +
-                '</div>';
-            }).join('');
-
-            document.getElementById('modalHabitsList').innerHTML = habitsHtml;
-            updateConfirmButton();
-            document.querySelector('.modal-overlay').classList.add('active');
-        }
-
-        function toggleHabitCheckin(habitId, status) {
-            if (checkinSelections[habitId] === status) {
-                delete checkinSelections[habitId];
-            } else {
-                checkinSelections[habitId] = status;
-            }
-            // Update visual state
-            var row = document.getElementById('habitRow_' + habitId);
-            if (row) {
-                var btns = row.querySelectorAll('.habit-action-btn');
-                btns[0].classList.toggle('selected', checkinSelections[habitId] === 'complete');
-                btns[1].classList.toggle('selected', checkinSelections[habitId] === 'missed');
-            }
-            // Update ninja pose based on latest selection
-            var ninjaImg = document.getElementById('modalNinjaImg');
-            if (ninjaImg) {
-                if (status === 'complete' && checkinSelections[habitId] === 'complete') {
-                    ninjaImg.src = '../ninja-poses/ninja-thumbsup.png';
-                } else if (status === 'missed' && checkinSelections[habitId] === 'missed') {
-                    ninjaImg.src = '../ninja-poses/ninja-stumble.png';
+            // Build queue of unchecked habits
+            checkinQueue = [];
+            for (var i = 0; i < habits.length; i++) {
+                if (!GN_hasHabitCheckedInToday(habits[i].id)) {
+                    checkinQueue.push(habits[i]);
                 }
             }
-            updateConfirmButton();
+            if (checkinQueue.length === 0) return;
+            showNextHabit();
         }
 
-        function updateConfirmButton() {
-            var btn = document.getElementById('confirmCheckinBtn');
-            var count = Object.keys(checkinSelections).length;
-            if (count === 0) {
-                btn.disabled = true;
-                btn.textContent = 'Select habits above';
+        function showNextHabit() {
+            if (checkinQueue.length === 0) {
+                closeCheckin();
+                renderMissions();
+                return;
+            }
+            var habit = checkinQueue.shift();
+            currentHabitId = habit.id;
+            currentSelectedOption = null;
+            document.getElementById('modalHabitName').textContent = habit.name;
+            document.getElementById('missedPenaltyText').textContent = '$' + habit.penalty + ' goes to your savings';
+            var remaining = checkinQueue.length + 1;
+            document.getElementById('modalQueueInfo').textContent = remaining > 1 ? remaining + ' habits remaining' : '';
+            document.getElementById('optionComplete').classList.remove('selected');
+            document.getElementById('optionMissed').classList.remove('selected');
+            document.getElementById('photoUpload').style.display = 'none';
+            document.getElementById('confirmBtn').disabled = true;
+            document.getElementById('confirmBtn').textContent = 'Select an option';
+            document.getElementById('modalNinja').querySelector('img').src = '../ninja-poses/ninja-thumbsup.png';
+            document.getElementById('checkinModal').classList.add('visible');
+        }
+
+        function selectOption(option) {
+            currentSelectedOption = option;
+            document.getElementById('optionComplete').classList.toggle('selected', option === 'complete');
+            document.getElementById('optionMissed').classList.toggle('selected', option === 'missed');
+            document.getElementById('photoUpload').style.display = option === 'complete' ? 'flex' : 'none';
+            document.getElementById('confirmBtn').disabled = false;
+            var ninjaImg = document.getElementById('modalNinja').querySelector('img');
+            if (option === 'complete') {
+                document.getElementById('confirmBtn').textContent = 'Mark Complete';
+                ninjaImg.src = '../ninja-poses/ninja-thumbsup.png';
             } else {
-                btn.disabled = false;
-                btn.textContent = 'Confirm ' + count + ' check-in' + (count > 1 ? 's' : '');
+                document.getElementById('confirmBtn').textContent = 'Confirm & Add to Savings';
+                ninjaImg.src = '../ninja-poses/ninja-stumble.png';
             }
         }
 
         function confirmCheckin() {
-            if (!currentCheckinGoalId || Object.keys(checkinSelections).length === 0) return;
-            var today = GN_getTodayDateStr();
-            var ids = Object.keys(checkinSelections);
-            for (var i = 0; i < ids.length; i++) {
-                GN_recordHabitCheckin(ids[i], today, checkinSelections[ids[i]]);
-            }
-            closeCheckin();
-            renderMissions();
+            if (!currentSelectedOption || !currentHabitId) return;
+            GN_recordHabitCheckin(currentHabitId, GN_getTodayDateStr(), currentSelectedOption);
+            currentHabitId = null;
+            currentSelectedOption = null;
+            showNextHabit();
         }
 
         function closeCheckin() {
-            document.querySelector('.modal-overlay').classList.remove('active');
-            currentCheckinGoalId = null;
-            checkinSelections = {};
+            document.getElementById('checkinModal').classList.remove('visible');
+            currentHabitId = null;
+            currentSelectedOption = null;
+            checkinQueue = [];
+            renderMissions();
         }
 
     </script>
