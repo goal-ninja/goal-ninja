@@ -924,6 +924,39 @@
 
         initSavings();
 
+        // Show dynamic savings tip via floating ninja after auto-greeting
+        setTimeout(function() {
+            if (!window.NinjaBuddy) return;
+            var totalVault = GN_getVaultTotal();
+            var lockedVault = GN_getLockedVaultTotal();
+            var unlockedVault = GN_getUnlockedVaultTotal();
+            var msg = '';
+
+            if (totalVault <= 0) {
+                msg = "No savings yet! Stay on track with your habits and watch your savings grow.";
+                window.NinjaBuddy.setPose('mentor');
+            } else {
+                var lockedPct = Math.round(lockedVault / totalVault * 100);
+                var unlockedPct = Math.round(unlockedVault / totalVault * 100);
+
+                if (unlockedPct >= 100) {
+                    msg = "All your savings are unlocked! Amazing discipline — keep it up!";
+                    window.NinjaBuddy.setPose('wealth');
+                } else if (unlockedPct >= 50) {
+                    msg = unlockedPct + "% is unlocked! You're doing great — keep your completion rate high to unlock the rest.";
+                    window.NinjaBuddy.setPose('moneybag');
+                } else if (unlockedPct > 0) {
+                    msg = unlockedPct + "% is unlocked. Increase your completion rate to unlock more savings!";
+                    window.NinjaBuddy.setPose('mentor');
+                } else {
+                    msg = "All savings are locked. Hit your habit targets to start unlocking them!";
+                    window.NinjaBuddy.setPose('mentor');
+                }
+            }
+
+            window.NinjaBuddy.say(msg, 5000);
+        }, 1500);
+
         function goTo(page) {
             if (page === 'home') window.location.href = 'goal-effect-home.html';
             else if (page === 'goals') window.location.href = 'goal-effect-goals-list.html';
