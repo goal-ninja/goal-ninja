@@ -181,6 +181,86 @@
             color: var(--text-secondary);
         }
 
+        /* Icon Picker Modal */
+        .icon-picker-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .icon-picker-overlay.active {
+            display: flex;
+        }
+        .icon-picker-modal {
+            background: #ffffff;
+            border-radius: 24px 24px 0 0;
+            padding: 20px 20px 32px;
+            width: 100%;
+            max-width: 390px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        .icon-picker-overlay.active .icon-picker-modal {
+            transform: translateY(0);
+        }
+        .icon-picker-handle {
+            width: 36px;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            margin: 0 auto 16px;
+        }
+        .icon-picker-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .icon-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        .icon-picker-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 12px 4px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.15s;
+            border: 2px solid transparent;
+        }
+        .icon-picker-item:active {
+            transform: scale(0.95);
+        }
+        .icon-picker-item.selected {
+            background: rgba(230, 126, 34, 0.1);
+            border-color: #E67E22;
+        }
+        .icon-picker-item-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-picker-item.selected .icon-picker-item-icon {
+            background: rgba(230, 126, 34, 0.15);
+        }
+        .icon-picker-item-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: capitalize;
+        }
+
         /* Form Sections */
         .form-section {
             margin-bottom: 24px;
@@ -986,6 +1066,15 @@
             <button class="start-btn" onclick="createMission()">Start Goal</button>
         </div>
 
+        <!-- Icon Picker Modal -->
+        <div class="icon-picker-overlay" id="iconPickerOverlay" onclick="closeIconPicker(event)">
+            <div class="icon-picker-modal">
+                <div class="icon-picker-handle"></div>
+                <div class="icon-picker-title">Choose an Icon</div>
+                <div class="icon-picker-grid" id="iconPickerGrid"></div>
+            </div>
+        </div>
+
         <!-- Success Toast -->
         <div class="toast-overlay" id="toastOverlay"></div>
         <div class="toast" id="successToast">
@@ -1011,8 +1100,49 @@
             window.history.back();
         }
 
+        var iconList = [
+            {id: 'target', label: 'Target'},
+            {id: 'exercise', label: 'Exercise'},
+            {id: 'book', label: 'Reading'},
+            {id: 'meditation', label: 'Meditate'},
+            {id: 'money', label: 'Finance'},
+            {id: 'coffee', label: 'Coffee'},
+            {id: 'sleep', label: 'Sleep'},
+            {id: 'water', label: 'Water'},
+            {id: 'food', label: 'Food'},
+            {id: 'sun', label: 'Wellness'},
+            {id: 'phone', label: 'Screen'},
+            {id: 'shopping', label: 'Shopping'}
+        ];
+
         function changeIcon() {
-            alert('This would open an icon/emoji picker');
+            var grid = document.getElementById('iconPickerGrid');
+            grid.innerHTML = '';
+            iconList.forEach(function(icon) {
+                var item = document.createElement('div');
+                item.className = 'icon-picker-item' + (selectedIcon === icon.id ? ' selected' : '');
+                item.onclick = function() { selectIcon(icon.id); };
+                item.innerHTML = '<div class="icon-picker-item-icon">' + GN_getIconSVG(icon.id, 28) + '</div>' +
+                    '<span class="icon-picker-item-label">' + icon.label + '</span>';
+                grid.appendChild(item);
+            });
+            var overlay = document.getElementById('iconPickerOverlay');
+            overlay.classList.add('active');
+        }
+
+        function selectIcon(iconId) {
+            selectedIcon = iconId;
+            var iconDisplay = document.querySelector('.mission-icon-large');
+            if (iconDisplay) {
+                var badgeHtml = iconDisplay.querySelector('.edit-icon-badge').outerHTML;
+                iconDisplay.innerHTML = GN_getIconSVG(selectedIcon, 40) + badgeHtml;
+            }
+            closeIconPicker();
+        }
+
+        function closeIconPicker(e) {
+            if (e && e.target !== document.getElementById('iconPickerOverlay')) return;
+            document.getElementById('iconPickerOverlay').classList.remove('active');
         }
 
         // ---- HABITS MANAGEMENT ----

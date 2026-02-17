@@ -387,13 +387,14 @@
         .withdraw-btn {
             width: 100%;
             background: var(--bg);
-            color: var(--text-primary);
+            color: var(--text-muted);
             font-size: 15px;
             font-weight: 600;
             padding: 14px;
             border: 2px solid var(--border);
             border-radius: 12px;
-            cursor: pointer;
+            cursor: not-allowed;
+            opacity: 0.6;
         }
 
         .withdraw-note {
@@ -766,8 +767,8 @@
                             <span class="withdraw-row-value total" id="withdrawReceive">$0.00</span>
                         </div>
                     </div>
-                    <button class="withdraw-btn" id="withdrawBtn" onclick="initiateWithdraw()">Withdraw $0.00</button>
-                    <p class="withdraw-note">Pro subscribers pay only 5% fee</p>
+                    <button class="withdraw-btn" id="withdrawBtn" disabled>Withdraw — Coming Soon</button>
+                    <p class="withdraw-note">Withdrawals will be available once payments are set up</p>
                 </div>
             </div>
 
@@ -913,9 +914,7 @@
             window.location.href = 'goal-effect-goal-detail.html';
         }
 
-        function initiateWithdraw() {
-            alert('Withdraw functionality coming soon!');
-        }
+        function initiateWithdraw() {}
 
         function buildSavingsGoalCard(goal, index) {
             var goalStats = GN_getGoalStats(goal.id);
@@ -1016,7 +1015,7 @@
             var wReceive = document.getElementById('withdrawReceive');
             if (wReceive) wReceive.textContent = '$' + receive.toFixed(2);
             var wBtn = document.getElementById('withdrawBtn');
-            if (wBtn) wBtn.textContent = 'Withdraw $' + receive.toFixed(2);
+            if (wBtn) wBtn.textContent = 'Withdraw — Coming Soon';
 
             // Render per-goal vault breakdown
             var container = document.getElementById('breakdownContainer');
