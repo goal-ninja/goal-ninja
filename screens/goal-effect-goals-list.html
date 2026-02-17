@@ -947,7 +947,8 @@
             var habitCount = habits.length;
             var completionRate = goalStats.completionRate || 0;
             var vaultTotal = goalStats.vaultAmount || 0;
-            var progressPct = goal.target > 0 ? Math.min(100, Math.round((completionRate / goal.target) * 100)) : 0;
+            var progressPct = Math.min(100, completionRate);
+            var progressColor = completionRate >= goal.target ? '#22c55e' : '#1a1a1a';
 
             // Check if all habits checked in today
             var allCheckedIn = habitCount > 0 && habits.every(function(h) { return GN_hasHabitCheckedInToday(h.id); });
@@ -968,8 +969,7 @@
                 '<div class="goal-card-header">' +
                     '<div class="goal-info">' +
                         '<div class="goal-icon">' + GN_getIconSVG(goal.icon, 22) + '</div>' +
-                        '<div><div class="goal-name">' + goal.name + '</div>' +
-                        '<div class="goal-meta">' + habitCount + ' habit' + (habitCount !== 1 ? 's' : '') + '</div></div>' +
+                        '<div><div class="goal-name">' + goal.name + '</div></div>' +
                     '</div>' +
                     '<div class="goal-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg></div>' +
                 '</div>' +
@@ -979,7 +979,7 @@
                     '<div class="goal-stat"><div class="goal-stat-value">' + (goal.duration === 0 ? '\u221e' : (goalStats.daysLeft || 0)) + '</div><div class="goal-stat-label">' + (goal.duration === 0 ? 'Ongoing' : 'Days Left') + '</div></div>' +
                     '<div class="goal-stat"><div class="goal-stat-value success">$' + vaultTotal.toFixed(0) + '</div><div class="goal-stat-label">Savings</div></div>' +
                 '</div>' +
-                '<div class="goal-progress"><div class="goal-progress-fill" style="width:' + progressPct + '%"></div></div>' +
+                '<div class="goal-progress"><div class="goal-progress-fill" style="width:' + progressPct + '%;background:' + progressColor + '"></div></div>' +
                 checkinBtnHtml +
             '</div>';
         }
