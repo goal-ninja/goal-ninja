@@ -362,53 +362,7 @@
             line-height: 1.4;
         }
 
-        /* Habit Bars */
-        .habit-bar-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .habit-bar-item:last-child { border-bottom: none; }
-        .habit-bar-icon {
-            width: 32px;
-            height: 32px;
-            background: var(--bg);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        .habit-bar-icon svg { width: 16px; height: 16px; color: var(--text-secondary); }
-        .habit-bar-info { flex: 1; min-width: 0; }
-        .habit-bar-name {
-            font-size: 13px;
-            font-weight: 500;
-            margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .habit-bar-track {
-            height: 6px;
-            background: var(--bg);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        .habit-bar-fill {
-            height: 100%;
-            border-radius: 3px;
-            transition: width 0.6s ease;
-        }
-        .habit-bar-pct {
-            font-size: 14px;
-            font-weight: 700;
-            min-width: 40px;
-            text-align: right;
-            flex-shrink: 0;
-        }
+        /* Habit Bars (Chart.js) */
 
         /* Streak List */
         .streak-item {
@@ -484,38 +438,7 @@
             transition: width 0.6s ease;
         }
 
-        /* Category Bar Chart */
-        .category-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-        .category-item:last-child { margin-bottom: 0; }
-        .category-label {
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            min-width: 80px;
-        }
-        .category-bar-track {
-            flex: 1;
-            height: 8px;
-            background: var(--bg);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .category-bar-fill {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.6s ease;
-        }
-        .category-pct {
-            font-size: 13px;
-            font-weight: 700;
-            min-width: 36px;
-            text-align: right;
-        }
+        /* Category Bar Chart (Chart.js) */
 
         /* Success Pattern Charts */
         .sp-chart-card { padding: 14px; }
@@ -529,76 +452,13 @@
             color: var(--text-muted);
             margin-bottom: 10px;
         }
-        .sp-bar-chart {
-            display: flex;
-            align-items: flex-end;
-            gap: 6px;
-            height: 70px;
-            padding-bottom: 18px;
-            position: relative;
-        }
-        .sp-bar-col {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-        }
-        .sp-bar {
-            width: 100%;
-            border-radius: 4px 4px 0 0;
-            min-height: 3px;
-            transition: height 0.3s ease;
-        }
-        .sp-bar-label {
-            font-size: 9px;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-        .sp-bar-pct {
-            font-size: 8px;
-            color: var(--text-secondary);
-            font-weight: 600;
-        }
-        .sp-line-chart {
-            display: flex;
-            gap: 6px;
-            height: 100px;
-        }
-        .sp-y-axis {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            font-size: 8px;
-            color: var(--text-muted);
-            padding-bottom: 16px;
-            min-width: 28px;
-            text-align: right;
-        }
-        .sp-chart-area {
-            flex: 1;
-            position: relative;
-            border-left: 1px solid var(--bg);
-            border-bottom: 1px solid var(--bg);
-        }
-        .sp-chart-area svg {
-            width: 100%;
-            height: calc(100% - 16px);
-            overflow: visible;
-        }
-        .sp-x-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 8px;
-            color: var(--text-muted);
-            padding-top: 3px;
-        }
-        .sp-no-data {
-            font-size: 11px;
-            color: var(--text-muted);
-            text-align: center;
-            padding: 20px 0;
-        }
+
+        /* Chart.js Containers */
+        .chart-container { position: relative; width: 100%; }
+        .chart-container--bar { height: 100px; }
+        .chart-container--line { height: 120px; }
+        .chart-container--sparkline { width: 120px; height: 48px; flex-shrink: 0; }
+        .chart-container--horizontal-bar { min-height: 60px; }
 
         /* Pro Lock Overlay */
         .pro-section { position: relative; }
@@ -842,7 +702,9 @@
                                 <div class="sparkline-info-title">Weekly Trend</div>
                                 <div class="sparkline-info-desc" id="sparklineDesc">Loading...</div>
                             </div>
-                            <svg id="sparklineSvg" width="120" height="48" viewBox="0 0 120 48"></svg>
+                            <div class="chart-container chart-container--sparkline">
+                                <canvas id="chartSparkline"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -855,19 +717,17 @@
                     <div class="card sp-chart-card">
                         <div class="sp-chart-title">Best Day to Complete Habits</div>
                         <div class="sp-chart-subtitle" id="spBestDayLabel">—</div>
-                        <div class="sp-bar-chart" id="spBestDayChart"></div>
+                        <div class="chart-container chart-container--bar">
+                            <canvas id="chartBestDay"></canvas>
+                        </div>
                     </div>
 
                     <!-- Penalty Impact Line Chart -->
                     <div class="card sp-chart-card" style="margin-top:10px">
                         <div class="sp-chart-title">Penalty vs Completion Rate</div>
                         <div class="sp-chart-subtitle" id="spPenaltyLabel">—</div>
-                        <div class="sp-line-chart">
-                            <div class="sp-y-axis"><span>100%</span><span>50%</span><span>0%</span></div>
-                            <div class="sp-chart-area">
-                                <svg id="spPenaltySvg" viewBox="0 0 200 80" preserveAspectRatio="none"></svg>
-                                <div class="sp-x-labels" id="spPenaltyLabels"></div>
-                            </div>
+                        <div class="chart-container chart-container--line">
+                            <canvas id="chartPenalty"></canvas>
                         </div>
                     </div>
 
@@ -875,12 +735,8 @@
                     <div class="card sp-chart-card" style="margin-top:10px">
                         <div class="sp-chart-title">Goal Complexity vs Completion Rate</div>
                         <div class="sp-chart-subtitle" id="spComplexityLabel">—</div>
-                        <div class="sp-line-chart">
-                            <div class="sp-y-axis"><span>100%</span><span>50%</span><span>0%</span></div>
-                            <div class="sp-chart-area">
-                                <svg id="spComplexitySvg" viewBox="0 0 200 80" preserveAspectRatio="none"></svg>
-                                <div class="sp-x-labels" id="spComplexityLabels"></div>
-                            </div>
+                        <div class="chart-container chart-container--line">
+                            <canvas id="chartComplexity"></canvas>
                         </div>
                     </div>
 
@@ -888,12 +744,8 @@
                     <div class="card sp-chart-card" style="margin-top:10px">
                         <div class="sp-chart-title">Goal Duration vs Completion Rate</div>
                         <div class="sp-chart-subtitle" id="spTimeframeLabel">—</div>
-                        <div class="sp-line-chart">
-                            <div class="sp-y-axis"><span>100%</span><span>50%</span><span>0%</span></div>
-                            <div class="sp-chart-area">
-                                <svg id="spTimeframeSvg" viewBox="0 0 200 80" preserveAspectRatio="none"></svg>
-                                <div class="sp-x-labels" id="spTimeframeLabels"></div>
-                            </div>
+                        <div class="chart-container chart-container--line">
+                            <canvas id="chartTimeframe"></canvas>
                         </div>
                     </div>
                 </div>
@@ -930,7 +782,10 @@
                 <div class="section animate-in delay-3">
                     <h3 class="section-title">Completion Rates</h3>
                     <div class="card" id="habitBarsContainer">
-                        <div class="empty-state">
+                        <div class="chart-container chart-container--horizontal-bar" id="habitBarsChartWrap">
+                            <canvas id="chartHabitBars"></canvas>
+                        </div>
+                        <div class="empty-state" id="habitBarsEmpty" style="display:none">
                             <div class="empty-state-icon">📊</div>
                             <div class="empty-state-title">No habits yet</div>
                             <div class="empty-state-desc">Create some goals and habits to see your analytics.</div>
@@ -956,8 +811,9 @@
                     <div class="card">
                         <div class="pro-content" id="dropoffContent">
                             <div style="font-size:13px;font-weight:600;margin-bottom:10px">Where habits lose momentum</div>
-                            <div style="display:flex;align-items:flex-end;height:80px;gap:4px;margin-bottom:8px" id="dropoffBars"></div>
-                            <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted)" id="dropoffLabels"></div>
+                            <div class="chart-container chart-container--bar">
+                                <canvas id="chartDropoff"></canvas>
+                            </div>
                             <div style="font-size:11px;color:var(--text-secondary);margin-top:10px;padding:8px;background:#fef2f2;border-radius:8px;text-align:center" id="dropoffInsight"></div>
                         </div>
                     </div>
@@ -983,7 +839,10 @@
                 <div class="section animate-in delay-3">
                     <h3 class="section-title">By Category</h3>
                     <div class="card" id="categoryContainer">
-                        <div class="empty-state">
+                        <div class="chart-container chart-container--horizontal-bar" id="categoryChartWrap">
+                            <canvas id="chartCategories"></canvas>
+                        </div>
+                        <div class="empty-state" id="categoryEmpty" style="display:none">
                             <div class="empty-state-icon">📂</div>
                             <div class="empty-state-title">No data yet</div>
                             <div class="empty-state-desc">Create goals to see category breakdown.</div>
@@ -996,8 +855,10 @@
                     <h3 class="section-title">Timeframe Analysis</h3>
                     <div class="card">
                         <div class="pro-content" id="timeframeContent">
-                            <div style="display:flex;align-items:flex-end;gap:12px;height:100px;margin-bottom:8px;justify-content:center" id="timeframeBars"></div>
-                            <div style="font-size:11px;color:var(--text-secondary);text-align:center" id="timeframeInsight"></div>
+                            <div class="chart-container chart-container--bar" style="height:120px">
+                                <canvas id="chartTimeframeAnalysis"></canvas>
+                            </div>
+                            <div style="font-size:11px;color:var(--text-secondary);text-align:center;margin-top:8px" id="timeframeInsight"></div>
                         </div>
                     </div>
                 </div>
@@ -1008,9 +869,10 @@
                     <div class="card">
                         <div class="pro-content" id="goalDropoffContent">
                             <div style="font-size:13px;font-weight:600;margin-bottom:12px">Where goals typically fail</div>
-                            <div style="display:flex;align-items:flex-end;height:80px;gap:3px;margin-bottom:8px" id="goalDropoffBars"></div>
-                            <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted);margin-bottom:10px" id="goalDropoffLabels"></div>
-                            <div style="font-size:11px;color:var(--text-secondary);padding:8px;background:#fef2f2;border-radius:8px;text-align:center" id="goalDropoffInsight"></div>
+                            <div class="chart-container chart-container--bar">
+                                <canvas id="chartGoalDropoff"></canvas>
+                            </div>
+                            <div style="font-size:11px;color:var(--text-secondary);padding:8px;background:#fef2f2;border-radius:8px;text-align:center;margin-top:10px" id="goalDropoffInsight"></div>
                         </div>
                     </div>
                 </div>
@@ -1054,9 +916,79 @@
         </nav>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <script src="goal-ninja-data.js"></script>
     <script src="ninja-buddy.js"></script>
     <script>
+        // ---- CHART.JS SETUP ----
+        var chartInstances = {};
+
+        function destroyChart(key) {
+            if (chartInstances[key]) {
+                chartInstances[key].destroy();
+                delete chartInstances[key];
+            }
+        }
+
+        function isDarkMode() {
+            return document.documentElement.getAttribute('data-theme') === 'dark';
+        }
+
+        function chartColors() {
+            var dark = isDarkMode();
+            return {
+                gridColor: dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
+                tickColor: dark ? '#aaa' : '#999',
+                tooltipBg: dark ? '#333' : '#1a1a1a',
+                tooltipText: dark ? '#f0f0f0' : '#fff',
+                avgLineColor: dark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.18)',
+                avgLabelColor: dark ? '#888' : '#999',
+                emptyBarBg: dark ? '#2a2a2a' : '#f0f0f0',
+                emptyBarBorder: dark ? '#444' : 'rgba(0,0,0,0.06)'
+            };
+        }
+
+        // Custom plugin for community average dashed line
+        var communityAvgPlugin = {
+            id: 'communityAvgLine',
+            afterDraw: function(chart) {
+                var meta = chart.options.plugins.communityAvgLine;
+                if (!meta || meta.value == null) return;
+                var c = chartColors();
+                var yScale = chart.scales.y;
+                if (!yScale) return;
+                var yPixel = yScale.getPixelForValue(meta.value);
+                var ctx = chart.ctx;
+                ctx.save();
+                ctx.beginPath();
+                ctx.setLineDash([6, 4]);
+                ctx.strokeStyle = c.avgLineColor;
+                ctx.lineWidth = 1.5;
+                ctx.moveTo(chart.chartArea.left, yPixel);
+                ctx.lineTo(chart.chartArea.right, yPixel);
+                ctx.stroke();
+                ctx.fillStyle = c.avgLabelColor;
+                ctx.font = '600 9px -apple-system, BlinkMacSystemFont, sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText(meta.label || ('Avg ' + meta.value + '%'), chart.chartArea.right, yPixel - 4);
+                ctx.restore();
+            }
+        };
+
+        Chart.register(communityAvgPlugin);
+        Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif";
+        Chart.defaults.font.size = 11;
+        Chart.defaults.animation.duration = 800;
+        Chart.defaults.animation.easing = 'easeOutQuart';
+        Chart.defaults.plugins.legend.display = false;
+        Chart.defaults.plugins.tooltip.backgroundColor = '#1a1a1a';
+        Chart.defaults.plugins.tooltip.titleFont = { size: 11, weight: '600' };
+        Chart.defaults.plugins.tooltip.bodyFont = { size: 11 };
+        Chart.defaults.plugins.tooltip.cornerRadius = 8;
+        Chart.defaults.plugins.tooltip.padding = { top: 6, bottom: 6, left: 10, right: 10 };
+        Chart.defaults.responsive = true;
+        Chart.defaults.maintainAspectRatio = false;
+
         // ---- ICON TO CATEGORY MAPPING ----
         var ICON_CATEGORIES = {
             exercise: 'Fitness', workout: 'Fitness', run: 'Fitness', fitness: 'Fitness',
@@ -1090,6 +1022,25 @@
             event.target.classList.add('active');
             var el = document.getElementById('tab-' + tabName);
             if (el) el.classList.add('active');
+            // Trigger Chart.js resize for newly-visible tab
+            setTimeout(function() {
+                for (var key in chartInstances) {
+                    if (chartInstances[key]) chartInstances[key].resize();
+                }
+            }, 50);
+        }
+
+        function rebuildAllCharts() {
+            buildSparkline();
+            buildHabitBars();
+            buildCategories();
+            buildBestDayChart();
+            buildPenaltyChart();
+            buildComplexityChart();
+            buildTimeframeChart();
+            buildDropoff();
+            buildTimeframe();
+            buildGoalDropoff();
         }
 
         // ---- CONSISTENCY SCORE ----
@@ -1216,21 +1167,48 @@
                 weeks.push(total > 0 ? Math.round((completed / total) * 100) : 0);
             }
 
-            // Draw sparkline
-            var svg = document.getElementById('sparklineSvg');
-            var max = Math.max.apply(null, weeks.concat([1]));
-            var min = Math.min.apply(null, weeks);
-            var range = max - min || 1;
-            var points = weeks.map(function(v, i) {
-                var x = 10 + (i / 7) * 100;
-                var y = 42 - ((v - min) / range) * 36;
-                return x + ',' + y;
-            }).join(' ');
+            destroyChart('sparkline');
+            var canvas = document.getElementById('chartSparkline');
+            if (!canvas) return;
 
             var color = weeks[weeks.length - 1] >= weeks[weeks.length - 2] ? '#22c55e' : '#ef4444';
-            svg.innerHTML = '<polyline points="' + points + '" fill="none" stroke="' + color + '" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+            var ctx = canvas.getContext('2d');
+            var gradient = ctx.createLinearGradient(0, 0, 0, 48);
+            gradient.addColorStop(0, color === '#22c55e' ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)');
+            gradient.addColorStop(1, 'rgba(0,0,0,0)');
 
-            // Description
+            chartInstances.sparkline = new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: weeks.map(function(_, i) { return ''; }),
+                    datasets: [{
+                        data: weeks,
+                        borderColor: color,
+                        backgroundColor: gradient,
+                        fill: true,
+                        borderWidth: 2.5,
+                        tension: 0.4,
+                        pointRadius: 0,
+                        pointHoverRadius: 3,
+                        pointHoverBackgroundColor: color
+                    }]
+                },
+                options: {
+                    scales: { x: { display: false }, y: { display: false } },
+                    plugins: {
+                        tooltip: {
+                            enabled: true,
+                            callbacks: {
+                                title: function() { return ''; },
+                                label: function(ctx) { return ctx.parsed.y + '%'; }
+                            }
+                        }
+                    },
+                    animation: { duration: 600 },
+                    interaction: { intersect: false, mode: 'index' }
+                }
+            });
+
             var desc = document.getElementById('sparklineDesc');
             var latest = weeks[weeks.length - 1];
             var prev = weeks[weeks.length - 2];
@@ -1243,7 +1221,13 @@
         // ---- HABIT BARS ----
         function buildHabitBars() {
             var habits = GN_getHabits();
-            if (!habits.length) return;
+            var chartWrap = document.getElementById('habitBarsChartWrap');
+            var emptyEl = document.getElementById('habitBarsEmpty');
+            if (!habits.length) {
+                if (chartWrap) chartWrap.style.display = 'none';
+                if (emptyEl) emptyEl.style.display = '';
+                return;
+            }
 
             var items = [];
             habits.forEach(function(h) {
@@ -1252,19 +1236,59 @@
                 items.push({ name: h.name, icon: h.icon || 'target', rate: stats.completionRate || 0 });
             });
 
-            items.sort(function(a, b) { return b.rate - a.rate; });
+            if (!items.length) {
+                if (chartWrap) chartWrap.style.display = 'none';
+                if (emptyEl) emptyEl.style.display = '';
+                return;
+            }
 
-            var html = '';
-            items.forEach(function(item) {
-                var color = item.rate >= 80 ? '#22c55e' : item.rate >= 50 ? '#E67E22' : '#ef4444';
-                html += '<div class="habit-bar-item">' +
-                    '<div class="habit-bar-icon">' + GN_getIconSVG(item.icon, 16) + '</div>' +
-                    '<div class="habit-bar-info"><div class="habit-bar-name">' + item.name + '</div>' +
-                    '<div class="habit-bar-track"><div class="habit-bar-fill" style="width:' + item.rate + '%;background:' + color + '"></div></div></div>' +
-                    '<div class="habit-bar-pct" style="color:' + color + '">' + item.rate + '%</div></div>';
+            items.sort(function(a, b) { return b.rate - a.rate; });
+            if (chartWrap) { chartWrap.style.display = ''; chartWrap.style.height = Math.max(80, items.length * 32) + 'px'; }
+            if (emptyEl) emptyEl.style.display = 'none';
+
+            destroyChart('habitBars');
+            var canvas = document.getElementById('chartHabitBars');
+            if (!canvas) return;
+            var c = chartColors();
+
+            var bgColors = items.map(function(item) {
+                return item.rate >= 80 ? '#22c55e' : item.rate >= 50 ? '#E67E22' : '#ef4444';
             });
 
-            document.getElementById('habitBarsContainer').innerHTML = html;
+            chartInstances.habitBars = new Chart(canvas, {
+                type: 'bar',
+                data: {
+                    labels: items.map(function(item) { return item.name; }),
+                    datasets: [{
+                        data: items.map(function(item) { return item.rate; }),
+                        backgroundColor: bgColors,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                        barThickness: 8
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true, max: 100,
+                            ticks: { callback: function(v) { return v + '%'; }, color: c.tickColor, font: { size: 9 } },
+                            grid: { color: c.gridColor },
+                            border: { display: false }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { color: c.tickColor, font: { size: 11, weight: '500' }, crossAlign: 'far' },
+                            border: { display: false }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: { label: function(ctx) { return ctx.parsed.x + '% completion rate'; } }
+                        }
+                    }
+                }
+            });
         }
 
         // ---- STREAK LEADERBOARD ----
@@ -1324,7 +1348,14 @@
         // ---- CATEGORY PERFORMANCE ----
         function buildCategories() {
             var goals = GN_getGoals();
-            if (!goals.length) return;
+            var chartWrap = document.getElementById('categoryChartWrap');
+            var emptyEl = document.getElementById('categoryEmpty');
+
+            if (!goals.length) {
+                if (chartWrap) chartWrap.style.display = 'none';
+                if (emptyEl) emptyEl.style.display = '';
+                return;
+            }
 
             var categories = {};
             goals.forEach(function(g) {
@@ -1341,35 +1372,68 @@
             var items = [];
             for (var cat in categories) {
                 if (categories[cat].count > 0) {
-                    items.push({
-                        name: cat,
-                        rate: Math.round(categories[cat].totalRate / categories[cat].count)
-                    });
+                    items.push({ name: cat, rate: Math.round(categories[cat].totalRate / categories[cat].count) });
                 }
             }
 
-            if (!items.length) return;
+            if (!items.length) {
+                if (chartWrap) chartWrap.style.display = 'none';
+                if (emptyEl) emptyEl.style.display = '';
+                return;
+            }
+
             items.sort(function(a, b) { return b.rate - a.rate; });
+            if (chartWrap) { chartWrap.style.display = ''; chartWrap.style.height = Math.max(80, items.length * 32) + 'px'; }
+            if (emptyEl) emptyEl.style.display = 'none';
 
-            var colors = { Fitness: '#22c55e', Learning: '#3b82f6', Wellness: '#8b5cf6', Finance: '#E67E22', Productivity: '#1a1a1a', Lifestyle: '#ec4899', General: '#6b7280' };
+            destroyChart('categories');
+            var canvas = document.getElementById('chartCategories');
+            if (!canvas) return;
+            var c = chartColors();
 
-            var html = '';
-            items.forEach(function(item) {
-                var c = colors[item.name] || '#6b7280';
-                html += '<div class="category-item">' +
-                    '<div class="category-label">' + item.name + '</div>' +
-                    '<div class="category-bar-track"><div class="category-bar-fill" style="width:' + item.rate + '%;background:' + c + '"></div></div>' +
-                    '<div class="category-pct">' + item.rate + '%</div></div>';
+            var colorMap = { Fitness: '#22c55e', Learning: '#3b82f6', Wellness: '#8b5cf6', Finance: '#E67E22', Productivity: isDarkMode() ? '#f0f0f0' : '#1a1a1a', Lifestyle: '#ec4899', General: '#6b7280' };
+            var bgColors = items.map(function(item) { return colorMap[item.name] || '#6b7280'; });
+
+            chartInstances.categories = new Chart(canvas, {
+                type: 'bar',
+                data: {
+                    labels: items.map(function(item) { return item.name; }),
+                    datasets: [{
+                        data: items.map(function(item) { return item.rate; }),
+                        backgroundColor: bgColors,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                        barThickness: 8
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    scales: {
+                        x: {
+                            beginAtZero: true, max: 100,
+                            ticks: { callback: function(v) { return v + '%'; }, color: c.tickColor, font: { size: 9 } },
+                            grid: { color: c.gridColor },
+                            border: { display: false }
+                        },
+                        y: {
+                            grid: { display: false },
+                            ticks: { color: c.tickColor, font: { size: 11, weight: '500' } },
+                            border: { display: false }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: { label: function(ctx) { return ctx.parsed.x + '% avg completion'; } }
+                        }
+                    }
+                }
             });
-
-            document.getElementById('categoryContainer').innerHTML = html;
         }
 
         // ---- SUCCESS PATTERNS: BEST DAY BAR CHART ----
         function buildBestDayChart() {
             var allCheckins = GN_getAllCheckins();
-            // Count completions per day of week (Mon-Sun order for display)
-            var dayCounts = [0,0,0,0,0,0,0]; // Sun=0 .. Sat=6
+            var dayCounts = [0,0,0,0,0,0,0];
             var dayTotals = [0,0,0,0,0,0,0];
             for (var hid in allCheckins) {
                 for (var dateStr in allCheckins[hid]) {
@@ -1381,7 +1445,6 @@
                 }
             }
 
-            // Reorder to Mon-Sun: [1,2,3,4,5,6,0]
             var order = [1,2,3,4,5,6,0];
             var labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
             var dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
@@ -1395,26 +1458,48 @@
                 if (rate > bestRate) { bestRate = rate; bestIdx = i; }
             }
 
-            var container = document.getElementById('spBestDayChart');
+            destroyChart('bestDay');
+            var canvas = document.getElementById('chartBestDay');
+            if (!canvas) return;
+
             if (bestRate <= 0) {
-                container.innerHTML = '<div class="sp-no-data">No checkin data yet</div>';
+                canvas.parentElement.style.display = 'none';
                 return;
             }
+            canvas.parentElement.style.display = '';
 
-            var communityAvg = 71;
-            var maxRate = Math.max.apply(null, rates.concat([communityAvg])) || 1;
-            var avgLinePos = 100 - ((communityAvg / maxRate) * 100);
-            var html = '<div style="position:absolute;left:0;right:0;bottom:' + (18 + (communityAvg / maxRate) * 70) + 'px;border-top:1.5px dashed rgba(0,0,0,0.15);z-index:1"><span style="position:absolute;right:0;top:-12px;font-size:7px;color:var(--text-muted)">Avg ' + communityAvg + '%</span></div>';
-            for (var i = 0; i < 7; i++) {
-                var height = Math.max(3, (rates[i] / maxRate) * 100);
-                var color = i === bestIdx ? '#22c55e' : 'var(--bg)';
-                var border = i === bestIdx ? '' : 'border:1px solid rgba(0,0,0,0.06);';
-                html += '<div class="sp-bar-col">' +
-                    '<div class="sp-bar-pct">' + rates[i] + '%</div>' +
-                    '<div class="sp-bar" style="height:' + height + '%;background:' + color + ';' + border + '"></div>' +
-                    '<div class="sp-bar-label">' + labels[i] + '</div></div>';
-            }
-            container.innerHTML = html;
+            var c = chartColors();
+            var bgColors = rates.map(function(r, i) { return i === bestIdx ? '#22c55e' : c.emptyBarBg; });
+            var borderColors = rates.map(function(r, i) { return i === bestIdx ? '#22c55e' : c.emptyBarBorder; });
+
+            chartInstances.bestDay = new Chart(canvas, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: rates,
+                        backgroundColor: bgColors,
+                        borderColor: borderColors,
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true, max: 100, display: false },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: c.tickColor, font: { size: 9, weight: '600' } },
+                            border: { display: false }
+                        }
+                    },
+                    plugins: {
+                        tooltip: { callbacks: { label: function(ctx) { return ctx.parsed.y + '% completion'; } } },
+                        communityAvgLine: { value: 71, label: 'Avg 71%' }
+                    }
+                }
+            });
 
             var bestDayName = dayNames[order[bestIdx]];
             document.getElementById('spBestDayLabel').textContent = bestDayName + ' is your best day (' + bestRate + '% completion)';
@@ -1423,7 +1508,7 @@
         // ---- SUCCESS PATTERNS: PENALTY IMPACT LINE CHART ----
         function buildPenaltyChart() {
             var habits = GN_getHabits();
-            var points = []; // {x: penalty, y: completionRate, name: habitName}
+            var points = [];
 
             habits.forEach(function(h) {
                 var stats = GN_getHabitStats(h.id);
@@ -1431,43 +1516,68 @@
                 points.push({ x: h.penalty || 0, y: stats.completionRate, name: h.name });
             });
 
+            destroyChart('penalty');
+            var canvas = document.getElementById('chartPenalty');
+            if (!canvas) return;
+
             if (points.length < 2) {
-                document.getElementById('spPenaltySvg').innerHTML = '';
-                document.getElementById('spPenaltyLabels').innerHTML = '';
+                canvas.parentElement.style.display = 'none';
                 document.getElementById('spPenaltyLabel').textContent = points.length === 1 ?
                     'Need more habits with different penalties to show trend' : 'No habit data yet';
                 return;
             }
+            canvas.parentElement.style.display = '';
 
             points.sort(function(a, b) { return a.x - b.x; });
-            var minX = points[0].x, maxX = points[points.length - 1].x;
-            var rangeX = maxX - minX || 1;
+            var c = chartColors();
+            var ctx = canvas.getContext('2d');
+            var gradient = ctx.createLinearGradient(0, 0, 0, canvas.parentElement.offsetHeight || 120);
+            gradient.addColorStop(0, 'rgba(230, 126, 34, 0.3)');
+            gradient.addColorStop(1, 'rgba(230, 126, 34, 0)');
 
-            // Build SVG
-            var svgPts = points.map(function(p) {
-                var px = 10 + ((p.x - minX) / rangeX) * 180;
-                var py = 75 - (p.y / 100) * 70;
-                return { px: px, py: py, data: p };
+            chartInstances.penalty = new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: points.map(function(p) { return '$' + p.x; }),
+                    datasets: [{
+                        data: points.map(function(p) { return p.y; }),
+                        borderColor: '#E67E22',
+                        backgroundColor: gradient,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#E67E22',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true, max: 100,
+                            ticks: { callback: function(v) { return v + '%'; }, color: c.tickColor, font: { size: 8 }, stepSize: 50 },
+                            grid: { color: c.gridColor },
+                            border: { display: false }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: c.tickColor, font: { size: 9 } },
+                            border: { display: false }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                title: function(items) { return points[items[0].dataIndex].name; },
+                                label: function(ctx) { return 'Penalty: $' + points[ctx.dataIndex].x + ' | Completion: ' + ctx.parsed.y + '%'; }
+                            }
+                        },
+                        communityAvgLine: { value: 71, label: 'Avg 71%' }
+                    }
+                }
             });
 
-            var polyline = svgPts.map(function(p) { return p.px + ',' + p.py; }).join(' ');
-            var dots = svgPts.map(function(p) {
-                return '<circle cx="' + p.px + '" cy="' + p.py + '" r="3.5" fill="#E67E22" stroke="white" stroke-width="1.5"/>';
-            }).join('');
-
-            var avgY = 75 - (71 / 100) * 70;
-            document.getElementById('spPenaltySvg').innerHTML =
-                '<line x1="0" y1="' + avgY + '" x2="200" y2="' + avgY + '" stroke="#999" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>' +
-                '<text x="196" y="' + (avgY - 3) + '" fill="#999" font-size="6" text-anchor="end">Avg</text>' +
-                '<polyline points="' + polyline + '" fill="none" stroke="#E67E22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>' + dots;
-
-            // X labels
-            var uniquePenalties = [];
-            points.forEach(function(p) { if (uniquePenalties.indexOf(p.x) === -1) uniquePenalties.push(p.x); });
-            var labelHtml = uniquePenalties.map(function(p) { return '<span>$' + p + '</span>'; }).join('');
-            document.getElementById('spPenaltyLabels').innerHTML = labelHtml;
-
-            // Insight
             var first = points[0].y, last = points[points.length - 1].y;
             var diff = last - first;
             if (diff > 5) {
@@ -1482,7 +1592,7 @@
         // ---- SUCCESS PATTERNS: GOAL COMPLEXITY LINE CHART ----
         function buildComplexityChart() {
             var goals = GN_getGoals();
-            var groups = {}; // habitCount -> { totalRate, count }
+            var groups = {};
 
             goals.forEach(function(g) {
                 if (g.status !== 'active' && g.status !== 'paused' && g.status !== 'completed') return;
@@ -1500,39 +1610,67 @@
                 points.push({ x: parseInt(k), y: Math.round(groups[k].totalRate / groups[k].count) });
             }
 
+            destroyChart('complexity');
+            var canvas = document.getElementById('chartComplexity');
+            if (!canvas) return;
+
             if (points.length < 2) {
-                document.getElementById('spComplexitySvg').innerHTML = '';
-                document.getElementById('spComplexityLabels').innerHTML = '';
+                canvas.parentElement.style.display = 'none';
                 document.getElementById('spComplexityLabel').textContent = points.length === 1 ?
                     'Need goals with different habit counts to show trend' : 'No goal data yet';
                 return;
             }
+            canvas.parentElement.style.display = '';
 
             points.sort(function(a, b) { return a.x - b.x; });
-            var minX = points[0].x, maxX = points[points.length - 1].x;
-            var rangeX = maxX - minX || 1;
+            var c = chartColors();
+            var ctx = canvas.getContext('2d');
+            var gradient = ctx.createLinearGradient(0, 0, 0, canvas.parentElement.offsetHeight || 120);
+            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.3)');
+            gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
 
-            var svgPts = points.map(function(p) {
-                var px = 10 + ((p.x - minX) / rangeX) * 180;
-                var py = 75 - (p.y / 100) * 70;
-                return { px: px, py: py, data: p };
+            chartInstances.complexity = new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: points.map(function(p) { return p.x + (p.x === 1 ? ' habit' : ' habits'); }),
+                    datasets: [{
+                        data: points.map(function(p) { return p.y; }),
+                        borderColor: '#3b82f6',
+                        backgroundColor: gradient,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#3b82f6',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true, max: 100,
+                            ticks: { callback: function(v) { return v + '%'; }, color: c.tickColor, font: { size: 8 }, stepSize: 50 },
+                            grid: { color: c.gridColor },
+                            border: { display: false }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: c.tickColor, font: { size: 9 } },
+                            border: { display: false }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(ctx) { return 'Completion: ' + ctx.parsed.y + '%'; }
+                            }
+                        },
+                        communityAvgLine: { value: 71, label: 'Avg 71%' }
+                    }
+                }
             });
 
-            var polyline = svgPts.map(function(p) { return p.px + ',' + p.py; }).join(' ');
-            var dots = svgPts.map(function(p) {
-                return '<circle cx="' + p.px + '" cy="' + p.py + '" r="3.5" fill="#3b82f6" stroke="white" stroke-width="1.5"/>';
-            }).join('');
-
-            var avgY = 75 - (71 / 100) * 70;
-            document.getElementById('spComplexitySvg').innerHTML =
-                '<line x1="0" y1="' + avgY + '" x2="200" y2="' + avgY + '" stroke="#999" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>' +
-                '<text x="196" y="' + (avgY - 3) + '" fill="#999" font-size="6" text-anchor="end">Avg</text>' +
-                '<polyline points="' + polyline + '" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>' + dots;
-
-            var labelHtml = points.map(function(p) { return '<span>' + p.x + ' habit' + (p.x !== 1 ? 's' : '') + '</span>'; }).join('');
-            document.getElementById('spComplexityLabels').innerHTML = labelHtml;
-
-            // Insight
             var first = points[0].y, last = points[points.length - 1].y;
             var diff = first - last;
             if (diff > 5) {
@@ -1547,54 +1685,81 @@
         // ---- SUCCESS PATTERNS: GOAL TIMEFRAME LINE CHART ----
         function buildTimeframeChart() {
             var goals = GN_getGoals();
-            var points = []; // {x: duration, y: completionRate}
+            var points = [];
 
             goals.forEach(function(g) {
                 if (g.status !== 'active' && g.status !== 'paused' && g.status !== 'completed') return;
                 var stats = GN_getGoalStats(g.id);
                 if (!stats) return;
                 var dur = g.duration > 0 ? g.duration : 0;
-                if (dur === 0) return; // Skip ongoing goals (no timeframe)
+                if (dur === 0) return;
                 points.push({ x: dur, y: stats.completionRate, name: g.name });
             });
 
+            destroyChart('timeframe');
+            var canvas = document.getElementById('chartTimeframe');
+            if (!canvas) return;
+
             if (points.length < 2) {
-                document.getElementById('spTimeframeSvg').innerHTML = '';
-                document.getElementById('spTimeframeLabels').innerHTML = '';
+                canvas.parentElement.style.display = 'none';
                 document.getElementById('spTimeframeLabel').textContent = points.length === 1 ?
                     'Need goals with different durations to show trend' : 'No timed goal data yet';
                 return;
             }
+            canvas.parentElement.style.display = '';
 
             points.sort(function(a, b) { return a.x - b.x; });
-            var minX = points[0].x, maxX = points[points.length - 1].x;
-            var rangeX = maxX - minX || 1;
+            var c = chartColors();
+            var ctx = canvas.getContext('2d');
+            var gradient = ctx.createLinearGradient(0, 0, 0, canvas.parentElement.offsetHeight || 120);
+            gradient.addColorStop(0, 'rgba(139, 92, 246, 0.3)');
+            gradient.addColorStop(1, 'rgba(139, 92, 246, 0)');
 
-            var svgPts = points.map(function(p) {
-                var px = 10 + ((p.x - minX) / rangeX) * 180;
-                var py = 75 - (p.y / 100) * 70;
-                return { px: px, py: py, data: p };
+            chartInstances.timeframe = new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: points.map(function(p) {
+                        return p.x <= 60 ? p.x + 'd' : Math.round(p.x / 30) + 'mo';
+                    }),
+                    datasets: [{
+                        data: points.map(function(p) { return p.y; }),
+                        borderColor: '#8b5cf6',
+                        backgroundColor: gradient,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#8b5cf6',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        pointHoverRadius: 7
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true, max: 100,
+                            ticks: { callback: function(v) { return v + '%'; }, color: c.tickColor, font: { size: 8 }, stepSize: 50 },
+                            grid: { color: c.gridColor },
+                            border: { display: false }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: c.tickColor, font: { size: 9 } },
+                            border: { display: false }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                title: function(items) { return points[items[0].dataIndex].name; },
+                                label: function(ctx) { return 'Duration: ' + points[ctx.dataIndex].x + 'd | Completion: ' + ctx.parsed.y + '%'; }
+                            }
+                        },
+                        communityAvgLine: { value: 71, label: 'Avg 71%' }
+                    }
+                }
             });
 
-            var polyline = svgPts.map(function(p) { return p.px + ',' + p.py; }).join(' ');
-            var dots = svgPts.map(function(p) {
-                return '<circle cx="' + p.px + '" cy="' + p.py + '" r="3.5" fill="#8b5cf6" stroke="white" stroke-width="1.5"/>';
-            }).join('');
-
-            var avgY = 75 - (71 / 100) * 70;
-            document.getElementById('spTimeframeSvg').innerHTML =
-                '<line x1="0" y1="' + avgY + '" x2="200" y2="' + avgY + '" stroke="#999" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>' +
-                '<text x="196" y="' + (avgY - 3) + '" fill="#999" font-size="6" text-anchor="end">Avg</text>' +
-                '<polyline points="' + polyline + '" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>' + dots;
-
-            // Labels: show duration in friendly format
-            var labelHtml = points.map(function(p) {
-                var lbl = p.x <= 7 ? p.x + 'd' : p.x <= 60 ? p.x + 'd' : Math.round(p.x / 30) + 'mo';
-                return '<span>' + lbl + '</span>';
-            }).join('');
-            document.getElementById('spTimeframeLabels').innerHTML = labelHtml;
-
-            // Insight
             var first = points[0].y, last = points[points.length - 1].y;
             var diff = first - last;
             if (diff > 5) {
@@ -1678,17 +1843,19 @@
         function buildDropoff() {
             var allCheckins = GN_getAllCheckins();
             var habits = GN_getHabits();
+
+            destroyChart('dropoff');
+            var canvas = document.getElementById('chartDropoff');
+
             if (!habits.length) {
-                document.getElementById('dropoffBars').innerHTML = '<div style="font-size:12px;color:var(--text-muted);text-align:center;width:100%;padding:20px">No habit data yet</div>';
+                if (canvas) canvas.parentElement.style.display = 'none';
                 document.getElementById('dropoffInsight').textContent = 'Start tracking habits to see your drop-off patterns.';
                 return;
             }
 
-            // Calculate completion rate by week number (weeks since each habit started)
-            var weekRates = {}; // weekNum -> { completed, total }
+            var weekRates = {};
             habits.forEach(function(h) {
                 var checkins = GN_getCheckinsForHabit(h.id);
-                // Find earliest checkin as habit start
                 var dates = Object.keys(checkins).sort();
                 if (dates.length === 0) return;
                 var startDate = dates[0];
@@ -1696,35 +1863,56 @@
                 for (var i = 0; i < dates.length; i++) {
                     var dayNum = GN_daysBetween(startDate, dates[i]) + 1;
                     var weekNum = Math.ceil(dayNum / 7);
-                    if (weekNum > 8) continue; // Cap at 8 weeks
+                    if (weekNum > 8) continue;
                     if (!weekRates[weekNum]) weekRates[weekNum] = { completed: 0, total: 0 };
                     weekRates[weekNum].total++;
                     if (checkins[dates[i]] === 'complete') weekRates[weekNum].completed++;
                 }
             });
 
-            // Build bars
-            var barsHtml = '';
-            var labelsHtml = '';
             var maxWeek = 0;
             for (var w in weekRates) { if (parseInt(w) > maxWeek) maxWeek = parseInt(w); }
-            maxWeek = Math.max(maxWeek, 4); // At least show 4 weeks
+            maxWeek = Math.max(maxWeek, 4);
 
             var rates = [];
             for (var w = 1; w <= Math.min(maxWeek, 8); w++) {
                 var wr = weekRates[w];
-                var pct = wr ? Math.round((wr.completed / wr.total) * 100) : 0;
-                rates.push(pct);
-                var color = pct >= 70 ? '#22c55e' : pct >= 40 ? '#E67E22' : '#ef4444';
-                var height = Math.max(5, pct);
-                barsHtml += '<div style="flex:1;background:' + color + ';border-radius:4px 4px 0 0;height:' + height + '%" title="Week ' + w + ': ' + pct + '%"></div>';
-                labelsHtml += '<span>Wk ' + w + '</span>';
+                rates.push(wr ? Math.round((wr.completed / wr.total) * 100) : 0);
             }
 
-            document.getElementById('dropoffBars').innerHTML = barsHtml;
-            document.getElementById('dropoffLabels').innerHTML = labelsHtml;
+            if (!canvas) return;
+            canvas.parentElement.style.display = '';
+            var c = chartColors();
+            var bgColors = rates.map(function(pct) { return pct >= 70 ? '#22c55e' : pct >= 40 ? '#E67E22' : '#ef4444'; });
 
-            // Find lowest week (danger zone)
+            chartInstances.dropoff = new Chart(canvas, {
+                type: 'bar',
+                data: {
+                    labels: rates.map(function(_, i) { return 'Wk ' + (i + 1); }),
+                    datasets: [{
+                        data: rates,
+                        backgroundColor: bgColors,
+                        borderRadius: { topLeft: 4, topRight: 4 },
+                        borderSkipped: 'bottom'
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true, max: 100, display: false },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: c.tickColor, font: { size: 9 } },
+                            border: { display: false }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: { label: function(ctx) { return 'Week ' + (ctx.dataIndex + 1) + ': ' + ctx.parsed.y + '% completion'; } }
+                        }
+                    }
+                }
+            });
+
             var lowestWeek = 1, lowestRate = 100;
             for (var i = 0; i < rates.length; i++) {
                 if (rates[i] < lowestRate && rates[i] > 0) { lowestRate = rates[i]; lowestWeek = i + 1; }
@@ -1741,9 +1929,9 @@
         function buildTimeframe() {
             var goals = GN_getGoals();
             var buckets = {
-                short: { totalRate: 0, count: 0 },   // <=30 days
-                medium: { totalRate: 0, count: 0 },   // 31-89 days
-                long: { totalRate: 0, count: 0 }      // 90+ days or ongoing (0)
+                short: { totalRate: 0, count: 0 },
+                medium: { totalRate: 0, count: 0 },
+                long: { totalRate: 0, count: 0 }
             };
 
             goals.forEach(function(g) {
@@ -1756,30 +1944,63 @@
             });
 
             var data = [
-                { label: 'Short', sub: '≤30 days', rate: buckets.short.count > 0 ? Math.round(buckets.short.totalRate / buckets.short.count) : 0, count: buckets.short.count },
-                { label: 'Medium', sub: '31-89 days', rate: buckets.medium.count > 0 ? Math.round(buckets.medium.totalRate / buckets.medium.count) : 0, count: buckets.medium.count },
-                { label: 'Long', sub: '90+ days', rate: buckets.long.count > 0 ? Math.round(buckets.long.totalRate / buckets.long.count) : 0, count: buckets.long.count }
+                { label: 'Short', sub: '≤30d', rate: buckets.short.count > 0 ? Math.round(buckets.short.totalRate / buckets.short.count) : 0, count: buckets.short.count },
+                { label: 'Medium', sub: '31-89d', rate: buckets.medium.count > 0 ? Math.round(buckets.medium.totalRate / buckets.medium.count) : 0, count: buckets.medium.count },
+                { label: 'Long', sub: '90d+', rate: buckets.long.count > 0 ? Math.round(buckets.long.totalRate / buckets.long.count) : 0, count: buckets.long.count }
             ];
 
-            var barsHtml = '';
-            data.forEach(function(d) {
-                var color = d.rate >= 70 ? '#22c55e' : d.rate >= 40 ? '#E67E22' : '#ef4444';
-                var height = Math.max(8, d.rate);
-                barsHtml += '<div style="text-align:center">' +
-                    '<div style="font-size:12px;font-weight:700;margin-bottom:4px">' + (d.count > 0 ? d.rate + '%' : '—') + '</div>' +
-                    '<div style="width:50px;height:' + height + 'px;background:' + (d.count > 0 ? color : 'var(--bg)') + ';border-radius:6px 6px 0 0;' + (d.count === 0 ? 'border:1px dashed var(--text-muted)' : '') + '"></div>' +
-                    '<div style="font-size:10px;color:var(--text-muted);margin-top:4px">' + d.label + '</div>' +
-                    '<div style="font-size:9px;color:var(--text-muted)">' + d.sub + '</div></div>';
+            destroyChart('timeframeAnalysis');
+            var canvas = document.getElementById('chartTimeframeAnalysis');
+            if (!canvas) return;
+
+            var c = chartColors();
+            var bgColors = data.map(function(d) {
+                if (d.count === 0) return c.emptyBarBg;
+                return d.rate >= 70 ? '#22c55e' : d.rate >= 40 ? '#E67E22' : '#ef4444';
+            });
+            var borderColors = data.map(function(d) { return d.count === 0 ? c.emptyBarBorder : 'transparent'; });
+
+            chartInstances.timeframeAnalysis = new Chart(canvas, {
+                type: 'bar',
+                data: {
+                    labels: data.map(function(d) { return d.label + '\n' + d.sub; }),
+                    datasets: [{
+                        data: data.map(function(d) { return d.count > 0 ? d.rate : 0; }),
+                        backgroundColor: bgColors,
+                        borderColor: borderColors,
+                        borderWidth: data.map(function(d) { return d.count === 0 ? 1.5 : 0; }),
+                        borderRadius: 6,
+                        borderSkipped: false,
+                        barPercentage: 0.5,
+                        categoryPercentage: 0.6
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true, max: 100, display: false },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: c.tickColor, font: { size: 10 } },
+                            border: { display: false }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(ctx) {
+                                    var d = data[ctx.dataIndex];
+                                    return d.count > 0 ? d.rate + '% (' + d.count + ' goals)' : 'No goals';
+                                }
+                            }
+                        }
+                    }
+                }
             });
 
-            document.getElementById('timeframeBars').innerHTML = barsHtml;
-
-            // Insight
             var hasData = data.filter(function(d) { return d.count > 0; });
             if (hasData.length >= 2) {
                 hasData.sort(function(a, b) { return b.rate - a.rate; });
-                var best = hasData[0];
-                var worst = hasData[hasData.length - 1];
+                var best = hasData[0], worst = hasData[hasData.length - 1];
                 var diff = best.rate - worst.rate;
                 document.getElementById('timeframeInsight').textContent = best.label + '-term goals outperform ' + worst.label.toLowerCase() + '-term by ' + diff + '% (' + best.count + ' vs ' + worst.count + ' goals)';
             } else if (hasData.length === 1) {
@@ -1794,8 +2015,7 @@
             var goals = GN_getGoals();
             var allCheckins = GN_getAllCheckins();
 
-            // For each goal, look at weekly completion rates over its lifetime
-            var weekData = {}; // weekNum -> { completed, total }
+            var weekData = {};
             var maxDuration = 0;
 
             goals.forEach(function(g) {
@@ -1803,7 +2023,7 @@
                 var gHabits = GN_getHabitsForGoal(g.id);
                 if (!gHabits.length) return;
 
-                var dur = g.duration > 0 ? g.duration : 60; // Default 60 for ongoing
+                var dur = g.duration > 0 ? g.duration : 60;
                 if (dur > maxDuration) maxDuration = dur;
 
                 gHabits.forEach(function(h) {
@@ -1823,32 +2043,62 @@
             var maxWeeks = Math.min(Math.ceil(maxDuration / 7), 12);
             maxWeeks = Math.max(maxWeeks, 4);
 
+            destroyChart('goalDropoff');
+            var canvas = document.getElementById('chartGoalDropoff');
+
             if (Object.keys(weekData).length === 0) {
-                document.getElementById('goalDropoffBars').innerHTML = '<div style="font-size:12px;color:var(--text-muted);text-align:center;width:100%;padding:20px">No goal data yet</div>';
+                if (canvas) canvas.parentElement.style.display = 'none';
                 document.getElementById('goalDropoffInsight').textContent = 'Start goals to see where drop-offs happen.';
                 return;
             }
 
-            var barsHtml = '';
-            var labelsHtml = '';
+            if (canvas) canvas.parentElement.style.display = '';
             var rates = [];
             for (var w = 1; w <= maxWeeks; w++) {
                 var wd = weekData[w];
                 var pct = wd ? Math.round((wd.completed / wd.total) * 100) : 0;
                 rates.push({ week: w, rate: pct, hasData: !!wd });
-                var color = pct >= 70 ? '#22c55e' : pct >= 40 ? '#E67E22' : '#ef4444';
-                var height = wd ? Math.max(5, pct) : 3;
-                var opacity = wd ? '1' : '0.3';
-                barsHtml += '<div style="flex:1;background:' + color + ';border-radius:3px 3px 0 0;height:' + height + '%;opacity:' + opacity + '" title="Week ' + w + ': ' + pct + '%"></div>';
-                if (w === 1 || w === maxWeeks || w === Math.floor(maxWeeks / 2)) {
-                    labelsHtml += '<span>Wk ' + w + '</span>';
-                }
             }
 
-            document.getElementById('goalDropoffBars').innerHTML = barsHtml;
-            document.getElementById('goalDropoffLabels').innerHTML = labelsHtml;
+            var c = chartColors();
+            var bgColors = rates.map(function(r) {
+                if (!r.hasData) return 'rgba(200,200,200,0.3)';
+                return r.rate >= 70 ? '#22c55e' : r.rate >= 40 ? '#E67E22' : '#ef4444';
+            });
 
-            // Find the steepest drop
+            chartInstances.goalDropoff = new Chart(canvas, {
+                type: 'bar',
+                data: {
+                    labels: rates.map(function(r) { return 'Wk ' + r.week; }),
+                    datasets: [{
+                        data: rates.map(function(r) { return r.rate; }),
+                        backgroundColor: bgColors,
+                        borderRadius: { topLeft: 3, topRight: 3 },
+                        borderSkipped: 'bottom'
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true, max: 100, display: false },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: c.tickColor, font: { size: 8 }, autoSkip: true, maxTicksLimit: 6 },
+                            border: { display: false }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(ctx) {
+                                    return rates[ctx.dataIndex].hasData ?
+                                        'Week ' + rates[ctx.dataIndex].week + ': ' + ctx.parsed.y + '%' : 'No data';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
             var biggestDrop = 0, dropWeek = 0;
             for (var i = 1; i < rates.length; i++) {
                 if (rates[i].hasData && rates[i-1].hasData) {
@@ -1915,6 +2165,13 @@
         }
 
         initAnalytics();
+
+        // Re-render charts on theme change
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'goalNinjaAppearance') {
+                setTimeout(function() { rebuildAllCharts(); }, 100);
+            }
+        });
 
         // NinjaBuddy analytics greeting
         setTimeout(function() {
