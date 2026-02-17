@@ -946,7 +946,7 @@
             var habits = GN_getHabitsForGoal(goal.id);
             var habitCount = habits.length;
             var completionRate = goalStats.completionRate || 0;
-            var vaultTotal = goalStats.vaultTotal || 0;
+            var vaultTotal = goalStats.vaultAmount || 0;
             var progressPct = goal.target > 0 ? Math.min(100, Math.round((completionRate / goal.target) * 100)) : 0;
 
             // Check if all habits checked in today
@@ -974,8 +974,8 @@
                     '<div class="goal-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg></div>' +
                 '</div>' +
                 '<div class="goal-stats">' +
-                    '<div class="goal-stat"><div class="goal-stat-value">' + (goalStats.currentStreak || 0) + '</div><div class="goal-stat-label">Streak</div></div>' +
                     '<div class="goal-stat"><div class="goal-stat-value">' + completionRate + '%</div><div class="goal-stat-label">Rate</div></div>' +
+                    '<div class="goal-stat"><div class="goal-stat-value">' + (goalStats.currentStreak || 0) + '</div><div class="goal-stat-label">Streak</div></div>' +
                     '<div class="goal-stat"><div class="goal-stat-value">' + (goal.duration === 0 ? '\u221e' : (goalStats.daysLeft || 0)) + '</div><div class="goal-stat-label">' + (goal.duration === 0 ? 'Ongoing' : 'Days Left') + '</div></div>' +
                     '<div class="goal-stat"><div class="goal-stat-value success">$' + vaultTotal.toFixed(0) + '</div><div class="goal-stat-label">Savings</div></div>' +
                 '</div>' +
@@ -987,7 +987,7 @@
         function buildCompletedGoalCard(goal, goalStats) {
             var habits = GN_getHabitsForGoal(goal.id);
             var completionRate = goalStats.completionRate || 0;
-            var vaultTotal = goalStats.vaultTotal || 0;
+            var vaultTotal = goalStats.vaultAmount || 0;
             var isSuccess = completionRate >= goal.target;
             var badgeHtml = isSuccess
                 ? '<span class="completed-badge">Completed</span>'
