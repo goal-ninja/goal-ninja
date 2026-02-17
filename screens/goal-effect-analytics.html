@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="color-scheme" content="light only">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png?v=2">
+    <title>Goal Ninja - Analytics</title>
+    <style>
+        :root {
+            color-scheme: light;
+            forced-color-adjust: none;
+            --bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b6b6b;
+            --text-muted: #999999;
+            --accent: #E67E22;
+            --border: #e5e5e5;
+            --success: #22c55e;
+            --success-light: #dcfce7;
+            --danger: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .phone-frame {
+            width: 100%;
+            height: 100vh;
+            margin: 0 auto;
+            background: var(--bg);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 500px) {
+            body {
+                background: #1a1a1a;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                padding: 20px;
+            }
+            .phone-frame {
+                max-width: 390px;
+                max-height: 844px;
+                border-radius: 40px;
+                box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+            }
+        }
+
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 20px 40px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-top: 12px;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .back-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-primary);
+            font-size: 16px;
+            font-weight: 500;
+            padding: 0;
+            font-family: inherit;
+        }
+        .back-btn svg { width: 20px; height: 20px; }
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .header-actions { display: flex; gap: 8px; align-items: center; }
+        .profile-btn {
+            width: 44px;
+            height: 44px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .profile-btn svg { width: 22px; height: 22px; color: var(--text-secondary); }
+
+        /* Dark Stats Banner */
+        .stats-banner {
+            background: var(--text-primary);
+            color: white;
+            border-radius: 20px;
+            padding: 24px 16px 20px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .stats-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        .stats-banner-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .stats-banner-item { text-align: center; }
+        .stats-banner-value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .stats-banner-value.green { color: #22c55e; }
+        .stats-banner-value.orange { color: #E67E22; }
+        .stats-banner-label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.6);
+            margin-top: 2px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 4px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+        }
+        .tab {
+            flex: 1;
+            background: none;
+            border: none;
+            border-radius: 11px;
+            padding: 10px 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .tab.active {
+            background: var(--text-primary);
+            color: white;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Section */
+        .section {
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        /* Cards */
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 12px;
+        }
+
+        /* Consistency Score */
+        .score-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .score-ring-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            flex-shrink: 0;
+        }
+        .score-ring-container svg { transform: rotate(-90deg); }
+        .score-ring-bg { fill: none; stroke: #f0f0f0; stroke-width: 7; }
+        .score-ring-fill {
+            fill: none;
+            stroke-width: 7;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.8s ease;
+        }
+        .score-ring-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .score-ring-number {
+            font-size: 28px;
+            font-weight: 700;
+            display: block;
+            line-height: 1;
+        }
+        .score-ring-label {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+        .score-info { flex: 1; }
+        .score-info-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .score-info-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+        .score-trend {
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: 8px;
+        }
+        .score-trend.up { background: var(--success-light); color: #16a34a; }
+        .score-trend.down { background: #fef2f2; color: #dc2626; }
+        .score-trend.neutral { background: #f5f5f5; color: var(--text-muted); }
+
+        /* Heatmap */
+        .heatmap-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .heatmap-title {
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .heatmap-legend {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+        .heatmap-legend-cell {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+        .heatmap-wrapper {
+            display: flex;
+            gap: 4px;
+        }
+        .heatmap-days {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding-top: 0;
+        }
+        .heatmap-day-label {
+            height: 14px;
+            font-size: 9px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+        }
+        .heatmap-grid {
+            display: grid;
+            grid-template-rows: repeat(7, 14px);
+            grid-auto-flow: column;
+            gap: 2px;
+            flex: 1;
+            overflow-x: auto;
+        }
+        .heatmap-cell {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            background: #f0f0f0;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .heatmap-cell:hover {
+            outline: 2px solid var(--accent);
+            outline-offset: 1px;
+        }
+        .heatmap-cell.level-1 { background: #dcfce7; }
+        .heatmap-cell.level-2 { background: #86efac; }
+        .heatmap-cell.level-3 { background: #4ade80; }
+        .heatmap-cell.level-4 { background: #22c55e; }
+        .heatmap-cell.has-missed { background: #fecaca; }
+        .heatmap-tooltip {
+            display: none;
+            position: fixed;
+            background: var(--text-primary);
+            color: white;
+            font-size: 11px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            pointer-events: none;
+            z-index: 200;
+            white-space: nowrap;
+        }
+
+        /* Sparkline */
+        .sparkline-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .sparkline-info { flex: 1; }
+        .sparkline-info-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .sparkline-info-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Habit Bars */
+        .habit-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .habit-bar-item:last-child { border-bottom: none; }
+        .habit-bar-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--bg);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .habit-bar-icon svg { width: 16px; height: 16px; color: var(--text-secondary); }
+        .habit-bar-info { flex: 1; min-width: 0; }
+        .habit-bar-name {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .habit-bar-track {
+            height: 6px;
+            background: var(--bg);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .habit-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.6s ease;
+        }
+        .habit-bar-pct {
+            font-size: 14px;
+            font-weight: 700;
+            min-width: 40px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        /* Streak List */
+        .streak-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .streak-item:last-child { border-bottom: none; }
+        .streak-left { display: flex; align-items: center; gap: 10px; }
+        .streak-rank {
+            width: 24px;
+            height: 24px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+        .streak-name { font-size: 14px; font-weight: 500; }
+        .streak-right { text-align: right; }
+        .streak-current {
+            font-size: 15px;
+            font-weight: 700;
+        }
+        .streak-best {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        /* Goal Progress Cards */
+        .goal-progress-item {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .goal-progress-item:last-child { border-bottom: none; }
+        .goal-progress-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .goal-progress-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--bg);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .goal-progress-icon svg { width: 18px; height: 18px; color: var(--text-secondary); }
+        .goal-progress-info { flex: 1; }
+        .goal-progress-name { font-size: 14px; font-weight: 600; }
+        .goal-progress-meta { font-size: 11px; color: var(--text-muted); }
+        .goal-progress-rate {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .goal-progress-track {
+            height: 8px;
+            background: var(--bg);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .goal-progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.6s ease;
+        }
+
+        /* Category Bar Chart */
+        .category-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .category-item:last-child { margin-bottom: 0; }
+        .category-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            min-width: 80px;
+        }
+        .category-bar-track {
+            flex: 1;
+            height: 8px;
+            background: var(--bg);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .category-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.6s ease;
+        }
+        .category-pct {
+            font-size: 13px;
+            font-weight: 700;
+            min-width: 36px;
+            text-align: right;
+        }
+
+        /* Pro Lock Overlay */
+        .pro-section { position: relative; }
+        .pro-section .pro-content {
+            filter: blur(4px);
+            pointer-events: none;
+            user-select: none;
+        }
+        .pro-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        .pro-badge {
+            background: linear-gradient(135deg, #E67E22, #f39c12);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+        .pro-lock-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+        .pro-unlock-btn {
+            background: var(--text-primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+        .empty-state-icon { font-size: 40px; margin-bottom: 12px; }
+        .empty-state-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .empty-state-desc { font-size: 13px; line-height: 1.4; }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-in { animation: fadeUp 0.4s ease-out both; }
+        .delay-1 { animation-delay: 0.05s; }
+        .delay-2 { animation-delay: 0.1s; }
+        .delay-3 { animation-delay: 0.15s; }
+        .delay-4 { animation-delay: 0.2s; }
+        .delay-5 { animation-delay: 0.25s; }
+    </style>
+</head>
+<body>
+    <div class="phone-frame">
+        <div class="main-content">
+
+            <!-- Header -->
+            <div class="header animate-in">
+                <div class="header-left">
+                    <button class="back-btn" onclick="goBack()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                        Back
+                    </button>
+                </div>
+                <div class="header-actions">
+                    <button class="profile-btn" onclick="window.location.href='goal-effect-leaderboard.html'" title="Leaderboard">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <h1 class="page-title animate-in" style="margin-bottom:20px;">Analytics</h1>
+
+            <!-- Dark Stats Banner -->
+            <div class="stats-banner animate-in delay-1">
+                <div class="stats-banner-grid">
+                    <div class="stats-banner-item">
+                        <div class="stats-banner-value green" id="bannerRate">0%</div>
+                        <div class="stats-banner-label">Completion Rate</div>
+                    </div>
+                    <div class="stats-banner-item">
+                        <div class="stats-banner-value orange" id="bannerStreak">0</div>
+                        <div class="stats-banner-label">Best Streak</div>
+                    </div>
+                    <div class="stats-banner-item">
+                        <div class="stats-banner-value" id="bannerScore" style="color:#E67E22">0</div>
+                        <div class="stats-banner-label">Consistency Score</div>
+                    </div>
+                    <div class="stats-banner-item">
+                        <div class="stats-banner-value" id="bannerSavings">$0</div>
+                        <div class="stats-banner-label">Total Savings</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs animate-in delay-2">
+                <button class="tab active" onclick="switchTab('overview')">Overview</button>
+                <button class="tab" onclick="switchTab('habits')">Habits</button>
+                <button class="tab" onclick="switchTab('goals')">Goals</button>
+            </div>
+
+            <!-- TAB 1: OVERVIEW -->
+            <div class="tab-content active" id="tab-overview">
+
+                <!-- Consistency Score -->
+                <div class="section animate-in delay-3">
+                    <div class="card">
+                        <div class="score-card">
+                            <div class="score-ring-container">
+                                <svg width="100" height="100" viewBox="0 0 100 100">
+                                    <circle class="score-ring-bg" cx="50" cy="50" r="42"/>
+                                    <circle class="score-ring-fill" id="scoreRingFill" cx="50" cy="50" r="42" stroke-dasharray="0 263.9" stroke="#22c55e"/>
+                                </svg>
+                                <div class="score-ring-text">
+                                    <span class="score-ring-number" id="scoreNumber">0</span>
+                                    <span class="score-ring-label">/100</span>
+                                </div>
+                            </div>
+                            <div class="score-info">
+                                <div class="score-info-title">Consistency Score</div>
+                                <div class="score-info-desc">Based on completion rate, streak length, and daily regularity.</div>
+                                <span class="score-trend neutral" id="scoreTrend">— No change</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Heatmap -->
+                <div class="section animate-in delay-3">
+                    <div class="card">
+                        <div class="heatmap-header">
+                            <span class="heatmap-title">Activity</span>
+                            <div class="heatmap-legend">
+                                <span>Less</span>
+                                <div class="heatmap-legend-cell" style="background:#f0f0f0"></div>
+                                <div class="heatmap-legend-cell" style="background:#dcfce7"></div>
+                                <div class="heatmap-legend-cell" style="background:#86efac"></div>
+                                <div class="heatmap-legend-cell" style="background:#4ade80"></div>
+                                <div class="heatmap-legend-cell" style="background:#22c55e"></div>
+                                <span>More</span>
+                            </div>
+                        </div>
+                        <div class="heatmap-wrapper">
+                            <div class="heatmap-days">
+                                <div class="heatmap-day-label">M</div>
+                                <div class="heatmap-day-label">T</div>
+                                <div class="heatmap-day-label">W</div>
+                                <div class="heatmap-day-label">T</div>
+                                <div class="heatmap-day-label">F</div>
+                                <div class="heatmap-day-label">S</div>
+                                <div class="heatmap-day-label">S</div>
+                            </div>
+                            <div class="heatmap-grid" id="heatmapGrid"></div>
+                        </div>
+                    </div>
+                    <div class="heatmap-tooltip" id="heatmapTooltip"></div>
+                </div>
+
+                <!-- Weekly Trend -->
+                <div class="section animate-in delay-4">
+                    <div class="card">
+                        <div class="sparkline-card">
+                            <div class="sparkline-info">
+                                <div class="sparkline-info-title">Weekly Trend</div>
+                                <div class="sparkline-info-desc" id="sparklineDesc">Loading...</div>
+                            </div>
+                            <svg id="sparklineSvg" width="120" height="48" viewBox="0 0 120 48"></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success Patterns (PRO) -->
+                <div class="section animate-in delay-4">
+                    <h3 class="section-title">Success Patterns</h3>
+                    <div class="card pro-section">
+                        <div class="pro-content">
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+                                <div style="padding:10px;background:var(--bg);border-radius:10px;">
+                                    <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px">Best Day</div>
+                                    <div style="font-size:15px;font-weight:700">Tuesday</div>
+                                </div>
+                                <div style="padding:10px;background:var(--bg);border-radius:10px;">
+                                    <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px">Penalty Impact</div>
+                                    <div style="font-size:15px;font-weight:700">$5+ = +23%</div>
+                                </div>
+                                <div style="padding:10px;background:var(--bg);border-radius:10px;">
+                                    <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px">Simple Goals</div>
+                                    <div style="font-size:15px;font-weight:700">81% rate</div>
+                                </div>
+                                <div style="padding:10px;background:var(--bg);border-radius:10px;">
+                                    <div style="font-size:11px;color:var(--text-muted);margin-bottom:2px">30-Day Goals</div>
+                                    <div style="font-size:15px;font-weight:700">76% rate</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pro-overlay">
+                            <span class="pro-badge">PRO</span>
+                            <div class="pro-lock-text">Unlock Success Patterns</div>
+                            <button class="pro-unlock-btn" onclick="window.location.href='goal-effect-subscription.html'">Upgrade to Ninja Elite</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community Benchmarks (PRO) -->
+                <div class="section animate-in delay-5">
+                    <h3 class="section-title">Community Benchmarks</h3>
+                    <div class="card pro-section">
+                        <div class="pro-content">
+                            <div style="display:flex;justify-content:space-around;text-align:center;margin-bottom:14px">
+                                <div>
+                                    <div style="font-size:22px;font-weight:700;color:#22c55e" id="benchmarkYou">78%</div>
+                                    <div style="font-size:11px;color:var(--text-muted)">You</div>
+                                </div>
+                                <div style="width:1px;background:var(--border)"></div>
+                                <div>
+                                    <div style="font-size:22px;font-weight:700;color:var(--text-muted)">71%</div>
+                                    <div style="font-size:11px;color:var(--text-muted)">Community Avg</div>
+                                </div>
+                            </div>
+                            <div style="font-size:12px;color:var(--text-secondary);text-align:center;margin-bottom:10px">You're in the top 32% of ninjas</div>
+                            <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+                                <span style="font-size:10px;background:var(--bg);padding:4px 8px;border-radius:8px;color:var(--text-muted)">Avg penalty: $5/day</span>
+                                <span style="font-size:10px;background:var(--bg);padding:4px 8px;border-radius:8px;color:var(--text-muted)">Top niche: Fitness</span>
+                                <span style="font-size:10px;background:var(--bg);padding:4px 8px;border-radius:8px;color:var(--text-muted)">Best timeframe: 30 days</span>
+                            </div>
+                            <div style="font-size:9px;color:var(--text-muted);text-align:center;margin-top:8px">Based on early users</div>
+                        </div>
+                        <div class="pro-overlay">
+                            <span class="pro-badge">PRO</span>
+                            <div class="pro-lock-text">Unlock Community Benchmarks</div>
+                            <button class="pro-unlock-btn" onclick="window.location.href='goal-effect-subscription.html'">Upgrade to Ninja Elite</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- TAB 2: HABITS -->
+            <div class="tab-content" id="tab-habits">
+
+                <!-- Habit Completion Rates -->
+                <div class="section animate-in delay-3">
+                    <h3 class="section-title">Completion Rates</h3>
+                    <div class="card" id="habitBarsContainer">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📊</div>
+                            <div class="empty-state-title">No habits yet</div>
+                            <div class="empty-state-desc">Create some goals and habits to see your analytics.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Streak Leaderboard -->
+                <div class="section animate-in delay-3">
+                    <h3 class="section-title">Streak Leaderboard</h3>
+                    <div class="card" id="streakContainer">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🔥</div>
+                            <div class="empty-state-title">No streaks yet</div>
+                            <div class="empty-state-desc">Start checking in daily to build your streaks.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Habit Drop-off (PRO) -->
+                <div class="section animate-in delay-4">
+                    <h3 class="section-title">Drop-off Analysis</h3>
+                    <div class="card pro-section">
+                        <div class="pro-content">
+                            <div style="font-size:13px;font-weight:600;margin-bottom:10px">Where habits lose momentum</div>
+                            <div style="display:flex;align-items:flex-end;height:80px;gap:4px;margin-bottom:8px">
+                                <div style="flex:1;background:#22c55e;border-radius:4px 4px 0 0;height:90%"></div>
+                                <div style="flex:1;background:#22c55e;border-radius:4px 4px 0 0;height:80%"></div>
+                                <div style="flex:1;background:#E67E22;border-radius:4px 4px 0 0;height:55%"></div>
+                                <div style="flex:1;background:#ef4444;border-radius:4px 4px 0 0;height:35%"></div>
+                                <div style="flex:1;background:#ef4444;border-radius:4px 4px 0 0;height:30%"></div>
+                                <div style="flex:1;background:#E67E22;border-radius:4px 4px 0 0;height:45%"></div>
+                                <div style="flex:1;background:#22c55e;border-radius:4px 4px 0 0;height:60%"></div>
+                                <div style="flex:1;background:#22c55e;border-radius:4px 4px 0 0;height:65%"></div>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted)">
+                                <span>Wk 1</span><span>Wk 2</span><span>Wk 3</span><span>Wk 4</span><span>Wk 5</span><span>Wk 6</span><span>Wk 7</span><span>Wk 8</span>
+                            </div>
+                            <div style="font-size:11px;color:var(--text-secondary);margin-top:10px;padding:8px;background:#fef2f2;border-radius:8px;text-align:center">⚠️ Danger zone: Week 3-4 — most drop-offs happen here</div>
+                        </div>
+                        <div class="pro-overlay">
+                            <span class="pro-badge">PRO</span>
+                            <div class="pro-lock-text">Unlock Drop-off Analysis</div>
+                            <button class="pro-unlock-btn" onclick="window.location.href='goal-effect-subscription.html'">Upgrade to Ninja Elite</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: GOALS -->
+            <div class="tab-content" id="tab-goals">
+
+                <!-- Goal Progress -->
+                <div class="section animate-in delay-3">
+                    <h3 class="section-title">Goal Progress</h3>
+                    <div class="card" id="goalProgressContainer">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🎯</div>
+                            <div class="empty-state-title">No goals yet</div>
+                            <div class="empty-state-desc">Create a goal to start tracking your progress.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Performance -->
+                <div class="section animate-in delay-3">
+                    <h3 class="section-title">By Category</h3>
+                    <div class="card" id="categoryContainer">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📂</div>
+                            <div class="empty-state-title">No data yet</div>
+                            <div class="empty-state-desc">Create goals to see category breakdown.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeframe Analysis (PRO) -->
+                <div class="section animate-in delay-4">
+                    <h3 class="section-title">Timeframe Analysis</h3>
+                    <div class="card pro-section">
+                        <div class="pro-content">
+                            <div style="display:flex;align-items:flex-end;gap:12px;height:100px;margin-bottom:8px;justify-content:center">
+                                <div style="text-align:center">
+                                    <div style="font-size:12px;font-weight:700;margin-bottom:4px">76%</div>
+                                    <div style="width:50px;height:76px;background:#22c55e;border-radius:6px 6px 0 0"></div>
+                                    <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Short</div>
+                                    <div style="font-size:9px;color:var(--text-muted)">≤30 days</div>
+                                </div>
+                                <div style="text-align:center">
+                                    <div style="font-size:12px;font-weight:700;margin-bottom:4px">68%</div>
+                                    <div style="width:50px;height:68px;background:#E67E22;border-radius:6px 6px 0 0"></div>
+                                    <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Medium</div>
+                                    <div style="font-size:9px;color:var(--text-muted)">31-89 days</div>
+                                </div>
+                                <div style="text-align:center">
+                                    <div style="font-size:12px;font-weight:700;margin-bottom:4px">52%</div>
+                                    <div style="width:50px;height:52px;background:#ef4444;border-radius:6px 6px 0 0"></div>
+                                    <div style="font-size:10px;color:var(--text-muted);margin-top:4px">Long</div>
+                                    <div style="font-size:9px;color:var(--text-muted)">90+ days</div>
+                                </div>
+                            </div>
+                            <div style="font-size:11px;color:var(--text-secondary);text-align:center">Short-term goals succeed 25% more than long-term goals</div>
+                        </div>
+                        <div class="pro-overlay">
+                            <span class="pro-badge">PRO</span>
+                            <div class="pro-lock-text">Unlock Timeframe Analysis</div>
+                            <button class="pro-unlock-btn" onclick="window.location.href='goal-effect-subscription.html'">Upgrade to Ninja Elite</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goal Drop-off Points (PRO) -->
+                <div class="section animate-in delay-5">
+                    <h3 class="section-title">Goal Drop-off Points</h3>
+                    <div class="card pro-section">
+                        <div class="pro-content">
+                            <div style="font-size:13px;font-weight:600;margin-bottom:12px">Where goals typically fail</div>
+                            <div style="position:relative;height:16px;background:var(--bg);border-radius:8px;overflow:hidden;margin-bottom:6px">
+                                <div style="position:absolute;left:15%;width:25%;height:100%;background:rgba(239,68,68,0.2);border-left:2px solid #ef4444;border-right:2px solid #ef4444"></div>
+                                <div style="height:100%;width:100%;background:linear-gradient(to right,#22c55e 15%,#ef4444 25%,#ef4444 40%,#E67E22 55%,#22c55e 75%);opacity:0.3;border-radius:8px"></div>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text-muted);margin-bottom:10px">
+                                <span>Start</span><span>Week 2</span><span>Week 4</span><span>Week 6</span><span>End</span>
+                            </div>
+                            <div style="font-size:11px;color:var(--text-secondary);padding:8px;background:#fef2f2;border-radius:8px;text-align:center">68% of failed goals quit between week 2-3</div>
+                        </div>
+                        <div class="pro-overlay">
+                            <span class="pro-badge">PRO</span>
+                            <div class="pro-lock-text">Unlock Drop-off Analysis</div>
+                            <button class="pro-unlock-btn" onclick="window.location.href='goal-effect-subscription.html'">Upgrade to Ninja Elite</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script src="goal-ninja-data.js"></script>
+    <script src="ninja-buddy.js"></script>
+    <script>
+        // ---- ICON TO CATEGORY MAPPING ----
+        var ICON_CATEGORIES = {
+            exercise: 'Fitness', workout: 'Fitness', run: 'Fitness', fitness: 'Fitness',
+            book: 'Learning', reading: 'Learning',
+            meditation: 'Wellness', meditate: 'Wellness', sleep: 'Wellness', sun: 'Wellness',
+            money: 'Finance', saving: 'Finance', shopping: 'Finance',
+            phone: 'Productivity', social: 'Productivity', nosocial: 'Productivity',
+            coffee: 'Lifestyle', nocoffee: 'Lifestyle', food: 'Lifestyle', water: 'Lifestyle',
+            target: 'General'
+        };
+
+        function getCategoryForIcon(icon) {
+            return ICON_CATEGORIES[icon] || ICON_CATEGORIES[(icon || '').toLowerCase()] || 'General';
+        }
+
+        // ---- NAVIGATION ----
+        function goBack() { window.history.back(); }
+
+        // ---- TAB SWITCHING ----
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+            document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+            event.target.classList.add('active');
+            var el = document.getElementById('tab-' + tabName);
+            if (el) el.classList.add('active');
+        }
+
+        // ---- CONSISTENCY SCORE ----
+        function calculateConsistencyScore() {
+            var stats = GN_getOverallStats();
+            var allCheckins = GN_getAllCheckins();
+            var goals = GN_getGoals();
+
+            // Completion weight (40%)
+            var completionWeight = stats.overallCompletionRate || 0;
+
+            // Streak weight (30%) — best active streak, capped at 20 days = 100
+            var streakWeight = Math.min(100, (stats.bestStreak || 0) * 5);
+
+            // Regularity weight (30%) — days with at least 1 checkin / total days since first goal
+            var earliestDate = null;
+            goals.forEach(function(g) {
+                if (g.startDate && (!earliestDate || g.startDate < earliestDate)) earliestDate = g.startDate;
+            });
+
+            var regularityWeight = 0;
+            if (earliestDate) {
+                var today = GN_getTodayDateStr();
+                var totalDays = Math.max(1, GN_daysBetween(earliestDate, today) + 1);
+                var activeDays = {};
+                for (var hid in allCheckins) {
+                    for (var d in allCheckins[hid]) {
+                        if (allCheckins[hid][d] === 'complete') activeDays[d] = true;
+                    }
+                }
+                regularityWeight = Math.min(100, (Object.keys(activeDays).length / totalDays) * 100);
+            }
+
+            var score = Math.round((completionWeight * 0.4) + (streakWeight * 0.3) + (regularityWeight * 0.3));
+            return Math.min(100, Math.max(0, score));
+        }
+
+        // ---- HEATMAP ----
+        function buildHeatmap() {
+            var grid = document.getElementById('heatmapGrid');
+            var tooltip = document.getElementById('heatmapTooltip');
+            var allCheckins = GN_getAllCheckins();
+            var habits = GN_getHabits();
+            var totalHabits = habits.length || 1;
+
+            var today = new Date();
+            // Go back 12 weeks (84 days) and align to Monday
+            var start = new Date(today);
+            start.setDate(start.getDate() - 83);
+            // Align to Monday
+            var dayOfWeek = start.getDay();
+            var diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+            start.setDate(start.getDate() + diff);
+
+            var html = '';
+            var current = new Date(start);
+            while (current <= today) {
+                var y = current.getFullYear();
+                var m = String(current.getMonth() + 1).padStart(2, '0');
+                var d = String(current.getDate()).padStart(2, '0');
+                var dateStr = y + '-' + m + '-' + d;
+
+                var completed = 0;
+                var missed = 0;
+                for (var hid in allCheckins) {
+                    if (allCheckins[hid][dateStr] === 'complete') completed++;
+                    if (allCheckins[hid][dateStr] === 'missed') missed++;
+                }
+
+                var pct = totalHabits > 0 ? completed / totalHabits : 0;
+                var level = '';
+                if (completed === 0 && missed > 0) level = 'has-missed';
+                else if (pct > 0 && pct <= 0.25) level = 'level-1';
+                else if (pct > 0.25 && pct <= 0.5) level = 'level-2';
+                else if (pct > 0.5 && pct <= 0.75) level = 'level-3';
+                else if (pct > 0.75) level = 'level-4';
+
+                html += '<div class="heatmap-cell ' + level + '" data-date="' + dateStr + '" data-completed="' + completed + '" data-missed="' + missed + '"></div>';
+                current.setDate(current.getDate() + 1);
+            }
+            grid.innerHTML = html;
+
+            // Tooltip
+            grid.addEventListener('click', function(e) {
+                var cell = e.target.closest('.heatmap-cell');
+                if (!cell) return;
+                var date = cell.getAttribute('data-date');
+                var comp = cell.getAttribute('data-completed');
+                var miss = cell.getAttribute('data-missed');
+                tooltip.textContent = date + ': ' + comp + ' done, ' + miss + ' missed';
+                tooltip.style.display = 'block';
+                var rect = cell.getBoundingClientRect();
+                tooltip.style.left = rect.left + 'px';
+                tooltip.style.top = (rect.top - 30) + 'px';
+                setTimeout(function() { tooltip.style.display = 'none'; }, 2000);
+            });
+        }
+
+        // ---- SPARKLINE ----
+        function buildSparkline() {
+            var allCheckins = GN_getAllCheckins();
+            var today = new Date();
+            var weeks = [];
+
+            for (var w = 7; w >= 0; w--) {
+                var weekEnd = new Date(today);
+                weekEnd.setDate(weekEnd.getDate() - (w * 7));
+                var weekStart = new Date(weekEnd);
+                weekStart.setDate(weekStart.getDate() - 6);
+
+                var completed = 0;
+                var total = 0;
+                var cur = new Date(weekStart);
+                while (cur <= weekEnd) {
+                    var ds = cur.getFullYear() + '-' + String(cur.getMonth() + 1).padStart(2, '0') + '-' + String(cur.getDate()).padStart(2, '0');
+                    for (var hid in allCheckins) {
+                        if (allCheckins[hid][ds]) {
+                            total++;
+                            if (allCheckins[hid][ds] === 'complete') completed++;
+                        }
+                    }
+                    cur.setDate(cur.getDate() + 1);
+                }
+                weeks.push(total > 0 ? Math.round((completed / total) * 100) : 0);
+            }
+
+            // Draw sparkline
+            var svg = document.getElementById('sparklineSvg');
+            var max = Math.max.apply(null, weeks.concat([1]));
+            var min = Math.min.apply(null, weeks);
+            var range = max - min || 1;
+            var points = weeks.map(function(v, i) {
+                var x = 10 + (i / 7) * 100;
+                var y = 42 - ((v - min) / range) * 36;
+                return x + ',' + y;
+            }).join(' ');
+
+            var color = weeks[weeks.length - 1] >= weeks[weeks.length - 2] ? '#22c55e' : '#ef4444';
+            svg.innerHTML = '<polyline points="' + points + '" fill="none" stroke="' + color + '" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+
+            // Description
+            var desc = document.getElementById('sparklineDesc');
+            var latest = weeks[weeks.length - 1];
+            var prev = weeks[weeks.length - 2];
+            var diff = latest - prev;
+            if (diff > 0) desc.textContent = 'Completion rate is trending up ↑' + diff + '% this week';
+            else if (diff < 0) desc.textContent = 'Completion rate dropped ↓' + Math.abs(diff) + '% this week';
+            else desc.textContent = 'Completion rate is steady this week';
+        }
+
+        // ---- HABIT BARS ----
+        function buildHabitBars() {
+            var habits = GN_getHabits();
+            if (!habits.length) return;
+
+            var items = [];
+            habits.forEach(function(h) {
+                var stats = GN_getHabitStats(h.id);
+                if (!stats) return;
+                items.push({ name: h.name, icon: h.icon || 'target', rate: stats.completionRate || 0 });
+            });
+
+            items.sort(function(a, b) { return b.rate - a.rate; });
+
+            var html = '';
+            items.forEach(function(item) {
+                var color = item.rate >= 80 ? '#22c55e' : item.rate >= 50 ? '#E67E22' : '#ef4444';
+                html += '<div class="habit-bar-item">' +
+                    '<div class="habit-bar-icon">' + GN_getIconSVG(item.icon, 16) + '</div>' +
+                    '<div class="habit-bar-info"><div class="habit-bar-name">' + item.name + '</div>' +
+                    '<div class="habit-bar-track"><div class="habit-bar-fill" style="width:' + item.rate + '%;background:' + color + '"></div></div></div>' +
+                    '<div class="habit-bar-pct" style="color:' + color + '">' + item.rate + '%</div></div>';
+            });
+
+            document.getElementById('habitBarsContainer').innerHTML = html;
+        }
+
+        // ---- STREAK LEADERBOARD ----
+        function buildStreaks() {
+            var habits = GN_getHabits();
+            if (!habits.length) return;
+
+            var items = [];
+            habits.forEach(function(h) {
+                var current = GN_getCurrentStreakForHabit(h.id);
+                var best = GN_getBestStreakForHabit(h.id);
+                items.push({ name: h.name, current: current || 0, best: best || 0 });
+            });
+
+            items.sort(function(a, b) { return b.current - a.current; });
+
+            var html = '';
+            items.forEach(function(item, i) {
+                html += '<div class="streak-item">' +
+                    '<div class="streak-left">' +
+                    '<div class="streak-rank">' + (i + 1) + '</div>' +
+                    '<div class="streak-name">' + item.name + '</div></div>' +
+                    '<div class="streak-right">' +
+                    '<div class="streak-current">' + (item.current > 0 ? '🔥 ' : '') + item.current + ' day' + (item.current !== 1 ? 's' : '') + '</div>' +
+                    '<div class="streak-best">Best: ' + item.best + ' days</div></div></div>';
+            });
+
+            document.getElementById('streakContainer').innerHTML = html;
+        }
+
+        // ---- GOAL PROGRESS ----
+        function buildGoalProgress() {
+            var goals = GN_getActiveGoals();
+            if (!goals.length) return;
+
+            var html = '';
+            goals.forEach(function(g) {
+                var stats = GN_getGoalStats(g.id);
+                if (!stats) return;
+
+                var color = stats.completionRate >= g.target ? '#22c55e' : stats.completionRate >= (g.target * 0.7) ? '#E67E22' : '#ef4444';
+                var status = stats.completionRate >= g.target ? 'On track' : stats.completionRate >= (g.target * 0.7) ? 'At risk' : 'Behind';
+                var meta = g.duration > 0 ? 'Day ' + stats.dayNumber + ' of ' + g.duration : 'Ongoing';
+
+                html += '<div class="goal-progress-item">' +
+                    '<div class="goal-progress-header">' +
+                    '<div class="goal-progress-icon">' + GN_getIconSVG(g.icon || 'target', 18) + '</div>' +
+                    '<div class="goal-progress-info"><div class="goal-progress-name">' + g.name + '</div>' +
+                    '<div class="goal-progress-meta">' + meta + ' · ' + status + '</div></div>' +
+                    '<div class="goal-progress-rate" style="color:' + color + '">' + stats.completionRate + '%</div></div>' +
+                    '<div class="goal-progress-track"><div class="goal-progress-fill" style="width:' + stats.progress + '%;background:' + color + '"></div></div></div>';
+            });
+
+            if (html) document.getElementById('goalProgressContainer').innerHTML = html;
+        }
+
+        // ---- CATEGORY PERFORMANCE ----
+        function buildCategories() {
+            var goals = GN_getGoals();
+            if (!goals.length) return;
+
+            var categories = {};
+            goals.forEach(function(g) {
+                if (g.status !== 'active' && g.status !== 'paused') return;
+                var cat = getCategoryForIcon(g.icon || 'target');
+                if (!categories[cat]) categories[cat] = { totalRate: 0, count: 0 };
+                var stats = GN_getGoalStats(g.id);
+                if (stats) {
+                    categories[cat].totalRate += stats.completionRate;
+                    categories[cat].count++;
+                }
+            });
+
+            var items = [];
+            for (var cat in categories) {
+                if (categories[cat].count > 0) {
+                    items.push({
+                        name: cat,
+                        rate: Math.round(categories[cat].totalRate / categories[cat].count)
+                    });
+                }
+            }
+
+            if (!items.length) return;
+            items.sort(function(a, b) { return b.rate - a.rate; });
+
+            var colors = { Fitness: '#22c55e', Learning: '#3b82f6', Wellness: '#8b5cf6', Finance: '#E67E22', Productivity: '#1a1a1a', Lifestyle: '#ec4899', General: '#6b7280' };
+
+            var html = '';
+            items.forEach(function(item) {
+                var c = colors[item.name] || '#6b7280';
+                html += '<div class="category-item">' +
+                    '<div class="category-label">' + item.name + '</div>' +
+                    '<div class="category-bar-track"><div class="category-bar-fill" style="width:' + item.rate + '%;background:' + c + '"></div></div>' +
+                    '<div class="category-pct">' + item.rate + '%</div></div>';
+            });
+
+            document.getElementById('categoryContainer').innerHTML = html;
+        }
+
+        // ---- INIT ----
+        function initAnalytics() {
+            GN_checkAndUpdateStatuses();
+
+            var stats = GN_getOverallStats();
+
+            // Banner
+            document.getElementById('bannerRate').textContent = (stats.overallCompletionRate || 0) + '%';
+            document.getElementById('bannerStreak').textContent = stats.bestStreak || 0;
+            document.getElementById('bannerSavings').textContent = '$' + (stats.totalVault || 0).toFixed(0);
+
+            // Consistency Score
+            var score = calculateConsistencyScore();
+            document.getElementById('bannerScore').textContent = score;
+            document.getElementById('scoreNumber').textContent = score;
+
+            // Score ring
+            var circumference = 2 * Math.PI * 42; // r=42
+            var filled = circumference * (score / 100);
+            var ringFill = document.getElementById('scoreRingFill');
+            var ringColor = score > 70 ? '#22c55e' : score > 40 ? '#E67E22' : '#ef4444';
+            ringFill.setAttribute('stroke', ringColor);
+            ringFill.setAttribute('stroke-dasharray', filled + ' ' + circumference);
+
+            // Score trend
+            var trendEl = document.getElementById('scoreTrend');
+            if (score > 70) { trendEl.className = 'score-trend up'; trendEl.textContent = '↑ Great momentum'; }
+            else if (score > 40) { trendEl.className = 'score-trend neutral'; trendEl.textContent = '— Building consistency'; }
+            else { trendEl.className = 'score-trend down'; trendEl.textContent = '↓ Room to improve'; }
+
+            // Benchmark "you" value
+            document.getElementById('benchmarkYou').textContent = (stats.overallCompletionRate || 0) + '%';
+
+            // Build visualizations
+            buildHeatmap();
+            buildSparkline();
+            buildHabitBars();
+            buildStreaks();
+            buildGoalProgress();
+            buildCategories();
+        }
+
+        initAnalytics();
+
+        // NinjaBuddy analytics greeting
+        setTimeout(function() {
+            if (!window.NinjaBuddy) return;
+            var score = calculateConsistencyScore();
+            var msg;
+            if (score >= 80) { msg = 'Consistency score of ' + score + ' — that\'s ninja-level discipline!'; NinjaBuddy.setPose('fistpump'); }
+            else if (score >= 50) { msg = 'Score of ' + score + '. You\'re building solid habits — keep pushing!'; NinjaBuddy.setPose('checklist'); }
+            else if (score > 0) { msg = 'Score of ' + score + '. Every ninja starts somewhere — let\'s build momentum!'; NinjaBuddy.setPose('target'); }
+            else { msg = 'Start tracking your habits to see your analytics come alive!'; NinjaBuddy.setPose('wave'); }
+            window.NinjaBuddy.say(msg, 5000);
+        }, 1500);
+    </script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('../sw.js');
+    }
+    </script>
+</body>
+</html>
