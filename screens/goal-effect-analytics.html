@@ -66,7 +66,7 @@
         .main-content {
             flex: 1;
             overflow-y: auto;
-            padding: 20px 20px 40px;
+            padding: 20px 20px 100px;
         }
 
         /* Header */
@@ -586,6 +586,57 @@
         .delay-3 { animation-delay: 0.15s; }
         .delay-4 { animation-delay: 0.2s; }
         .delay-5 { animation-delay: 0.25s; }
+
+        /* Add Button */
+        .add-btn {
+            width: 44px;
+            height: 44px;
+            background: var(--text-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+        }
+        .add-btn svg { width: 22px; height: 22px; color: white; }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: absolute;
+            bottom: 18px;
+            left: 16px;
+            right: 16px;
+            background: var(--card-bg);
+            border-radius: 28px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 8px 8px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
+            z-index: 100;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 8px 16px;
+            background: none;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-family: inherit;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .nav-item.active {
+            color: var(--text-primary);
+            background: rgba(0, 0, 0, 0.06);
+        }
+        .nav-item svg { width: 22px; height: 22px; }
+        .nav-item span { font-size: 10px; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -601,6 +652,11 @@
                     </button>
                 </div>
                 <div class="header-actions">
+                    <button class="add-btn" onclick="window.location.href='goal-effect-templates.html'" title="New Goal">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                    </button>
                     <button class="profile-btn" onclick="window.location.href='goal-effect-leaderboard.html'" title="Leaderboard">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
                     </button>
@@ -919,6 +975,40 @@
             </div>
 
         </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item" onclick="goTo('home')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span>Home</span>
+            </button>
+            <button class="nav-item" onclick="goTo('goals')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+                </svg>
+                <span>Goals</span>
+            </button>
+            <button class="nav-item" onclick="goTo('habits')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                </svg>
+                <span>Habits</span>
+            </button>
+            <button class="nav-item" onclick="goTo('savings')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+                <span>Savings</span>
+            </button>
+            <button class="nav-item" onclick="goTo('profile')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span>Profile</span>
+            </button>
+        </nav>
     </div>
 
     <script src="goal-ninja-data.js"></script>
@@ -941,6 +1031,14 @@
 
         // ---- NAVIGATION ----
         function goBack() { window.history.back(); }
+
+        function goTo(page) {
+            if (page === 'home') window.location.href = 'goal-effect-home.html';
+            else if (page === 'goals') window.location.href = 'goal-effect-goals-list.html';
+            else if (page === 'habits') window.location.href = 'goal-effect-habits-list.html';
+            else if (page === 'savings') window.location.href = 'goal-effect-savings.html';
+            else if (page === 'profile') window.location.href = 'goal-effect-profile.html';
+        }
 
         // ---- TAB SWITCHING ----
         function switchTab(tabName) {
