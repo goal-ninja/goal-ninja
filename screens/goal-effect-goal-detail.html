@@ -1426,7 +1426,7 @@
             } else {
                 document.getElementById('statDaysLeft').textContent = goalStats.daysLeft || 0;
             }
-            document.getElementById('statVault').textContent = '$' + (goalStats.vaultTotal || 0).toFixed(0);
+            document.getElementById('statVault').textContent = '$' + (goalStats.vaultAmount || 0).toFixed(0);
 
             // Habits section
             document.getElementById('habitCount').textContent = habits.length;
@@ -1439,7 +1439,7 @@
             renderCalendar(goal, habits);
 
             // Vault card
-            var vaultTotal = goalStats.vaultTotal || 0;
+            var vaultTotal = goalStats.vaultAmount || 0;
             var completionRate = goalStats.completionRate || 0;
             document.getElementById('vaultAmount').textContent = '$' + vaultTotal.toFixed(2);
             var missedTotal = goalStats.habitStats ? goalStats.habitStats.reduce(function(s, hs) { return s + (hs.missedDays || 0); }, 0) : 0;
