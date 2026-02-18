@@ -1449,6 +1449,70 @@
     justify-content: center;
 }
 #goalIconPickerOverlay.active { display: flex; }
+
+/* ===== Screen 10: Payment Card ===== */
+#screen10 .payment-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: center;
+    width: 100%;
+}
+#screen10 .payment-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+}
+#screen10 .payment-desc {
+    font-size: 14px;
+    color: #6b6b6b;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+#screen10 .payment-benefits {
+    text-align: left;
+    margin-bottom: 24px;
+}
+#screen10 .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+#screen10 .benefit-item:last-child { border-bottom: none; }
+#screen10 .benefit-icon {
+    width: 24px;
+    height: 24px;
+    color: #1a1a1a;
+    flex-shrink: 0;
+}
+#screen10 .benefit-text { font-size: 14px; color: #1a1a1a; }
+#screen10 .connect-btn {
+    width: 100%;
+    background: #1a1a1a;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    margin-bottom: 12px;
+    font-family: inherit;
+}
+#screen10 .connect-btn:active { transform: scale(0.98); }
+#screen10 .skip-payment-btn {
+    width: 100%;
+    background: none;
+    color: #6b6b6b;
+    font-size: 15px;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
     </style>
 </head>
 <body>
@@ -1823,16 +1887,35 @@
         <!-- ==================== SCREEN 10: PAYMENT SETUP ==================== -->
         <div class="screen" id="screen10">
             <img src="../ninja-poses/ninja-coin.png" alt="Ninja" class="ninja-img small">
-            <h2>Connect your payment method</h2>
-            <p class="subtitle">When you miss a habit, your penalty gets saved for you. Connect a card to get started.</p>
-            <div class="payment-visual">
-                <div class="payment-card-icon">
-                    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            <h2>Enable accountability</h2>
+            <p class="subtitle">Connect a payment method to activate stakes.</p>
+
+            <div class="payment-card">
+                <div class="payment-title">Why connect payment?</div>
+                <div class="payment-desc">Without real stakes, this is just another habit tracker. With stakes, your success rate jumps to 95%.</div>
+
+                <div class="payment-benefits">
+                    <div class="benefit-item">
+                        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="benefit-text">Only charged when you miss a day</span>
+                    </div>
+                    <div class="benefit-item">
+                        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="benefit-text">Money goes to YOUR savings</span>
+                    </div>
+                    <div class="benefit-item">
+                        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="benefit-text">Withdraw anytime (small fee if early)</span>
+                    </div>
+                    <div class="benefit-item">
+                        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="benefit-text">Secured by Stripe</span>
+                    </div>
                 </div>
-                <p class="payment-methods">Visa, Mastercard, Apple Pay</p>
+
+                <button class="connect-btn" onclick="savePaymentIntent(true); goNext()">Connect Payment Method</button>
+                <button class="skip-payment-btn" onclick="savePaymentIntent(false); goNext()">I'll do this later</button>
             </div>
-            <button class="btn-primary" onclick="savePaymentIntent(true); goNext()">Set Up Payment</button>
-            <button class="btn-text" onclick="savePaymentIntent(false); goNext()">I'll do this later</button>
         </div>
 
         <!-- ==================== SCREEN 11: PRO TEASER ==================== -->
