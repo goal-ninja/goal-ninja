@@ -103,6 +103,7 @@
             display: flex;
             transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             will-change: transform;
+            min-height: 0;
         }
         .screen {
             min-width: 100%;
@@ -454,6 +455,174 @@
         }
         .add-habit-btn:active { border-color: var(--accent); color: var(--accent); }
 
+        /* Habit Frequency Row */
+        .habit-freq-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .habit-freq-row .freq-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .habit-freq-num {
+            width: 44px;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: 5px 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            background: #ffffff;
+            text-align: center;
+            outline: none;
+            font-family: inherit;
+        }
+        .habit-freq-num:focus { border-color: var(--accent); }
+        .habit-freq-unit {
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: 5px 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text);
+            background: #ffffff;
+            font-family: inherit;
+            cursor: pointer;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        .habit-freq-unit:focus { border-color: var(--accent); }
+
+        /* Habit Edit Icon */
+        .habit-edit-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--accent-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+        .habit-edit-icon:active { transform: scale(0.92); }
+
+        /* Habit Icon Picker Overlay */
+        .habit-icon-picker-overlay {
+            display: none;
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 200;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .habit-icon-picker-overlay.active { display: flex; }
+        .habit-icon-picker-modal {
+            background: #ffffff;
+            border-radius: 20px 20px 0 0;
+            padding: 16px 20px 28px;
+            width: 100%;
+            max-width: 390px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        .habit-icon-picker-overlay.active .habit-icon-picker-modal {
+            transform: translateY(0);
+        }
+        .habit-icon-picker-handle {
+            width: 36px;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            margin: 0 auto 12px;
+        }
+        .habit-icon-picker-title {
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .habit-icon-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .habit-icon-pick-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 10px 4px;
+            border-radius: 12px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.15s;
+        }
+        .habit-icon-pick-item:active { transform: scale(0.95); }
+        .habit-icon-pick-item.selected {
+            background: var(--accent-light);
+            border-color: var(--accent);
+        }
+        .habit-icon-pick-circle {
+            width: 40px;
+            height: 40px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .habit-icon-pick-label {
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-transform: capitalize;
+        }
+
+        /* Textarea */
+        textarea.form-input {
+            font-family: inherit;
+            resize: none;
+            line-height: 1.5;
+        }
+
+        /* Settings Card */
+        .settings-card {
+            background: #ffffff;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--border);
+            overflow: hidden;
+        }
+        .settings-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 14px;
+            position: relative;
+        }
+        .settings-row + .settings-row {
+            border-top: 1px solid var(--border);
+        }
+        .settings-row .settings-label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .settings-row .settings-value {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .settings-row input[type="time"],
+        .settings-row input[type="date"] {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
         /* Duration Pills */
         .pill-row {
             display: flex;
@@ -757,7 +926,7 @@
         .screen.scrollable .btn-primary {
             margin-top: 20px;
             flex-shrink: 0;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
         }
     </style>
 </head>
@@ -920,7 +1089,7 @@
                 <p class="subtitle" style="margin-top: 8px;">Analyzing your answers</p>
             </div>
             <!-- Result (hidden initially) -->
-            <div id="planResult" style="display: none; width: 100%; display: none; flex-direction: column; align-items: center;">
+            <div id="planResult" style="display: none; width: 100%; flex-direction: column; align-items: center;">
                 <img src="../ninja-poses/ninja-thumbsup.png" alt="Ninja" class="ninja-img small">
                 <h2 id="planTitle">Here's your plan</h2>
                 <p class="subtitle">We created this based on your answers. You can customize it next.</p>
@@ -937,6 +1106,11 @@
             <div class="form-group">
                 <label class="form-label">Goal Name</label>
                 <input type="text" class="form-input" id="customGoalName" maxlength="40">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Description <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--text-secondary);">(optional)</span></label>
+                <textarea class="form-input" id="customGoalDesc" placeholder="Add notes about your goal..." rows="2" style="resize:none;min-height:56px;"></textarea>
             </div>
 
             <div class="form-group">
@@ -964,6 +1138,22 @@
                 <div class="target-slider-wrap">
                     <input type="range" class="target-slider" id="targetSlider" min="50" max="100" value="80" oninput="updateTargetLabel()">
                     <span class="target-value" id="targetValue">80%</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Settings</label>
+                <div class="settings-card">
+                    <div class="settings-row">
+                        <span class="settings-label">Daily Reminder</span>
+                        <span class="settings-value" id="onbReminderDisplay">9:00 PM</span>
+                        <input type="time" id="onbReminderInput" value="21:00" onchange="onOnbReminderChange(this.value)">
+                    </div>
+                    <div class="settings-row">
+                        <span class="settings-label">Start Date</span>
+                        <span class="settings-value" id="onbStartDateDisplay">Today</span>
+                        <input type="date" id="onbStartDateInput" onchange="onOnbStartDateChange(this.value)">
+                    </div>
                 </div>
             </div>
 
@@ -1062,6 +1252,16 @@
         </div>
 
     </div><!-- /carousel -->
+
+    <!-- Habit Icon Picker Modal -->
+    <div class="habit-icon-picker-overlay" id="habitIconPickerOverlay" onclick="closeHabitIconPicker(event)">
+        <div class="habit-icon-picker-modal">
+            <div class="habit-icon-picker-handle"></div>
+            <div class="habit-icon-picker-title">Choose Icon</div>
+            <div class="habit-icon-picker-grid" id="habitIconPickerGrid"></div>
+        </div>
+    </div>
+
 </div><!-- /phone-frame -->
 
 <script>
@@ -1076,8 +1276,11 @@ var userExperience = '';
 var userPainPoints = [];
 var selectedIcon = 'target';
 var selectedDuration = 30;
+var selectedReminder = '21:00';
+var selectedStartDate = '';
 var createdGoalId = null;
 var createdHabitIds = [];
+var activeHabitIconTarget = null;
 
 // Goal templates by area
 var goalTemplates = {
@@ -1104,12 +1307,20 @@ function goTo(idx) {
     var pct = ((currentScreen) / (totalScreens - 1)) * 100;
     document.getElementById('progressFill').style.width = pct + '%';
     
-    // Back button: hidden on screen 0 and screen 5 (interstitial)
+    // Back button: show on screens 1-7, hide on welcome (0) and post-creation (8+)
     var backBtn = document.getElementById('backBtn');
-    if (currentScreen === 0 || currentScreen === 5) {
+    if (currentScreen === 0 || currentScreen >= 8) {
         backBtn.classList.add('hidden');
     } else {
         backBtn.classList.remove('hidden');
+    }
+    // White style for dark screen (Social Proof)
+    if (currentScreen === 5) {
+        backBtn.style.background = 'rgba(255,255,255,0.15)';
+        backBtn.querySelector('svg').style.stroke = 'white';
+    } else {
+        backBtn.style.background = '';
+        backBtn.querySelector('svg').style.stroke = '';
     }
 
     // Screen-specific triggers
@@ -1266,17 +1477,117 @@ function prefillCustomize(area) {
     // Build habits list
     var habitsHtml = '';
     template.habits.forEach(function(h, i) {
-        habitsHtml += buildHabitEditRow(h.name, h.penalty, h.icon, i);
+        habitsHtml += buildHabitEditRow(h.name, h.penalty, h.icon, i, h.frequency || 'daily');
     });
     document.getElementById('habitsEditList').innerHTML = habitsHtml;
 }
 
-function buildHabitEditRow(name, penalty, icon, idx) {
+// ---- Frequency helpers ----
+function parseFrequencyOnboarding(freq) {
+    if (!freq || freq === 'daily') return { num: 1, unit: 'days' };
+    if (freq === 'weekly') return { num: 1, unit: 'weeks' };
+    if (freq === 'monthly') return { num: 1, unit: 'months' };
+    var m = (freq || '').match(/^every(\d+)(days|weeks|months)$/);
+    if (m) return { num: parseInt(m[1]), unit: m[2] };
+    return { num: 1, unit: 'days' };
+}
+
+function buildFrequencyStringOnboarding(num, unit) {
+    num = parseInt(num) || 1;
+    if (num === 1 && unit === 'days') return 'daily';
+    if (num === 1 && unit === 'weeks') return 'weekly';
+    if (num === 1 && unit === 'months') return 'monthly';
+    return 'every' + num + unit;
+}
+
+// ---- Habit Icon Picker ----
+var habitIconList = [
+    {id: 'target', label: 'Target'}, {id: 'exercise', label: 'Exercise'},
+    {id: 'book', label: 'Reading'}, {id: 'meditation', label: 'Meditate'},
+    {id: 'money', label: 'Finance'}, {id: 'coffee', label: 'Coffee'},
+    {id: 'sleep', label: 'Sleep'}, {id: 'water', label: 'Water'},
+    {id: 'food', label: 'Food'}, {id: 'sun', label: 'Wellness'},
+    {id: 'phone', label: 'Screen'}, {id: 'shopping', label: 'Shopping'}
+];
+
+function openHabitIconPicker(iconDiv) {
+    activeHabitIconTarget = iconDiv;
+    var currentIcon = iconDiv.dataset.icon || 'target';
+    var grid = document.getElementById('habitIconPickerGrid');
+    var html = '';
+    habitIconList.forEach(function(icon) {
+        var sel = icon.id === currentIcon ? ' selected' : '';
+        html += '<div class="habit-icon-pick-item' + sel + '" onclick="selectHabitIcon(\'' + icon.id + '\')">' +
+            '<div class="habit-icon-pick-circle">' + GN_getIconSVG(icon.id, 22) + '</div>' +
+            '<span class="habit-icon-pick-label">' + icon.label + '</span>' +
+            '</div>';
+    });
+    grid.innerHTML = html;
+    document.getElementById('habitIconPickerOverlay').classList.add('active');
+}
+
+function selectHabitIcon(iconId) {
+    if (activeHabitIconTarget) {
+        activeHabitIconTarget.dataset.icon = iconId;
+        activeHabitIconTarget.innerHTML = GN_getIconSVG(iconId, 16);
+        var editItem = activeHabitIconTarget.closest('.habit-edit-item');
+        if (editItem) {
+            var nameInput = editItem.querySelector('.habit-edit-name');
+            if (nameInput) nameInput.dataset.icon = iconId;
+        }
+    }
+    closeHabitIconPicker();
+}
+
+function closeHabitIconPicker(e) {
+    if (e && e.target !== document.getElementById('habitIconPickerOverlay')) return;
+    document.getElementById('habitIconPickerOverlay').classList.remove('active');
+    activeHabitIconTarget = null;
+}
+
+// ---- Reminder & Start Date ----
+function onOnbReminderChange(val) {
+    if (!val) return;
+    selectedReminder = val;
+    var parts = val.split(':');
+    var h = parseInt(parts[0]);
+    var m = parts[1];
+    var ampm = h >= 12 ? 'PM' : 'AM';
+    var h12 = h % 12 || 12;
+    document.getElementById('onbReminderDisplay').textContent = h12 + ':' + m + ' ' + ampm;
+}
+
+function onOnbStartDateChange(val) {
+    if (!val) return;
+    selectedStartDate = val;
+    var today = GN_getTodayDateStr();
+    if (val === today) {
+        document.getElementById('onbStartDateDisplay').textContent = 'Today';
+    } else {
+        var d = new Date(val + 'T12:00:00');
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        document.getElementById('onbStartDateDisplay').textContent = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+    }
+}
+
+// ---- Habit Row Builder ----
+function buildHabitEditRow(name, penalty, icon, idx, frequency) {
+    var parsed = parseFrequencyOnboarding(frequency || 'daily');
     return '<div class="habit-edit-item" data-idx="' + idx + '">' +
         '<div class="habit-edit-row">' +
+        '<div class="habit-edit-icon" data-icon="' + icon + '" onclick="openHabitIconPicker(this)">' + GN_getIconSVG(icon, 16) + '</div>' +
         '<input type="text" class="habit-edit-name" value="' + name + '" placeholder="Habit name" data-icon="' + icon + '">' +
         '<input type="number" class="habit-edit-penalty" value="' + penalty + '" min="1" max="100" step="1">' +
-        '<button class="habit-remove-btn" onclick="removeHabitRow(this)" title="Remove">✕</button>' +
+        '<button class="habit-remove-btn" onclick="removeHabitRow(this)" title="Remove">\u2715</button>' +
+        '</div>' +
+        '<div class="habit-freq-row">' +
+        '<span class="freq-label">Every</span>' +
+        '<input type="number" class="habit-freq-num" value="' + parsed.num + '" min="1" max="365">' +
+        '<select class="habit-freq-unit">' +
+        '<option value="days"' + (parsed.unit === 'days' ? ' selected' : '') + '>day(s)</option>' +
+        '<option value="weeks"' + (parsed.unit === 'weeks' ? ' selected' : '') + '>week(s)</option>' +
+        '<option value="months"' + (parsed.unit === 'months' ? ' selected' : '') + '>month(s)</option>' +
+        '</select>' +
         '</div>' +
         '</div>';
 }
@@ -1284,7 +1595,7 @@ function buildHabitEditRow(name, penalty, icon, idx) {
 function addHabitRow() {
     var list = document.getElementById('habitsEditList');
     var idx = list.children.length;
-    var html = buildHabitEditRow('', 5, 'target', idx);
+    var html = buildHabitEditRow('', 5, 'target', idx, 'daily');
     list.insertAdjacentHTML('beforeend', html);
 }
 
@@ -1313,36 +1624,55 @@ function updateTargetLabel() {
 
 function createGoalAndContinue() {
     var goalName = document.getElementById('customGoalName').value.trim() || 'My Goal';
+    var goalDesc = document.getElementById('customGoalDesc') ? document.getElementById('customGoalDesc').value.trim() : '';
     var target = parseInt(document.getElementById('targetSlider').value) || 80;
 
+    // Validate at least one habit
+    var habitItems = document.querySelectorAll('#habitsEditList .habit-edit-item');
+    var validHabits = [];
+    habitItems.forEach(function(item) {
+        var hName = item.querySelector('.habit-edit-name').value.trim();
+        if (hName) validHabits.push(item);
+    });
+    if (validHabits.length === 0) {
+        alert('Please add at least one habit');
+        return;
+    }
+
     // Create goal
-    var goal = GN_addGoal({
+    var goalData = {
         name: goalName,
         icon: selectedIcon,
-        description: 'Created during onboarding',
+        description: goalDesc,
         duration: selectedDuration,
         target: target
-    });
+    };
+    if (selectedStartDate) goalData.startDate = selectedStartDate;
 
+    var goal = GN_addGoal(goalData);
     createdGoalId = goal.id;
     createdHabitIds = [];
 
     // Create habits
-    var habitItems = document.querySelectorAll('#habitsEditList .habit-edit-item');
-    habitItems.forEach(function(item, idx) {
+    validHabits.forEach(function(item) {
         var nameInput = item.querySelector('.habit-edit-name');
         var penaltyInput = item.querySelector('.habit-edit-penalty');
+        var freqNum = item.querySelector('.habit-freq-num');
+        var freqUnit = item.querySelector('.habit-freq-unit');
         var hName = nameInput.value.trim();
         var hPenalty = parseFloat(penaltyInput.value) || 5;
         var hIcon = nameInput.dataset.icon || 'target';
-        if (!hName) return;
+        var freq = 'daily';
+        if (freqNum && freqUnit) {
+            freq = buildFrequencyStringOnboarding(parseInt(freqNum.value) || 1, freqUnit.value);
+        }
 
-        // Small delay to avoid duplicate IDs
         var habit = GN_addHabit({
             name: hName,
             icon: hIcon,
             penalty: hPenalty,
-            frequency: 'daily',
+            frequency: freq,
+            reminder: selectedReminder,
             goalIds: [goal.id]
         });
         createdHabitIds.push(habit.id);
@@ -1476,6 +1806,15 @@ function finishOnboarding() {
     if (existing) {
         userName = existing;
         document.getElementById('nameInput').value = existing;
+    }
+
+    // Init start date picker
+    var startInput = document.getElementById('onbStartDateInput');
+    if (startInput) {
+        var today = GN_getTodayDateStr();
+        startInput.min = today;
+        startInput.value = today;
+        selectedStartDate = today;
     }
 
     goTo(0);
