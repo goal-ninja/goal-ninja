@@ -1039,6 +1039,416 @@
             flex-shrink: 0;
             margin-bottom: 40px;
         }
+
+/* ===== Screen 8: Create-from-Template Parity ===== */
+
+#screen8 .form-group {
+    max-width: 100%;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+#screen8 .form-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #999999;
+}
+#screen8 .form-label-hint {
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: #999999;
+}
+
+#screen8 .form-card {
+    background: #ffffff;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+#screen8 .input-field {
+    padding: 16px;
+    border-bottom: 1px solid #e5e5e5;
+}
+#screen8 .input-field:last-child { border-bottom: none; }
+#screen8 .input-field input {
+    width: 100%;
+    border: none;
+    background: none;
+    font-size: 17px;
+    font-family: inherit;
+    color: #1a1a1a;
+    outline: none;
+}
+#screen8 .input-field input::placeholder { color: #999999; }
+#screen8 .input-field textarea {
+    width: 100%;
+    border: none;
+    background: none;
+    font-size: 15px;
+    font-family: inherit;
+    color: #1a1a1a;
+    outline: none;
+    resize: none;
+    min-height: 60px;
+    line-height: 1.5;
+}
+#screen8 .input-field textarea::placeholder { color: #999999; }
+
+/* Large centered goal icon */
+#screen8 .icon-section {
+    text-align: center;
+    margin-bottom: 28px;
+    width: 100%;
+}
+#screen8 .mission-icon-large {
+    width: 88px;
+    height: 88px;
+    background: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+#screen8 .mission-icon-large:active { transform: scale(1.05); }
+#screen8 .edit-icon-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 28px;
+    height: 28px;
+    background: #1a1a1a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #f5f5f5;
+}
+#screen8 .edit-icon-badge svg { width: 12px; height: 12px; color: white; stroke: white; }
+#screen8 .change-icon-text {
+    font-size: 13px;
+    color: #6b6b6b;
+}
+
+/* Habit form cards */
+#screen8 .habit-form-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    position: relative;
+}
+#screen8 .habit-form-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+#screen8 .habit-form-icon {
+    width: 40px;
+    height: 40px;
+    background: #f5f5f5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+#screen8 .habit-form-fields { flex: 1; min-width: 0; }
+#screen8 .habit-name-input {
+    width: 100%;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a1a1a;
+    background: none;
+    outline: none;
+    padding: 0;
+    margin-bottom: 4px;
+    font-family: inherit;
+}
+#screen8 .habit-name-input::placeholder { color: #999999; font-weight: 400; }
+#screen8 .habit-penalty-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+#screen8 .habit-penalty-row span { font-size: 12px; color: #999999; }
+#screen8 .habit-penalty-input {
+    width: 50px;
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    padding: 2px 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-align: center;
+    background: #f5f5f5;
+    font-family: inherit;
+}
+#screen8 .habit-freq-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+}
+#screen8 .habit-freq-row .freq-label { font-size: 12px; color: #999999; }
+#screen8 .habit-freq-num {
+    width: 36px;
+    padding: 2px 4px;
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #1a1a1a;
+    background: #f5f5f5;
+    text-align: center;
+    font-family: inherit;
+}
+#screen8 .habit-freq-unit {
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    padding: 2px 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #1a1a1a;
+    background: #f5f5f5;
+    cursor: pointer;
+    font-family: inherit;
+}
+#screen8 .remove-habit-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #f5f5f5;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #999999;
+}
+#screen8 .remove-habit-btn:active { background: #fee2e2; color: #ef4444; }
+
+#screen8 .add-habit-btn {
+    width: 100%;
+    padding: 12px;
+    border: 2px dashed #e5e5e5;
+    border-radius: 14px;
+    background: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b6b6b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: inherit;
+    margin-top: 4px;
+}
+#screen8 .add-habit-btn:active { border-color: #1a1a1a; color: #1a1a1a; }
+
+/* Duration options */
+#screen8 .duration-options {
+    display: flex;
+    gap: 10px;
+    padding: 16px;
+}
+#screen8 .duration-option {
+    flex: 1;
+    background: #f5f5f5;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 14px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+#screen8 .duration-option:active { transform: scale(0.95); }
+#screen8 .duration-option.selected { border-color: #1a1a1a; }
+#screen8 .duration-days { font-size: 22px; font-weight: 700; color: #1a1a1a; }
+#screen8 .duration-label { font-size: 11px; color: #999999; }
+#screen8 .duration-option.no-end .duration-days { font-size: 16px; }
+
+#screen8 .custom-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 16px 16px;
+}
+#screen8 .custom-label { font-size: 13px; color: #999999; white-space: nowrap; }
+#screen8 .custom-input-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: #f5f5f5;
+    border: 2px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 10px 12px;
+    transition: border-color 0.2s;
+}
+#screen8 .custom-input-wrap:focus-within { border-color: #1a1a1a; }
+#screen8 .custom-input {
+    flex: 1;
+    border: none;
+    background: none;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    color: #1a1a1a;
+    outline: none;
+    width: 60px;
+}
+#screen8 .custom-input::placeholder { color: #999999; font-weight: 400; }
+#screen8 .custom-suffix { font-size: 13px; color: #999999; }
+
+/* Target section */
+#screen8 .target-section { padding: 16px; }
+#screen8 .target-display { text-align: center; margin-bottom: 16px; }
+#screen8 .target-value-lg {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -2px;
+    color: #1a1a1a;
+}
+#screen8 .target-desc { font-size: 14px; color: #6b6b6b; margin-top: 4px; }
+#screen8 .target-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 8px;
+    border-radius: 4px;
+    background: #e5e5e5;
+    outline: none;
+}
+#screen8 .target-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* Settings (selector-field style) */
+#screen8 .selector-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #e5e5e5;
+    cursor: pointer;
+    position: relative;
+}
+#screen8 .selector-field:last-child { border-bottom: none; }
+#screen8 .selector-label { font-size: 16px; color: #1a1a1a; }
+#screen8 .selector-value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #6b6b6b;
+    font-size: 16px;
+}
+#screen8 .selector-value svg { width: 16px; height: 16px; color: #999999; }
+
+/* Summary card */
+#screen8 .summary-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 20px;
+    width: 100%;
+}
+#screen8 .summary-title { font-size: 14px; font-weight: 600; margin-bottom: 16px; color: #6b6b6b; }
+#screen8 .summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+#screen8 .summary-row:last-child { border-bottom: none; padding-bottom: 0; }
+#screen8 .summary-row:first-of-type { padding-top: 0; }
+#screen8 .s-label { font-size: 14px; color: #6b6b6b; }
+#screen8 .s-value { font-size: 14px; font-weight: 600; }
+
+/* Info tip */
+#screen8 .info-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #f5f5f5;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-top: 20px;
+    width: 100%;
+}
+#screen8 .info-tip svg { width: 20px; height: 20px; color: #999999; flex-shrink: 0; margin-top: 1px; }
+#screen8 .info-tip p { font-size: 13px; color: #6b6b6b; line-height: 1.4; margin: 0; }
+
+/* Bottom CTA */
+#screen8 .bottom-cta {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px 0 32px;
+    background: linear-gradient(to top, #f5f5f5 80%, transparent);
+    margin-top: auto;
+    flex-shrink: 0;
+}
+#screen8 .start-btn {
+    width: 100%;
+    background: #1a1a1a;
+    color: white;
+    font-size: 17px;
+    font-weight: 600;
+    padding: 18px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    font-family: inherit;
+}
+#screen8 .start-btn:active { transform: scale(0.98); }
+
+/* Animations */
+#screen8 .animate-in {
+    animation: onbFadeUp 0.4s ease-out both;
+}
+@keyframes onbFadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+#screen8 .delay-1 { animation-delay: 0.05s; }
+#screen8 .delay-2 { animation-delay: 0.1s; }
+#screen8 .delay-3 { animation-delay: 0.15s; }
+#screen8 .delay-4 { animation-delay: 0.2s; }
+
+/* Goal icon picker overlay */
+#goalIconPickerOverlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 200;
+    align-items: flex-end;
+    justify-content: center;
+}
+#goalIconPickerOverlay.active { display: flex; }
     </style>
 </head>
 <body>
@@ -1228,68 +1638,158 @@
             <h2>Customize Your Goal</h2>
             <p class="subtitle">Edit anything — make it yours.</p>
 
-            <div class="form-group">
-                <label class="form-label">Goal Name</label>
-                <input type="text" class="form-input" id="customGoalName" maxlength="40">
+            <!-- Icon Section -->
+            <div class="icon-section animate-in">
+                <div class="mission-icon-large" onclick="changeGoalIcon()">
+                    <span id="screen8GoalIcon"></span>
+                    <div class="edit-icon-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    </div>
+                </div>
+                <span class="change-icon-text">Tap to change icon</span>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Description <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--text-secondary);">(optional)</span></label>
-                <textarea class="form-input" id="customGoalDesc" placeholder="Add notes about your goal..." rows="2" style="resize:none;min-height:56px;"></textarea>
+            <!-- Goal Name -->
+            <div class="form-group animate-in delay-1">
+                <div class="form-label">
+                    Goal Name
+                    <span class="form-label-hint">Required</span>
+                </div>
+                <div class="form-card">
+                    <div class="input-field">
+                        <input type="text" id="customGoalName" placeholder="e.g., Exercise for 30 minutes" maxlength="40">
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Icon</label>
-                <div class="icon-grid" id="iconGrid"></div>
+            <!-- Description -->
+            <div class="form-group animate-in delay-1">
+                <div class="form-label">
+                    Description
+                    <span class="form-label-hint">Optional</span>
+                </div>
+                <div class="form-card">
+                    <div class="input-field">
+                        <textarea id="customGoalDesc" placeholder="Add notes about your goal..." rows="2"></textarea>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Habits</label>
+            <!-- Habits -->
+            <div class="form-group animate-in delay-2">
+                <div class="form-label">
+                    Habits
+                    <span class="form-label-hint">Daily actions toward this goal</span>
+                </div>
                 <div id="habitsEditList"></div>
-                <button class="add-habit-btn" onclick="addHabitRow()">+ Add Habit</button>
+                <button class="add-habit-btn" onclick="addHabitRow()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Add Another Habit
+                </button>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">Duration</label>
-                <div class="pill-row" id="durationRow">
-                    <div class="pill" data-dur="7" onclick="selectDuration(this)">7 days</div>
-                    <div class="pill selected" data-dur="30" onclick="selectDuration(this)">30 days</div>
-                    <div class="pill" data-dur="90" onclick="selectDuration(this)">90 days</div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Target</label>
-                <div class="target-slider-wrap">
-                    <input type="range" class="target-slider" id="targetSlider" min="50" max="100" value="80" oninput="updateTargetLabel()">
-                    <span class="target-value" id="targetValue">80%</span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Settings</label>
-                <div class="settings-card">
-                    <div class="settings-row">
-                        <span class="settings-label">Daily Reminder</span>
-                        <span class="settings-value" id="onbReminderDisplay">9:00 PM</span>
-                        <input type="time" id="onbReminderInput" value="21:00" onchange="onOnbReminderChange(this.value)">
+            <!-- Duration -->
+            <div class="form-group animate-in delay-2">
+                <div class="form-label">Duration</div>
+                <div class="form-card">
+                    <div class="duration-options" id="durationRow">
+                        <div class="duration-option" data-dur="7" onclick="selectDuration(this)">
+                            <div class="duration-days">7</div>
+                            <div class="duration-label">days</div>
+                        </div>
+                        <div class="duration-option selected" data-dur="30" onclick="selectDuration(this)">
+                            <div class="duration-days">30</div>
+                            <div class="duration-label">days</div>
+                        </div>
+                        <div class="duration-option" data-dur="90" onclick="selectDuration(this)">
+                            <div class="duration-days">90</div>
+                            <div class="duration-label">days</div>
+                        </div>
+                        <div class="duration-option no-end" data-dur="0" onclick="selectDuration(this)">
+                            <div class="duration-days">&infin;</div>
+                            <div class="duration-label">ongoing</div>
+                        </div>
                     </div>
-                    <div class="settings-row">
-                        <span class="settings-label">Start Date</span>
-                        <span class="settings-value" id="onbStartDateDisplay">Today</span>
-                        <input type="date" id="onbStartDateInput" onchange="onOnbStartDateChange(this.value)">
+                    <div class="custom-row">
+                        <span class="custom-label">Or custom:</span>
+                        <div class="custom-input-wrap">
+                            <input type="number" class="custom-input" id="customDurationInput" placeholder="Enter days" oninput="selectCustomDuration(this.value)" onclick="event.stopPropagation()">
+                            <span class="custom-suffix">days</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="onb-summary-card" id="onbSummaryCard"></div>
-
-            <div class="onb-info-tip">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                <span>You can edit these details at any time from the goal page.</span>
+            <!-- Target -->
+            <div class="form-group animate-in delay-3">
+                <div class="form-label">Target Completion Rate</div>
+                <div class="form-card">
+                    <div class="target-section">
+                        <div class="target-display">
+                            <div class="target-value-lg" id="targetValue">80%</div>
+                            <div class="target-desc" id="targetDesc">Maintain <strong>80%</strong> completion to keep savings unlocked</div>
+                        </div>
+                        <input type="range" class="target-slider" id="targetSlider" min="50" max="100" value="80" oninput="updateTargetLabel()">
+                    </div>
+                </div>
             </div>
 
-            <button class="btn-primary" onclick="createGoalAndContinue()">Create Goal</button>
+            <!-- Settings -->
+            <div class="form-group animate-in delay-3">
+                <div class="form-label">Settings</div>
+                <div class="form-card">
+                    <div class="selector-field">
+                        <span class="selector-label">Daily Reminder</span>
+                        <span class="selector-value" id="onbReminderDisplay">
+                            9:00 PM
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>
+                        </span>
+                        <input type="time" id="onbReminderInput" value="21:00" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2;" onchange="onOnbReminderChange(this.value)">
+                    </div>
+                    <div class="selector-field">
+                        <span class="selector-label">Start Date</span>
+                        <span class="selector-value" id="onbStartDateDisplay">
+                            Today
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>
+                        </span>
+                        <input type="date" id="onbStartDateInput" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2;" onchange="onOnbStartDateChange(this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="form-group animate-in delay-4">
+                <div class="summary-card" id="onbSummaryCard">
+                    <div class="summary-title">Goal Summary</div>
+                    <div class="summary-row">
+                        <span class="s-label">Habits</span>
+                        <span class="s-value" id="onbSummaryHabitCount">1 habit</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="s-label">Penalty per check-in</span>
+                        <span class="s-value" id="onbMaxDailyPenalty">$5</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="s-label">Max total penalty</span>
+                        <span class="s-value" id="onbMaxPenalty">$150.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Tip -->
+            <div class="info-tip animate-in delay-4">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="16" x2="12" y2="12"/>
+                    <line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+                <p>You can edit any of these settings — the template is just a starting point. Make it yours, ninja!</p>
+            </div>
+
+            <!-- Bottom CTA -->
+            <div class="bottom-cta">
+                <button class="start-btn" onclick="createGoalAndContinue()">Create Goal</button>
+            </div>
         </div>
 
         <!-- ==================== SCREEN 9: COMMITMENT ==================== -->
@@ -1406,6 +1906,15 @@
             <div class="habit-icon-picker-handle"></div>
             <div class="habit-icon-picker-title">Choose Icon</div>
             <div class="habit-icon-picker-grid" id="habitIconPickerGrid"></div>
+        </div>
+    </div>
+
+    <!-- Goal Icon Picker Modal -->
+    <div id="goalIconPickerOverlay" onclick="closeGoalIconPicker(event)">
+        <div style="background:#fff;border-radius:24px 24px 0 0;padding:20px 20px 32px;width:100%;max-width:390px;transform:translateY(0);transition:transform 0.3s ease;">
+            <div style="width:36px;height:4px;background:#ddd;border-radius:2px;margin:0 auto 16px;"></div>
+            <div style="font-size:17px;font-weight:700;text-align:center;margin-bottom:20px;">Choose an Icon</div>
+            <div id="goalIconPickerGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;"></div>
         </div>
     </div>
 
@@ -1614,15 +2123,11 @@ function prefillCustomize(area) {
     document.getElementById('customGoalName').value = template.name;
     selectedIcon = template.icon;
 
-    // Build icon grid
-    var iconHtml = '';
-    iconIds.forEach(function(id) {
-        var sel = id === selectedIcon ? ' selected' : '';
-        iconHtml += '<div class="icon-option' + sel + '" data-icon="' + id + '" onclick="selectIcon(this)">';
-        iconHtml += GN_getIconSVG(id, 20);
-        iconHtml += '</div>';
-    });
-    document.getElementById('iconGrid').innerHTML = iconHtml;
+    // Set large centered icon
+    var iconContainer = document.getElementById('screen8GoalIcon');
+    if (iconContainer) {
+        iconContainer.innerHTML = GN_getIconSVG(selectedIcon, 40);
+    }
 
     // Build habits list
     var habitsHtml = '';
@@ -1630,6 +2135,16 @@ function prefillCustomize(area) {
         habitsHtml += buildHabitEditRow(h.name, h.penalty, h.icon, i, h.frequency || 'daily');
     });
     document.getElementById('habitsEditList').innerHTML = habitsHtml;
+
+    // Set start date min
+    var dateInput = document.getElementById('onbStartDateInput');
+    if (dateInput) {
+        var today = GN_getTodayDateStr();
+        dateInput.min = today;
+        dateInput.value = today;
+    }
+
+    updateOnbSummary();
 }
 
 // ---- Frequency helpers ----
@@ -1679,10 +2194,10 @@ function openHabitIconPicker(iconDiv) {
 function selectHabitIcon(iconId) {
     if (activeHabitIconTarget) {
         activeHabitIconTarget.dataset.icon = iconId;
-        activeHabitIconTarget.innerHTML = GN_getIconSVG(iconId, 16);
-        var editItem = activeHabitIconTarget.closest('.habit-edit-item');
-        if (editItem) {
-            var nameInput = editItem.querySelector('.habit-edit-name');
+        activeHabitIconTarget.innerHTML = GN_getIconSVG(iconId, 20);
+        var formCard = activeHabitIconTarget.closest('.habit-form-card');
+        if (formCard) {
+            var nameInput = formCard.querySelector('.habit-name-input');
             if (nameInput) nameInput.dataset.icon = iconId;
         }
     }
@@ -1695,6 +2210,43 @@ function closeHabitIconPicker(e) {
     activeHabitIconTarget = null;
 }
 
+// ---- Goal Icon Picker ----
+function changeGoalIcon() {
+    var grid = document.getElementById('goalIconPickerGrid');
+    grid.innerHTML = '';
+    iconIds.forEach(function(id) {
+        var sel = id === selectedIcon ? ' style="border:2px solid #1a1a1a;border-radius:12px;"' : ' style="border:2px solid transparent;border-radius:12px;"';
+        var item = document.createElement('div');
+        item.setAttribute('style', 'display:flex;flex-direction:column;align-items:center;padding:10px;cursor:pointer;' + (id === selectedIcon ? 'border:2px solid #1a1a1a;border-radius:12px;' : 'border:2px solid transparent;border-radius:12px;'));
+        item.onclick = function() { selectGoalIcon(id); };
+        var label = (habitIconList.find(function(h){return h.id===id;}) || {label:id}).label;
+        item.innerHTML = '<div style="width:40px;height:40px;background:#f5f5f5;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:4px;">' + GN_getIconSVG(id, 22) + '</div>' +
+            '<span style="font-size:10px;color:#6b6b6b;text-transform:capitalize;">' + label + '</span>';
+        grid.appendChild(item);
+    });
+    document.getElementById('goalIconPickerOverlay').classList.add('active');
+}
+
+function selectGoalIcon(iconId) {
+    selectedIcon = iconId;
+    var container = document.getElementById('screen8GoalIcon');
+    if (container) container.innerHTML = GN_getIconSVG(selectedIcon, 40);
+    closeGoalIconPicker();
+}
+
+function closeGoalIconPicker(e) {
+    if (e && e.target !== document.getElementById('goalIconPickerOverlay')) return;
+    document.getElementById('goalIconPickerOverlay').classList.remove('active');
+}
+
+function selectCustomDuration(value) {
+    if (value && parseInt(value) > 0) {
+        document.querySelectorAll('#durationRow .duration-option').forEach(function(el) { el.classList.remove('selected'); });
+        selectedDuration = parseInt(value);
+        updateOnbSummary();
+    }
+}
+
 // ---- Reminder & Start Date ----
 function onOnbReminderChange(val) {
     if (!val) return;
@@ -1704,41 +2256,44 @@ function onOnbReminderChange(val) {
     var m = parts[1];
     var ampm = h >= 12 ? 'PM' : 'AM';
     var h12 = h % 12 || 12;
-    document.getElementById('onbReminderDisplay').textContent = h12 + ':' + m + ' ' + ampm;
+    document.getElementById('onbReminderDisplay').innerHTML = h12 + ':' + m + ' ' + ampm + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
 }
 
 function onOnbStartDateChange(val) {
     if (!val) return;
     selectedStartDate = val;
     var today = GN_getTodayDateStr();
-    if (val === today) {
-        document.getElementById('onbStartDateDisplay').textContent = 'Today';
-    } else {
+    var label = 'Today';
+    if (val !== today) {
         var d = new Date(val + 'T12:00:00');
         var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        document.getElementById('onbStartDateDisplay').textContent = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+        label = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
     }
+    document.getElementById('onbStartDateDisplay').innerHTML = label + ' <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="9 18 15 12 9 6"/></svg>';
 }
 
 // ---- Habit Row Builder ----
 function buildHabitEditRow(name, penalty, icon, idx, frequency) {
     var parsed = parseFrequencyOnboarding(frequency || 'daily');
-    return '<div class="habit-edit-item" data-idx="' + idx + '">' +
-        '<div class="habit-edit-row">' +
-        '<div class="habit-edit-icon" data-icon="' + icon + '" onclick="openHabitIconPicker(this)">' + GN_getIconSVG(icon, 16) + '</div>' +
-        '<input type="text" class="habit-edit-name" value="' + name + '" placeholder="Habit name" data-icon="' + icon + '">' +
-        '<input type="number" class="habit-edit-penalty" value="' + penalty + '" min="1" max="100" step="1">' +
-        '<button class="habit-remove-btn" onclick="removeHabitRow(this)" title="Remove">\u2715</button>' +
-        '</div>' +
+    var safeName = (name || '').replace(/"/g, '&quot;');
+    return '<div class="habit-form-card" data-idx="' + idx + '">' +
+        '<div class="habit-form-row">' +
+        '<div class="habit-form-icon" data-icon="' + icon + '" onclick="openHabitIconPicker(this)">' + GN_getIconSVG(icon, 20) + '</div>' +
+        '<div class="habit-form-fields">' +
+        '<input type="text" class="habit-name-input" placeholder="Habit name (e.g., 100 push-ups)" value="' + safeName + '" data-icon="' + icon + '">' +
+        '<div class="habit-penalty-row"><span>Penalty: $</span><input type="number" class="habit-penalty-input" value="' + penalty + '" min="1" max="100" onchange="updateOnbSummary()"></div>' +
         '<div class="habit-freq-row">' +
         '<span class="freq-label">Every</span>' +
-        '<input type="number" class="habit-freq-num" value="' + parsed.num + '" min="1" max="365">' +
-        '<select class="habit-freq-unit">' +
+        '<input type="number" class="habit-freq-num" value="' + parsed.num + '" min="1" max="365" onchange="updateOnbSummary()">' +
+        '<select class="habit-freq-unit" onchange="updateOnbSummary()">' +
         '<option value="days"' + (parsed.unit === 'days' ? ' selected' : '') + '>day(s)</option>' +
         '<option value="weeks"' + (parsed.unit === 'weeks' ? ' selected' : '') + '>week(s)</option>' +
         '<option value="months"' + (parsed.unit === 'months' ? ' selected' : '') + '>month(s)</option>' +
         '</select>' +
         '</div>' +
+        '</div>' +
+        '</div>' +
+        '<button class="remove-habit-btn" onclick="removeHabitRow(this)" title="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>' +
         '</div>';
 }
 
@@ -1747,46 +2302,71 @@ function addHabitRow() {
     var idx = list.children.length;
     var html = buildHabitEditRow('', 5, 'target', idx, 'daily');
     list.insertAdjacentHTML('beforeend', html);
+    updateOnbSummary();
 }
 
 function removeHabitRow(btn) {
-    var item = btn.closest('.habit-edit-item');
+    var item = btn.closest('.habit-form-card');
     if (document.getElementById('habitsEditList').children.length > 1) {
         item.remove();
+        updateOnbSummary();
     }
 }
 
-function selectIcon(el) {
-    document.querySelectorAll('#iconGrid .icon-option').forEach(function(o) { o.classList.remove('selected'); });
-    el.classList.add('selected');
-    selectedIcon = el.dataset.icon;
-}
-
 function selectDuration(el) {
-    document.querySelectorAll('#durationRow .pill').forEach(function(p) { p.classList.remove('selected'); });
+    document.querySelectorAll('#durationRow .duration-option').forEach(function(p) { p.classList.remove('selected'); });
     el.classList.add('selected');
     selectedDuration = parseInt(el.dataset.dur);
+    var customInput = document.getElementById('customDurationInput');
+    if (customInput) customInput.value = '';
+    updateOnbSummary();
 }
 
 function updateTargetLabel() {
-    document.getElementById('targetValue').textContent = document.getElementById('targetSlider').value + '%';
+    var val = document.getElementById('targetSlider').value;
+    document.getElementById('targetValue').textContent = val + '%';
+    var descEl = document.getElementById('targetDesc');
+    if (descEl) {
+        descEl.innerHTML = 'Maintain <strong>' + val + '%</strong> completion to keep savings unlocked';
+    }
 }
 
 function updateOnbSummary() {
-    var habitItems = document.querySelectorAll('#habitsEditList .habit-edit-item');
+    var habitCards = document.querySelectorAll('#habitsEditList .habit-form-card');
     var habitCount = 0;
-    var totalPenalty = 0;
-    habitItems.forEach(function(item) {
-        var name = item.querySelector('.habit-edit-name').value.trim();
-        if (name) {
-            habitCount++;
-            totalPenalty += parseFloat(item.querySelector('.habit-edit-penalty').value) || 0;
+    var totalPerOccurrence = 0;
+    var totalOverDuration = 0;
+
+    habitCards.forEach(function(card) {
+        var nameInput = card.querySelector('.habit-name-input');
+        var penaltyInput = card.querySelector('.habit-penalty-input');
+        var freqNum = card.querySelector('.habit-freq-num');
+        var freqUnit = card.querySelector('.habit-freq-unit');
+        var penalty = parseFloat(penaltyInput ? penaltyInput.value : 0) || 0;
+
+        habitCount++;
+        totalPerOccurrence += penalty;
+        if (selectedDuration > 0 && freqNum && freqUnit) {
+            var freq = buildFrequencyStringOnboarding(parseInt(freqNum.value) || 1, freqUnit.value);
+            totalOverDuration += penalty * GN_getFrequencyMultiplier(freq, selectedDuration);
+        } else if (selectedDuration > 0) {
+            totalOverDuration += penalty * selectedDuration;
         }
     });
-    var card = document.getElementById('onbSummaryCard');
-    if (card) {
-        card.innerHTML = '<div class="onb-summary-row"><span class="summary-label">Habits</span><span class="summary-val">' + habitCount + '</span></div>' +
-            '<div class="onb-summary-row"><span class="summary-label">Penalty per check-in</span><span class="summary-val">$' + totalPenalty + '</span></div>';
+
+    var el = document.getElementById('onbSummaryHabitCount');
+    if (el) el.textContent = habitCount + ' habit' + (habitCount !== 1 ? 's' : '');
+
+    var dailyEl = document.getElementById('onbMaxDailyPenalty');
+    if (dailyEl) dailyEl.textContent = '$' + totalPerOccurrence;
+
+    var maxEl = document.getElementById('onbMaxPenalty');
+    if (maxEl) {
+        if (selectedDuration === 0) {
+            maxEl.textContent = 'Ongoing';
+        } else {
+            maxEl.textContent = '$' + totalOverDuration.toFixed(2);
+        }
     }
 }
 
@@ -1796,11 +2376,11 @@ function createGoalAndContinue() {
     var target = parseInt(document.getElementById('targetSlider').value) || 80;
 
     // Validate at least one habit
-    var habitItems = document.querySelectorAll('#habitsEditList .habit-edit-item');
+    var habitCards = document.querySelectorAll('#habitsEditList .habit-form-card');
     var validHabits = [];
-    habitItems.forEach(function(item) {
-        var hName = item.querySelector('.habit-edit-name').value.trim();
-        if (hName) validHabits.push(item);
+    habitCards.forEach(function(card) {
+        var hName = card.querySelector('.habit-name-input').value.trim();
+        if (hName) validHabits.push(card);
     });
     if (validHabits.length === 0) {
         alert('Please add at least one habit');
@@ -1822,11 +2402,11 @@ function createGoalAndContinue() {
     createdHabitIds = [];
 
     // Create habits
-    validHabits.forEach(function(item) {
-        var nameInput = item.querySelector('.habit-edit-name');
-        var penaltyInput = item.querySelector('.habit-edit-penalty');
-        var freqNum = item.querySelector('.habit-freq-num');
-        var freqUnit = item.querySelector('.habit-freq-unit');
+    validHabits.forEach(function(card) {
+        var nameInput = card.querySelector('.habit-name-input');
+        var penaltyInput = card.querySelector('.habit-penalty-input');
+        var freqNum = card.querySelector('.habit-freq-num');
+        var freqUnit = card.querySelector('.habit-freq-unit');
         var hName = nameInput.value.trim();
         var hPenalty = parseFloat(penaltyInput.value) || 5;
         var hIcon = nameInput.dataset.icon || 'target';
@@ -1878,9 +2458,9 @@ function triggerSuccess() {
     var goalName = document.getElementById('customGoalName').value.trim() || 'My Goal';
     var template = goalTemplates[userGoalAreas[0] || 'fitness'];
     var totalPenalty = 0;
-    var habitItems = document.querySelectorAll('#habitsEditList .habit-edit-item');
-    habitItems.forEach(function(item) {
-        var p = parseFloat(item.querySelector('.habit-edit-penalty').value) || 0;
+    var habitCards = document.querySelectorAll('#habitsEditList .habit-form-card');
+    habitCards.forEach(function(card) {
+        var p = parseFloat(card.querySelector('.habit-penalty-input').value) || 0;
         totalPenalty += p;
     });
 
