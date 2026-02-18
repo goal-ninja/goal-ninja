@@ -2537,22 +2537,56 @@ function proInterest(interested) {
 // SCREEN 12: SUCCESS
 // ============================
 function triggerSuccess() {
-    // Build summary card
-    var goalName = document.getElementById('customGoalName').value.trim() || 'My Goal';
-    var template = goalTemplates[userGoalAreas[0] || 'fitness'];
+    // Build summary card - read from created goal in localStorage for reliability
+    var goalName = 'My Goal';
+    var habitCount = createdHabitIds.length;
     var totalPenalty = 0;
-    var habitCards = document.querySelectorAll('#habitsEditList .habit-form-card');
-    habitCards.forEach(function(card) {
-        var p = parseFloat(card.querySelector('.habit-penalty-input').value) || 0;
-        totalPenalty += p;
-    });
+    var duration = selectedDuration;
+    var goalIcon = selectedIcon || 'target';
+    var template = goalTemplates[userGoalAreas[0] || 'fitness'];
 
-    var html = '<div class="summary-icon">' + template.emoji + '</div>';
+    // Try reading from the actual created goal in localStorage
+    if (createdGoalId) {
+        var goals = JSON.parse(localStorage.getItem('goalNinjaGoals') || '[]');
+        var goal = goals.find(function(g) { return g.id === createdGoalId; });
+        if (goal) {
+            goalName = goal.name;
+            duration = goal.duration || selectedDuration;
+            goalIcon = goal.icon || goalIcon;
+        }
+        var habits = JSON.parse(localStorage.getItem('goalNinjaHabits') || '[]');
+        var goalHabits = habits.filter(function(h) { return h.goalIds && h.goalIds.indexOf(createdGoalId) !== -1; });
+        if (goalHabits.length > 0) {
+            habitCount = goalHabits.length;
+            goalHabits.forEach(function(h) { totalPenalty += (h.penalty || 0); });
+        }
+    }
+
+    // Fallback: try reading from Screen 8 DOM
+    if (habitCount === 0) {
+        var habitCards = document.querySelectorAll('#habitsEditList .habit-form-card');
+        habitCards.forEach(function(card) {
+            var p = parseFloat(card.querySelector('.habit-penalty-input').value) || 0;
+            totalPenalty += p;
+            habitCount++;
+        });
+    }
+
+    // Fallback: use goal name from Screen 8 input
+    if (goalName === 'My Goal') {
+        var nameInput = document.getElementById('customGoalName');
+        if (nameInput && nameInput.value.trim()) goalName = nameInput.value.trim();
+    }
+
+    var durationText = duration > 0 ? duration + 'd' : 'Ongoing';
+    var iconSvg = GN_getIconSVG(goalIcon, 28);
+
+    var html = '<div class="summary-icon">' + iconSvg + '</div>';
     html += '<div class="summary-goal-name">' + goalName + '</div>';
     html += '<div class="summary-stats">';
-    html += '<div class="summary-stat"><div class="summary-stat-value">' + createdHabitIds.length + '</div><div class="summary-stat-label">Habits</div></div>';
-    html += '<div class="summary-stat"><div class="summary-stat-value">' + selectedDuration + 'd</div><div class="summary-stat-label">Duration</div></div>';
-    html += '<div class="summary-stat"><div class="summary-stat-value">$' + totalPenalty + '</div><div class="summary-stat-label">Check-ins</div></div>';
+    html += '<div class="summary-stat"><div class="summary-stat-value">' + habitCount + '</div><div class="summary-stat-label">Habits</div></div>';
+    html += '<div class="summary-stat"><div class="summary-stat-value">' + durationText + '</div><div class="summary-stat-label">Duration</div></div>';
+    html += '<div class="summary-stat"><div class="summary-stat-value">$' + totalPenalty + '</div><div class="summary-stat-label">Per Day</div></div>';
     html += '</div>';
     document.getElementById('summaryCard').innerHTML = html;
 
