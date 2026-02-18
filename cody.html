@@ -16,6 +16,10 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
             background: #0a0a0a;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 32px 32px;
             color: #ffffff;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -120,6 +124,13 @@
             max-width: 380px;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        .bio-cta {
+            text-align: center;
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 16px;
         }
 
         /* ========== SUBSCRIBE FORM ========== */
@@ -344,6 +355,84 @@
             opacity: 0.5;
         }
 
+        /* ========== TOOLS DROPDOWN ========== */
+        .link-item-expandable {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .link-item-toggle {
+            cursor: pointer;
+            user-select: none;
+        }
+        .link-chevron {
+            margin-left: auto;
+            opacity: 0.2;
+            transition: transform 0.3s, opacity 0.3s;
+            flex-shrink: 0;
+        }
+        .link-item-toggle:hover .link-chevron {
+            opacity: 0.5;
+        }
+        .link-chevron.open {
+            transform: rotate(180deg);
+            opacity: 0.5;
+        }
+        .tools-dropdown {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            background: #111111;
+            border-top: none;
+        }
+        .tools-dropdown.open {
+            max-height: 300px;
+        }
+        .tool-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 11px 16px 11px 44px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            transition: all 0.2s;
+            text-decoration: none;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+        .tool-item:hover {
+            color: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* ========== FLOATING CTA ========== */
+        .floating-cta {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 50;
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
+            color: #ffffff;
+            padding: 14px 24px;
+            border-radius: 9999px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s ease;
+            animation: pulseGlow 2s ease-in-out infinite;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            text-decoration: none;
+            font-family: inherit;
+        }
+        .floating-cta:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.4);
+        }
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
         /* ========== FOOTER ========== */
         .footer {
             text-align: center;
@@ -378,14 +467,15 @@
 
     <!-- ======== PROFILE CARD ======== -->
     <div class="profile-card">
-        <div class="avatar">CB</div>
+        <div class="avatar"><img src="./cody-avatar.png" alt="Cody Brown"></div>
         <h1>Cody Brown</h1>
         <p class="handle">@codez.au</p>
         <div class="status-badge">
             <span class="status-dot"></span>
             Available for projects
         </div>
-        <p class="bio">Building life-changing apps from simple ideas — one project at a time. Documenting my journey to <strong style="color:#3b82f6">$10k MRR</strong>.</p>
+        <p class="bio">Building life-changing apps from simple ideas — one project at a time.<br>Documenting my journey to <strong style="color:#3b82f6">$10k MRR</strong>.</p>
+        <p class="bio-cta">Follow along 👇</p>
 
         <form class="subscribe-form" id="subForm" onsubmit="handleSubscribe(event)">
             <input type="email" placeholder="Enter your email" required>
@@ -431,7 +521,7 @@
         <div class="projects-grid">
             <a class="project-card" href="#">
                 <div class="project-card-header">
-                    <div class="project-icon">🥷</div>
+                    <div class="project-icon"><img src="./icons/icon-192.png" alt="Goal Ninja" style="width:100%;height:100%;border-radius:8px;object-fit:cover;"></div>
                     <span class="badge live">Live</span>
                 </div>
                 <h3>Goal Ninja</h3>
@@ -475,11 +565,20 @@
                 Goal Ninja Waitlist
                 <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
             </a>
-            <a class="link-item" href="#" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                My Setup & Tools
-                <svg class="link-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-            </a>
+            <div class="link-item-expandable">
+                <div class="link-item link-item-toggle" onclick="toggleTools()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    My Setup & Tools
+                    <svg class="link-chevron" id="toolsChevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <div class="tools-dropdown" id="toolsDropdown">
+                    <a class="tool-item" href="#" target="_blank">🖥️ MacBook Pro M3</a>
+                    <a class="tool-item" href="#" target="_blank">⌨️ VS Code + Cursor</a>
+                    <a class="tool-item" href="#" target="_blank">🤖 Claude Code</a>
+                    <a class="tool-item" href="#" target="_blank">🚀 Netlify</a>
+                    <a class="tool-item" href="#" target="_blank">📱 Capacitor</a>
+                </div>
+            </div>
             <a class="link-item" href="#" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
                 Blog & Writing
@@ -495,6 +594,12 @@
 
 </div>
 
+<!-- ======== FLOATING CTA ======== -->
+<a class="floating-cta" href="mailto:cody@example.com">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    Contact Me
+</a>
+
 <script>
 // Email subscribe
 function handleSubscribe(e) {
@@ -507,6 +612,14 @@ function handleSubscribe(e) {
     localStorage.setItem('cody_subscribers', JSON.stringify(subs));
     form.style.display = 'none';
     document.getElementById('subSuccess').classList.add('show');
+}
+
+// Tools dropdown toggle
+function toggleTools() {
+    var dropdown = document.getElementById('toolsDropdown');
+    var chevron = document.getElementById('toolsChevron');
+    dropdown.classList.toggle('open');
+    chevron.classList.toggle('open');
 }
 
 // Scroll reveal (IntersectionObserver)
