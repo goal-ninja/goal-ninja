@@ -1796,7 +1796,7 @@ function finishOnboarding() {
 // ============================
 (function init() {
     // If already onboarded, redirect
-    if (localStorage.getItem('goalNinjaOnboarded') === 'true' && !window.location.search.includes('preview')) {
+    if (localStorage.getItem('goalNinjaOnboarded') === 'true' && window.location.href.indexOf('preview') === -1) {
         window.location.href = './goal-effect-home.html';
         return;
     }
