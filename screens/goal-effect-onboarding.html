@@ -240,6 +240,17 @@
             margin-bottom: 6px;
             display: block;
         }
+        .select-card .card-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 6px;
+            color: #1a1a1a;
+        }
+        .select-card .card-icon svg {
+            width: 28px;
+            height: 28px;
+        }
         .select-card .card-title {
             font-size: 14px;
             font-weight: 600;
@@ -947,17 +958,17 @@
 
         <!-- ==================== SCREEN 1: WELCOME ==================== -->
         <div class="screen" id="screen1">
-            <img src="../ninja-poses/ninja-action.png" alt="Goal Ninja" class="ninja-img">
-            <h1>Welcome to Goal Ninja</h1>
-            <p class="subtitle">Let's build a plan that's made for you.</p>
+            <img src="../ninja-poses/ninja-mentor.png" alt="Goal Ninja" class="ninja-img">
+            <h1>Hey, I'm your accountability buddy</h1>
+            <p class="subtitle">I'm here to help you crush your goals, one habit at a time.</p>
             <button class="btn-primary" onclick="goNext()">Let's Go</button>
         </div>
 
         <!-- ==================== SCREEN 2: NAME ==================== -->
         <div class="screen" id="screen2">
-            <img src="../ninja-poses/ninja-wealth.png" alt="Ninja" class="ninja-img small">
-            <h2>First, what should we call you?</h2>
-            <p class="subtitle">We'll use this to personalize your experience.</p>
+            <img src="../ninja-poses/ninja-thumbsup.png" alt="Ninja" class="ninja-img small">
+            <h2>I'd love to know your name</h2>
+            <p class="subtitle">We should be on a first-name basis, don't you think?</p>
             <input type="text" class="text-input" id="nameInput" placeholder="Your name" maxlength="24" autocomplete="off" oninput="onNameInput()">
             <button class="btn-primary" id="nameContinueBtn" onclick="saveName(); goNext()">Continue</button>
             <button class="btn-text" onclick="skipName(); goNext()">Skip</button>
@@ -965,38 +976,48 @@
 
         <!-- ==================== SCREEN 3: GOAL AREA ==================== -->
         <div class="screen scrollable" id="screen3">
-            <h2 id="goalAreaTitle">What do you want to work on?</h2>
-            <p class="subtitle">Pick as many as you like. We'll start with one.</p>
+            <h2 id="goalAreaTitle">Alright, let's dive into your goals</h2>
+            <p class="subtitle">Pick as many categories as you like.</p>
             <div class="card-grid" id="goalAreaGrid">
                 <div class="select-card" data-area="fitness" onclick="toggleArea(this)">
-                    <span class="card-emoji">🏋️</span>
+                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5a2 2 0 0 1 3 0L12 9l2.5-2.5a2 2 0 0 1 3 3L15 12l2.5 2.5a2 2 0 0 1-3 3L12 15l-2.5 2.5a2 2 0 0 1-3-3L9 12 6.5 9.5a2 2 0 0 1 0-3z"/><line x1="3" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="21" y2="12"/><line x1="12" y1="3" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="21"/></svg></span>
                     <div class="card-title">Get Fit</div>
                     <div class="card-desc">Exercise, diet, health</div>
                 </div>
                 <div class="select-card" data-area="learning" onclick="toggleArea(this)">
-                    <span class="card-emoji">📚</span>
+                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
                     <div class="card-title">Learn Something</div>
                     <div class="card-desc">Reading, study, skills</div>
                 </div>
                 <div class="select-card" data-area="saving" onclick="toggleArea(this)">
-                    <span class="card-emoji">💰</span>
+                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
                     <div class="card-title">Save Money</div>
                     <div class="card-desc">Spending, budgeting</div>
                 </div>
                 <div class="select-card" data-area="mindfulness" onclick="toggleArea(this)">
-                    <span class="card-emoji">🧘</span>
+                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
                     <div class="card-title">Be Mindful</div>
                     <div class="card-desc">Meditation, sleep, screen time</div>
                 </div>
                 <div class="select-card" data-area="breaking" onclick="toggleArea(this)">
-                    <span class="card-emoji">📵</span>
+                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/><line x1="2" y1="2" x2="22" y2="22"/></svg></span>
                     <div class="card-title">Break Bad Habits</div>
                     <div class="card-desc">Social media, junk food</div>
                 </div>
                 <div class="select-card" data-area="routine" onclick="toggleArea(this)">
-                    <span class="card-emoji">✨</span>
+                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
                     <div class="card-title">Build a Routine</div>
                     <div class="card-desc">Morning routine, daily structure</div>
+                </div>
+                <div class="select-card" data-area="productivity" onclick="toggleArea(this)">
+                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+                    <div class="card-title">Stay Productive</div>
+                    <div class="card-desc">Focus, deep work, time management</div>
+                </div>
+                <div class="select-card" data-area="wellness" onclick="toggleArea(this)">
+                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 7.65l.78.77L12 20.65l7.65-7.65.77-.78a5.4 5.4 0 0 0 0-7.65z"/></svg></span>
+                    <div class="card-title">Health & Wellness</div>
+                    <div class="card-desc">Sleep, nutrition, self-care</div>
                 </div>
             </div>
             <button class="btn-primary" id="goalAreaBtn" disabled onclick="goNext()">Continue</button>
@@ -1289,7 +1310,9 @@ var goalTemplates = {
     saving:      { name: 'Money Saver',          icon: 'money',    emoji: '💰', habits: [{ name: 'Pack Lunch', icon: 'money', penalty: 10 }, { name: 'No Impulse Buys', icon: 'shopping', penalty: 5 }] },
     mindfulness: { name: 'Mindfulness Journey',  icon: 'meditation', emoji: '🧘', habits: [{ name: 'Meditate 10 Min', icon: 'meditation', penalty: 3 }, { name: 'No Phone Before Bed', icon: 'phone', penalty: 5 }] },
     breaking:    { name: 'Digital Detox',        icon: 'phone',    emoji: '📵', habits: [{ name: 'No Social Media', icon: 'phone', penalty: 5 }, { name: 'No TikTok', icon: 'phone', penalty: 5 }] },
-    routine:     { name: 'Morning Routine',      icon: 'sun',      emoji: '✨', habits: [{ name: 'Wake Up Early', icon: 'sun', penalty: 5 }, { name: 'Make Bed', icon: 'target', penalty: 2 }, { name: 'Healthy Breakfast', icon: 'food', penalty: 3 }] }
+    routine:     { name: 'Morning Routine',      icon: 'sun',      emoji: '✨', habits: [{ name: 'Wake Up Early', icon: 'sun', penalty: 5 }, { name: 'Make Bed', icon: 'target', penalty: 2 }, { name: 'Healthy Breakfast', icon: 'food', penalty: 3 }] },
+    productivity: { name: 'Productivity Boost',  icon: 'target',   emoji: '⚡', habits: [{ name: 'Deep Work 1 Hour', icon: 'target', penalty: 5 }, { name: 'No Social Media During Work', icon: 'phone', penalty: 5 }] },
+    wellness:    { name: 'Health & Wellness',    icon: 'water',    emoji: '❤️', habits: [{ name: 'Sleep by 10:30pm', icon: 'sleep', penalty: 5 }, { name: 'Eat a Healthy Meal', icon: 'food', penalty: 3 }, { name: 'Take Vitamins', icon: 'water', penalty: 2 }] }
 };
 
 // Available icons for icon picker
@@ -1353,7 +1376,7 @@ function skipName() {
 
 function applyName() {
     // Update dynamic name references
-    document.getElementById('goalAreaTitle').textContent = 'What do you want to work on, ' + userName + '?';
+    document.getElementById('goalAreaTitle').textContent = 'Alright ' + userName + ', let\'s dive into your goals';
     document.getElementById('commitTitle').textContent = 'Make it official, ' + userName;
     document.getElementById('planTitle').textContent = userName + ', here\'s your plan';
     document.getElementById('successTitle').textContent = 'You\'re all set, ' + userName + '! 🎉';
