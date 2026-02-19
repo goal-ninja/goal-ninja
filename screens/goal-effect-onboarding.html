@@ -834,8 +834,8 @@
             border: 2px solid var(--border);
         }
         .commit-item.checked {
-            border-color: var(--success);
-            background: rgba(34,197,94,0.05);
+            border-color: var(--accent);
+            background: rgba(230,126,34,0.05);
         }
         .commit-check {
             width: 26px;
@@ -849,8 +849,8 @@
             transition: all 0.2s;
         }
         .commit-item.checked .commit-check {
-            background: var(--success);
-            border-color: var(--success);
+            background: var(--accent);
+            border-color: var(--accent);
         }
         .commit-check svg { opacity: 0; transition: opacity 0.2s; }
         .commit-item.checked .commit-check svg { opacity: 1; }
@@ -1983,26 +1983,26 @@
             <h2 id="commitTitle">Make it official</h2>
             <p class="subtitle">Your commitment to yourself</p>
             <div class="commit-list">
-                <div class="commit-item checked" onclick="toggleCommit(this)">
+                <div class="commit-item" onclick="toggleCommit(this)">
                     <div class="commit-check">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     </div>
                     <span class="commit-text">I'll check in on my habits daily</span>
                 </div>
-                <div class="commit-item checked" onclick="toggleCommit(this)">
+                <div class="commit-item" onclick="toggleCommit(this)">
                     <div class="commit-check">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     </div>
                     <span class="commit-text">I understand missed habits add to my savings</span>
                 </div>
-                <div class="commit-item checked" onclick="toggleCommit(this)">
+                <div class="commit-item" onclick="toggleCommit(this)">
                     <div class="commit-check">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
                     </div>
                     <span class="commit-text">I'm ready to build habits that stick</span>
                 </div>
             </div>
-            <button class="btn-primary" onclick="goNext()">I'm Ready</button>
+            <button class="btn-primary" id="commitBtn" disabled onclick="goNext()">I'm Ready</button>
         </div>
 
         <!-- ==================== SCREEN 10: PAYMENT SETUP ==================== -->
@@ -2603,6 +2603,8 @@ function createGoalAndContinue() {
 // ============================
 function toggleCommit(item) {
     item.classList.toggle('checked');
+    var allChecked = document.querySelectorAll('.commit-item.checked').length === 3;
+    document.getElementById('commitBtn').disabled = !allChecked;
 }
 
 // ============================
