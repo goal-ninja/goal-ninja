@@ -1123,13 +1123,6 @@
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
         }
-        .screen.scrollable .btn-primary {
-            position: sticky;
-            bottom: 24px;
-            left: auto;
-            transform: none;
-            margin-top: 20px;
-        }
 
 /* ===== Screen 8: Create-from-Template Parity ===== */
 
@@ -1492,14 +1485,13 @@
 
 /* Bottom CTA */
 #screen8 .bottom-cta {
-    position: sticky;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 16px 0 32px;
-    background: linear-gradient(to top, #f5f5f5 80%, transparent);
-    margin-top: auto;
-    flex-shrink: 0;
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    right: 24px;
+    max-width: 340px;
+    margin: 0 auto;
+    z-index: 2;
 }
 #screen8 .start-btn {
     width: 100%;
@@ -1977,7 +1969,7 @@
 
             <!-- Bottom CTA -->
             <div class="bottom-cta">
-                <button class="start-btn" onclick="createGoalAndContinue()">Create Goal</button>
+                <button class="start-btn" onclick="createGoalAndContinue()">Finalize Goal</button>
             </div>
         </div>
 
