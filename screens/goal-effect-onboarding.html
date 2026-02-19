@@ -2120,9 +2120,9 @@ function goTo(idx) {
     var pct = ((currentScreen) / (totalScreens - 1)) * 100;
     document.getElementById('progressFill').style.width = pct + '%';
     
-    // Back button: show on screens 1-7, hide on welcome (0) and post-creation (8+)
+    // Back button: hide only on first screen
     var backBtn = document.getElementById('backBtn');
-    if (currentScreen === 0 || currentScreen >= 11) {
+    if (currentScreen === 0) {
         backBtn.classList.add('hidden');
     } else {
         backBtn.classList.remove('hidden');
