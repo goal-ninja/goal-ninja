@@ -1712,6 +1712,8 @@
 
         <!-- ==================== SCREEN 5: PAIN POINTS ==================== -->
         <div class="screen scrollable" id="screen5">
+            <img src="../ninja-poses/ninja-mentor.png" alt="Ninja" class="ninja-img small" id="painNinja">
+            <div class="ninja-response" id="painResponse"></div>
             <h2>What usually gets in the way?</h2>
             <p class="subtitle">Pick all that apply — we'll help you beat them.</p>
             <div class="card-grid single-col" id="painGrid">
@@ -2202,11 +2204,33 @@ function selectExp(card) {
 // ============================
 function togglePain(card) {
     card.classList.toggle('selected');
+    var wasSelected = card.classList.contains('selected');
     userPainPoints = [];
     document.querySelectorAll('#painGrid .select-card.selected').forEach(function(c) {
         userPainPoints.push(c.dataset.pain);
     });
     document.getElementById('painBtn').disabled = userPainPoints.length === 0;
+
+    // Dynamic ninja response
+    var resp = document.getElementById('painResponse');
+    var ninja = document.getElementById('painNinja');
+    if (wasSelected) {
+        var pain = card.dataset.pain;
+        if (pain === 'motivation') {
+            resp.textContent = "That's what stakes are for! 🔥";
+            ninja.src = '../ninja-poses/ninja-action.png';
+        } else if (pain === 'streak') {
+            resp.textContent = "We use targets, not streaks! 🎯";
+            ninja.src = '../ninja-poses/ninja-thumbsup.png';
+        } else if (pain === 'consequences') {
+            resp.textContent = "Real stakes change everything! 💰";
+            ninja.src = '../ninja-poses/ninja-wealth.png';
+        } else if (pain === 'forget') {
+            resp.textContent = "I'll remind you! ⏰";
+            ninja.src = '../ninja-poses/ninja-alarm.png';
+        }
+        resp.classList.add('visible');
+    }
 }
 
 // ============================
