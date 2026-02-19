@@ -1634,55 +1634,6 @@
             <button class="btn-primary" onclick="goNext()">Continue</button>
         </div>
 
-        <!-- ==================== SCREEN 3: GOAL AREA ==================== -->
-        <div class="screen scrollable" id="screen3">
-            <h2 id="goalAreaTitle">Alright, let's dive into your goals</h2>
-            <p class="subtitle">Pick as many categories as you like.</p>
-            <div class="card-grid" id="goalAreaGrid">
-                <div class="select-card" data-area="fitness" onclick="toggleArea(this)">
-                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5a2 2 0 0 1 3 0L12 9l2.5-2.5a2 2 0 0 1 3 3L15 12l2.5 2.5a2 2 0 0 1-3 3L12 15l-2.5 2.5a2 2 0 0 1-3-3L9 12 6.5 9.5a2 2 0 0 1 0-3z"/><line x1="3" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="21" y2="12"/><line x1="12" y1="3" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="21"/></svg></span>
-                    <div class="card-title">Get Fit</div>
-                    <div class="card-desc">Exercise, diet, health</div>
-                </div>
-                <div class="select-card" data-area="learning" onclick="toggleArea(this)">
-                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
-                    <div class="card-title">Learn Something</div>
-                    <div class="card-desc">Reading, study, skills</div>
-                </div>
-                <div class="select-card" data-area="saving" onclick="toggleArea(this)">
-                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
-                    <div class="card-title">Save Money</div>
-                    <div class="card-desc">Spending, budgeting</div>
-                </div>
-                <div class="select-card" data-area="mindfulness" onclick="toggleArea(this)">
-                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
-                    <div class="card-title">Be Mindful</div>
-                    <div class="card-desc">Meditation, sleep, screen time</div>
-                </div>
-                <div class="select-card" data-area="breaking" onclick="toggleArea(this)">
-                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/><line x1="2" y1="2" x2="22" y2="22"/></svg></span>
-                    <div class="card-title">Break Bad Habits</div>
-                    <div class="card-desc">Social media, junk food</div>
-                </div>
-                <div class="select-card" data-area="routine" onclick="toggleArea(this)">
-                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
-                    <div class="card-title">Build a Routine</div>
-                    <div class="card-desc">Morning routine, daily structure</div>
-                </div>
-                <div class="select-card" data-area="productivity" onclick="toggleArea(this)">
-                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
-                    <div class="card-title">Stay Productive</div>
-                    <div class="card-desc">Focus, deep work, time management</div>
-                </div>
-                <div class="select-card" data-area="wellness" onclick="toggleArea(this)">
-                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 7.65l.78.77L12 20.65l7.65-7.65.77-.78a5.4 5.4 0 0 0 0-7.65z"/></svg></span>
-                    <div class="card-title">Health & Wellness</div>
-                    <div class="card-desc">Sleep, nutrition, self-care</div>
-                </div>
-            </div>
-            <button class="btn-primary" id="goalAreaBtn" disabled onclick="goNext()">Continue</button>
-        </div>
-
         <!-- ==================== SCREEN 4: EXPERIENCE ==================== -->
         <div class="screen" id="screen4">
             <img src="../ninja-poses/ninja-mentor.png" alt="Ninja" class="ninja-img small" id="expNinja">
@@ -1750,6 +1701,55 @@
                 </div>
             </div>
             <button class="btn-primary" id="painBtn" disabled onclick="goNext()">Continue</button>
+        </div>
+
+        <!-- ==================== SCREEN 3: GOAL AREA ==================== -->
+        <div class="screen scrollable" id="screen3">
+            <h2 id="goalAreaTitle">Alright, let's dive into your goals</h2>
+            <p class="subtitle">Pick as many categories as you like.</p>
+            <div class="card-grid" id="goalAreaGrid">
+                <div class="select-card" data-area="fitness" onclick="toggleArea(this)">
+                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5a2 2 0 0 1 3 0L12 9l2.5-2.5a2 2 0 0 1 3 3L15 12l2.5 2.5a2 2 0 0 1-3 3L12 15l-2.5 2.5a2 2 0 0 1-3-3L9 12 6.5 9.5a2 2 0 0 1 0-3z"/><line x1="3" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="21" y2="12"/><line x1="12" y1="3" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="21"/></svg></span>
+                    <div class="card-title">Get Fit</div>
+                    <div class="card-desc">Exercise, diet, health</div>
+                </div>
+                <div class="select-card" data-area="learning" onclick="toggleArea(this)">
+                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+                    <div class="card-title">Learn Something</div>
+                    <div class="card-desc">Reading, study, skills</div>
+                </div>
+                <div class="select-card" data-area="saving" onclick="toggleArea(this)">
+                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+                    <div class="card-title">Save Money</div>
+                    <div class="card-desc">Spending, budgeting</div>
+                </div>
+                <div class="select-card" data-area="mindfulness" onclick="toggleArea(this)">
+                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+                    <div class="card-title">Be Mindful</div>
+                    <div class="card-desc">Meditation, sleep, screen time</div>
+                </div>
+                <div class="select-card" data-area="breaking" onclick="toggleArea(this)">
+                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/><line x1="2" y1="2" x2="22" y2="22"/></svg></span>
+                    <div class="card-title">Break Bad Habits</div>
+                    <div class="card-desc">Social media, junk food</div>
+                </div>
+                <div class="select-card" data-area="routine" onclick="toggleArea(this)">
+                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+                    <div class="card-title">Build a Routine</div>
+                    <div class="card-desc">Morning routine, daily structure</div>
+                </div>
+                <div class="select-card" data-area="productivity" onclick="toggleArea(this)">
+                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+                    <div class="card-title">Stay Productive</div>
+                    <div class="card-desc">Focus, deep work, time management</div>
+                </div>
+                <div class="select-card" data-area="wellness" onclick="toggleArea(this)">
+                    <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 7.65l.78.77L12 20.65l7.65-7.65.77-.78a5.4 5.4 0 0 0 0-7.65z"/></svg></span>
+                    <div class="card-title">Health & Wellness</div>
+                    <div class="card-desc">Sleep, nutrition, self-care</div>
+                </div>
+            </div>
+            <button class="btn-primary" id="goalAreaBtn" disabled onclick="goNext()">Continue</button>
         </div>
 
         <!-- ==================== SCREEN 7: PERSONALIZED PLAN ==================== -->
@@ -1991,51 +1991,6 @@
             </div>
         </div>
 
-        <!-- ==================== SCREEN 11: PRO TEASER ==================== -->
-        <div class="screen scrollable" id="screen11">
-            <img src="../ninja-poses/ninja-wealth.png" alt="Ninja" class="ninja-img small">
-            <h2>Unlock your full potential</h2>
-            <p class="subtitle">Ninja Elite gives you the edge</p>
-
-            <div class="compare-table">
-                <div class="compare-header">
-                    <span></span>
-                    <span style="text-align:center;">Free</span>
-                    <span style="text-align:center;">Elite ✨</span>
-                </div>
-                <div class="compare-row">
-                    <span class="feature">Goals</span>
-                    <span class="check yes">Up to 3</span>
-                    <span class="check pro">Unlimited</span>
-                </div>
-                <div class="compare-row">
-                    <span class="feature">Analytics</span>
-                    <span class="check yes">Basic</span>
-                    <span class="check pro">Full</span>
-                </div>
-                <div class="compare-row">
-                    <span class="feature">Withdrawal Fee</span>
-                    <span class="check yes">10%</span>
-                    <span class="check pro">5%</span>
-                </div>
-                <div class="compare-row">
-                    <span class="feature">Custom Frequency</span>
-                    <span class="check no">✕</span>
-                    <span class="check pro">✓</span>
-                </div>
-                <div class="compare-row">
-                    <span class="feature">Priority Support</span>
-                    <span class="check no">✕</span>
-                    <span class="check pro">✓</span>
-                </div>
-            </div>
-
-            <p style="font-size: 13px; color: var(--text-secondary); text-align: center; margin-bottom: 16px;">Join the waitlist for Ninja Elite — launching soon</p>
-
-            <button class="btn-primary accent" onclick="proInterest(true); goNext()">Notify Me When Pro Launches</button>
-            <button class="btn-text" onclick="proInterest(false); goNext()">Maybe Later</button>
-        </div>
-
         <!-- ==================== SCREEN 12: SUCCESS ==================== -->
         <div class="screen" id="screen12">
             <img src="../ninja-poses/ninja-thumbsup.png" alt="Ninja" class="ninja-img" id="successNinja">
@@ -2081,7 +2036,7 @@
 // STATE
 // ============================
 var currentScreen = 0;
-var totalScreens = 14;
+var totalScreens = 13;
 var userName = '';
 var userGoalAreas = [];
 var userExperience = '';
@@ -2123,7 +2078,7 @@ function goTo(idx) {
     
     // Back button: show on screens 1-7, hide on welcome (0) and post-creation (8+)
     var backBtn = document.getElementById('backBtn');
-    if (currentScreen === 0 || currentScreen >= 12) {
+    if (currentScreen === 0 || currentScreen >= 11) {
         backBtn.classList.add('hidden');
     } else {
         backBtn.classList.remove('hidden');
@@ -2132,7 +2087,7 @@ function goTo(idx) {
 
     // Screen-specific triggers
     if (currentScreen === 7) triggerPlanAnimation();
-    if (currentScreen === 12) triggerSuccess();
+    if (currentScreen === 11) triggerSuccess();
 }
 
 function goNext() { goTo(currentScreen + 1); }
