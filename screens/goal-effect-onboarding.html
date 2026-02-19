@@ -3126,7 +3126,21 @@ function finishOnboarding() {
         selectedStartDate = today;
     }
 
-    goTo(0);
+    // Check for ?screen= param (used by screen gallery)
+    var urlParams = new URLSearchParams(window.location.search);
+    var startScreen = parseInt(urlParams.get('screen'));
+    if (!isNaN(startScreen) && startScreen >= 0 && startScreen < totalScreens) {
+        goTo(startScreen);
+    } else {
+        goTo(0);
+    }
+
+    // Listen for postMessage from gallery iframes
+    window.addEventListener('message', function(e) {
+        if (e.data && e.data.type === 'goToScreen' && typeof e.data.index === 'number') {
+            goTo(e.data.index);
+        }
+    });
 })();
 </script>
 </body>
