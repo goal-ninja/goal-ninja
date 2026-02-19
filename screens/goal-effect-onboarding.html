@@ -1644,7 +1644,6 @@
             <p class="subtitle">We should be on a first-name basis, don't you think?</p>
             <input type="text" class="text-input" id="nameInput" placeholder="Your name" maxlength="24" autocomplete="off" oninput="onNameInput()">
             <button class="btn-primary" id="nameContinueBtn" onclick="saveName(); goNext()">Continue</button>
-            <button class="btn-text" onclick="skipName(); goNext()">Skip</button>
         </div>
 
         <!-- ==================== SCREEN: HOW IT WORKS ==================== -->
@@ -2156,11 +2155,6 @@ function saveName() {
     applyName();
 }
 
-function skipName() {
-    userName = 'Ninja';
-    localStorage.setItem('goalNinjaUserName', userName);
-    applyName();
-}
 
 function applyName() {
     // Update dynamic name references
