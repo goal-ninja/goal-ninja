@@ -893,6 +893,43 @@
             border-top: 1px solid rgba(255,255,255,0.1);
         }
 
+        /* How It Works Steps */
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            max-width: 340px;
+        }
+        .step-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        .step-ninja {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+        }
+        .step-ninja img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .step-content h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .step-content p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
         /* Calculating Spinner */
         .calc-spinner {
             width: 48px;
@@ -1530,6 +1567,19 @@
     <!-- Carousel -->
     <div class="carousel" id="carousel">
 
+        <!-- ==================== SCREEN 6: SOCIAL PROOF ==================== -->
+        <div class="screen screen-dark scrollable" id="screen6">
+            <img src="../ninja-poses/ninja-bag.png" alt="Ninja" class="ninja-img">
+            <h2 style="color: white; margin-bottom: 8px;">Build habits, grow your <span style="color: var(--accent);">savings</span>.</h2>
+            <p class="subtitle" style="margin-bottom: 20px;">Set goals with habits, choose your stakes, and stay accountable. Miss a habit? Your penalty goes straight into your savings.</p>
+            <div class="stat-card-dark">
+                <div class="stat-card-number">95%</div>
+                <div class="stat-card-label">of people complete their goals when they have accountability with real stakes.</div>
+                <div class="stat-card-source">American Society of Training & Development</div>
+            </div>
+            <button class="btn-primary accent" onclick="goNext()" style="margin-top: auto;">That Makes Sense</button>
+        </div>
+
         <!-- ==================== SCREEN 1: WELCOME ==================== -->
         <div class="screen" id="screen1">
             <img src="../ninja-poses/ninja-mentor.png" alt="Goal Ninja" class="ninja-img">
@@ -1546,6 +1596,42 @@
             <input type="text" class="text-input" id="nameInput" placeholder="Your name" maxlength="24" autocomplete="off" oninput="onNameInput()">
             <button class="btn-primary" id="nameContinueBtn" onclick="saveName(); goNext()">Continue</button>
             <button class="btn-text" onclick="skipName(); goNext()">Skip</button>
+        </div>
+
+        <!-- ==================== SCREEN: HOW IT WORKS ==================== -->
+        <div class="screen scrollable" id="screenHIW">
+            <h2>How it works</h2>
+            <p class="subtitle">Simple accountability that actually works.</p>
+            <div class="steps-container">
+                <div class="step-card">
+                    <div class="step-ninja">
+                        <img src="../ninja-poses/ninja-focus.png" alt="Create">
+                    </div>
+                    <div class="step-content">
+                        <h3>Create a goal</h3>
+                        <p>Pick your goal, add habits to it, set how often you need to complete them, and choose your penalty for missed days.</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-ninja">
+                        <img src="../ninja-poses/ninja-goalslash.png" alt="Check in">
+                    </div>
+                    <div class="step-content">
+                        <h3>Check in daily</h3>
+                        <p>Check in daily on your habits. Complete them and your ninja celebrates! Miss one and the penalty goes to your savings.</p>
+                    </div>
+                </div>
+                <div class="step-card">
+                    <div class="step-ninja">
+                        <img src="../ninja-poses/ninja-wealth.png" alt="Savings">
+                    </div>
+                    <div class="step-content">
+                        <h3>Hit your target, unlock savings</h3>
+                        <p>Hit your target completion rate (default 80%) and your savings unlock. Fall short and you can withdraw early for a small fee.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="goNext()">Continue</button>
         </div>
 
         <!-- ==================== SCREEN 3: GOAL AREA ==================== -->
@@ -1664,19 +1750,6 @@
                 </div>
             </div>
             <button class="btn-primary" id="painBtn" disabled onclick="goNext()">Continue</button>
-        </div>
-
-        <!-- ==================== SCREEN 6: SOCIAL PROOF ==================== -->
-        <div class="screen screen-dark scrollable" id="screen6">
-            <img src="../ninja-poses/ninja-bag.png" alt="Ninja" class="ninja-img">
-            <h2 style="color: white; margin-bottom: 8px;">Build habits, grow your <span style="color: var(--accent);">savings</span>.</h2>
-            <p class="subtitle" style="margin-bottom: 20px;">Set goals with habits, choose your stakes, and stay accountable. Miss a habit? Your penalty goes straight into your savings.</p>
-            <div class="stat-card-dark">
-                <div class="stat-card-number">95%</div>
-                <div class="stat-card-label">of people complete their goals when they have accountability with real stakes.</div>
-                <div class="stat-card-source">American Society of Training & Development</div>
-            </div>
-            <button class="btn-primary accent" onclick="goNext()" style="margin-top: auto;">That Makes Sense</button>
         </div>
 
         <!-- ==================== SCREEN 7: PERSONALIZED PLAN ==================== -->
@@ -2008,7 +2081,7 @@
 // STATE
 // ============================
 var currentScreen = 0;
-var totalScreens = 13;
+var totalScreens = 14;
 var userName = '';
 var userGoalAreas = [];
 var userExperience = '';
@@ -2050,23 +2123,16 @@ function goTo(idx) {
     
     // Back button: show on screens 1-7, hide on welcome (0) and post-creation (8+)
     var backBtn = document.getElementById('backBtn');
-    if (currentScreen === 0 || currentScreen >= 11) {
+    if (currentScreen === 0 || currentScreen >= 12) {
         backBtn.classList.add('hidden');
     } else {
         backBtn.classList.remove('hidden');
     }
-    // White style for dark screen (Social Proof)
-    if (currentScreen === 5) {
-        backBtn.style.background = 'rgba(255,255,255,0.15)';
-        backBtn.querySelector('svg').style.stroke = 'white';
-    } else {
-        backBtn.style.background = '';
-        backBtn.querySelector('svg').style.stroke = '';
-    }
+
 
     // Screen-specific triggers
-    if (currentScreen === 6) triggerPlanAnimation();
-    if (currentScreen === 11) triggerSuccess();
+    if (currentScreen === 7) triggerPlanAnimation();
+    if (currentScreen === 12) triggerSuccess();
 }
 
 function goNext() { goTo(currentScreen + 1); }
