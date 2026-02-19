@@ -112,33 +112,36 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding: 60px 28px 40px;
+            padding: 60px 24px 40px;
             overflow-y: auto;
         }
 
         /* Shared Typography */
         .screen h1 {
+            font-size: 32px;
+            font-weight: 700;
+            text-align: left;
+            line-height: 1.2;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+            width: 100%;
+            max-width: 340px;
+        }
+        .screen h1 span {
+            color: var(--accent);
+        }
+        .screen h2 {
             font-size: 26px;
             font-weight: 700;
             text-align: left;
-            line-height: 1.25;
+            line-height: 1.2;
             margin-bottom: 8px;
             letter-spacing: -0.3px;
             width: 100%;
             max-width: 340px;
         }
-        .screen h2 {
-            font-size: 22px;
-            font-weight: 700;
-            text-align: left;
-            line-height: 1.25;
-            margin-bottom: 8px;
-            letter-spacing: -0.2px;
-            width: 100%;
-            max-width: 340px;
-        }
         .screen .subtitle {
-            font-size: 15px;
+            font-size: 17px;
             color: var(--text-secondary);
             text-align: left;
             line-height: 1.5;
@@ -147,11 +150,39 @@
             width: 100%;
         }
 
-        /* Centered text exceptions (hero/celebration screens) */
-        #screen6 h2, #screen6 .subtitle,
+        /* Centered text exceptions (celebration screens) */
         #screen12 h2, #screen12 .subtitle,
         #screen13 h2, #screen13 .subtitle {
             text-align: center;
+        }
+
+        /* Stat Card (light) */
+        .stat-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 24px;
+            width: 100%;
+            max-width: 340px;
+        }
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: -2px;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .stat-label {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+        .stat-source {
+            font-size: 12px;
+            color: #999999;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
         }
 
         /* Ninja Image */
@@ -1580,16 +1611,15 @@
     <div class="carousel" id="carousel">
 
         <!-- ==================== SCREEN 6: SOCIAL PROOF ==================== -->
-        <div class="screen screen-dark scrollable" id="screen6">
-            <img src="../ninja-poses/ninja-bag.png" alt="Ninja" class="ninja-img">
-            <h2 style="color: white; margin-bottom: 8px;">Build habits, grow your <span style="color: var(--accent);">savings</span>.</h2>
-            <p class="subtitle" style="margin-bottom: 20px;">Set goals with habits, choose your stakes, and stay accountable. Miss a habit? Your penalty goes straight into your savings.</p>
-            <div class="stat-card-dark">
-                <div class="stat-card-number">95%</div>
-                <div class="stat-card-label">of people complete their goals when they have accountability with real stakes.</div>
-                <div class="stat-card-source">American Society of Training & Development</div>
+        <div class="screen" id="screen6">
+            <h1>Build habits,<br>grow your <span>savings</span>.</h1>
+            <p class="subtitle">Set goals with habits, choose your stakes, and stay accountable. Miss a habit? Your penalty goes straight into your savings.</p>
+            <div class="stat-card">
+                <div class="stat-number">95%</div>
+                <div class="stat-label">of people complete their goals when they have accountability with real stakes.</div>
+                <div class="stat-source">American Society of Training & Development</div>
             </div>
-            <button class="btn-primary accent" onclick="goNext()" style="margin-top: auto;">That Makes Sense</button>
+            <button class="btn-primary" onclick="goNext()">Get Started</button>
         </div>
 
         <!-- ==================== SCREEN 1: WELCOME ==================== -->
