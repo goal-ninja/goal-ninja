@@ -5,7 +5,7 @@
 ```
 goal-ninja-package/
 ├── screens/           # All HTML screen files
-│   ├── goal-effect-navigator.html    # START HERE - links to all screens
+│   ├── navigator.html    # START HERE - links to all screens
 │   ├── goal-effect-landing.html      # Marketing/pitch page
 │   ├── goal-effect-onboarding.html   # 5-screen onboarding flow
 │   ├── goal-effect-home.html         # Main dashboard
@@ -37,7 +37,7 @@ goal-ninja-package/
 
 ## 🚀 How to Use
 
-1. Open `screens/goal-effect-navigator.html` in your browser
+1. Open `screens/navigator.html` in your browser
 2. Click on any screen to view it
 3. Navigation between screens works when all files are in the same folder
 
