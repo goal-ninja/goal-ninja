@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png?v=2">
+    <title>Goal Ninja - Upgrade to Elite</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --text: #1a1a1a;
+            --text-secondary: #666666;
+            --accent: #E67E22;
+            --accent-light: rgba(230, 126, 34, 0.1);
+            --success: #22c55e;
+            --border: #e5e5e5;
+            --radius: 16px;
+            --radius-sm: 12px;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            display: flex;
+            justify-content: center;
+            min-height: 100dvh;
+        }
+
+        /* Phone Frame */
+        .phone-wrap {
+            width: 100%;
+            max-width: 390px;
+            min-height: 100dvh;
+            background: var(--bg);
+            position: relative;
+            overflow-y: auto;
+        }
+        @media (min-width: 500px) {
+            body { background: #e0e0e0; padding: 20px; }
+            .phone-wrap {
+                max-height: 844px;
+                min-height: 844px;
+                border-radius: 32px;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+                overflow: hidden;
+            }
+        }
+
+        /* Screen Content */
+        .screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 24px 100px;
+            min-height: 100%;
+            position: relative;
+        }
+
+        /* Ninja Image */
+        .ninja-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            animation: ninjaFloat 2.5s ease-in-out infinite;
+        }
+        @keyframes ninjaFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Typography */
+        h2 {
+            font-size: 26px;
+            font-weight: 700;
+            text-align: left;
+            line-height: 1.2;
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+            width: 100%;
+            max-width: 340px;
+        }
+        .subtitle {
+            font-size: 17px;
+            color: var(--text-secondary);
+            text-align: left;
+            line-height: 1.5;
+            margin-bottom: 24px;
+            max-width: 340px;
+            width: 100%;
+        }
+
+        /* Compare Table */
+        .compare-table {
+            width: 100%;
+            max-width: 340px;
+            margin-bottom: 20px;
+        }
+        .compare-header {
+            display: grid;
+            grid-template-columns: 1fr 80px 80px;
+            padding: 10px 0;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            border-bottom: 2px solid var(--border);
+        }
+        .compare-row {
+            display: grid;
+            grid-template-columns: 1fr 80px 80px;
+            padding: 12px 0;
+            font-size: 13px;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+        }
+        .compare-row .feature { font-weight: 500; }
+        .compare-row .check { text-align: center; font-size: 16px; }
+        .compare-row .check.yes { color: var(--success); }
+        .compare-row .check.no { color: #ddd; }
+        .compare-row .check.pro { color: var(--accent); font-weight: 600; }
+
+        .waitlist-note {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 16px;
+            max-width: 340px;
+        }
+
+        /* CTA Buttons */
+        .btn-primary {
+            width: calc(100% - 48px);
+            max-width: 320px;
+            padding: 16px 24px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: -0.2px;
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+        .btn-primary:active { transform: translateX(-50%) scale(0.97); opacity: 0.9; }
+
+        .btn-text {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 8px 16px;
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .btn-text:active { opacity: 0.6; }
+    </style>
+</head>
+<body>
+    <div class="phone-wrap">
+        <div class="screen">
+            <img src="../ninja-poses/ninja-wealth.png" alt="Ninja" class="ninja-img">
+            <h2>Unlock your full potential</h2>
+            <p class="subtitle">Ninja Elite gives you the edge</p>
+
+            <div class="compare-table">
+                <div class="compare-header">
+                    <span></span>
+                    <span style="text-align:center;">Free</span>
+                    <span style="text-align:center;">Elite ✨</span>
+                </div>
+                <div class="compare-row">
+                    <span class="feature">Goals</span>
+                    <span class="check yes">Up to 3</span>
+                    <span class="check pro">Unlimited</span>
+                </div>
+                <div class="compare-row">
+                    <span class="feature">Analytics</span>
+                    <span class="check yes">Basic</span>
+                    <span class="check pro">Full</span>
+                </div>
+                <div class="compare-row">
+                    <span class="feature">Withdrawal Fee</span>
+                    <span class="check yes">10%</span>
+                    <span class="check pro">5%</span>
+                </div>
+                <div class="compare-row">
+                    <span class="feature">Custom Frequency</span>
+                    <span class="check no">✕</span>
+                    <span class="check pro">✓</span>
+                </div>
+                <div class="compare-row">
+                    <span class="feature">Priority Support</span>
+                    <span class="check no">✕</span>
+                    <span class="check pro">✓</span>
+                </div>
+            </div>
+
+            <p class="waitlist-note">Join the waitlist for Ninja Elite — launching soon</p>
+
+            <button class="btn-text">Maybe Later</button>
+            <button class="btn-primary">Notify Me When Elite Launches</button>
+        </div>
+    </div>
+
+    <script src="goal-ninja-data.js"></script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('../sw.js');
+    }
+    </script>
+</body>
+</html>
