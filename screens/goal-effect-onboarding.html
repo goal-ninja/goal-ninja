@@ -112,7 +112,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding: 60px 24px 120px;
+            padding: 60px 24px 100px;
             overflow-y: auto;
             position: relative;
         }
@@ -215,13 +215,13 @@
             cursor: pointer;
             transition: all 0.2s;
             letter-spacing: -0.2px;
-            position: sticky;
-            bottom: 0;
-            margin-top: auto;
-            flex-shrink: 0;
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 2;
         }
-        .btn-primary:active { transform: scale(0.97); opacity: 0.9; }
+        .btn-primary:active { transform: translateX(-50%) scale(0.97); opacity: 0.9; }
         .btn-primary:disabled { opacity: 0.4; pointer-events: none; }
         .btn-primary.accent { background: var(--accent); }
 
@@ -1124,6 +1124,10 @@
             -webkit-overflow-scrolling: touch;
         }
         .screen.scrollable .btn-primary {
+            position: sticky;
+            bottom: 24px;
+            left: auto;
+            transform: none;
             margin-top: 20px;
         }
 
