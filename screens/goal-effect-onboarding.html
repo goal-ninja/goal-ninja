@@ -112,8 +112,9 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding: 60px 24px 40px;
+            padding: 60px 24px 120px;
             overflow-y: auto;
+            position: relative;
         }
 
         /* Shared Typography */
@@ -200,9 +201,9 @@
             50% { transform: translateY(-8px); }
         }
 
-        /* Primary Button */
+        /* Primary Button — fixed at bottom of screen */
         .btn-primary {
-            width: 100%;
+            width: calc(100% - 48px);
             max-width: 320px;
             padding: 16px 24px;
             background: var(--text);
@@ -214,7 +215,11 @@
             cursor: pointer;
             transition: all 0.2s;
             letter-spacing: -0.2px;
+            position: sticky;
+            bottom: 0;
             margin-top: auto;
+            flex-shrink: 0;
+            z-index: 2;
         }
         .btn-primary:active { transform: scale(0.97); opacity: 0.9; }
         .btn-primary:disabled { opacity: 0.4; pointer-events: none; }
@@ -229,7 +234,11 @@
             font-weight: 500;
             cursor: pointer;
             padding: 12px;
-            margin-top: 8px;
+            margin-top: 4px;
+            position: sticky;
+            bottom: 0;
+            flex-shrink: 0;
+            z-index: 2;
         }
         .btn-text:active { opacity: 0.6; }
 
@@ -1116,8 +1125,6 @@
         }
         .screen.scrollable .btn-primary {
             margin-top: 20px;
-            flex-shrink: 0;
-            margin-bottom: 40px;
         }
 
 /* ===== Screen 8: Create-from-Template Parity ===== */
@@ -2048,7 +2055,7 @@
             <h2>One last thing — let's start strong</h2>
             <p class="subtitle" id="qwSubtitle">Check in on today's habits to get your first win!</p>
             <div id="qwHabitsList" style="width: 100%; max-width: 340px;"></div>
-            <button class="btn-primary" onclick="finishOnboarding()" style="margin-top: 20px;">Go to Dashboard →</button>
+            <button class="btn-primary" onclick="finishOnboarding()">Go to Dashboard →</button>
         </div>
 
     </div><!-- /carousel -->
