@@ -2141,6 +2141,71 @@
     font-family: inherit;
 }
 #screen10 .sub-skip button:active { opacity: 0.6; }
+
+/* ===== Screen 10b: Enable Payment ===== */
+#screen10b .payment-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 340px;
+}
+#screen10b .payment-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+}
+#screen10b .payment-desc {
+    font-size: 14px;
+    color: #6b6b6b;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+#screen10b .payment-benefits {
+    text-align: left;
+    margin-bottom: 24px;
+}
+#screen10b .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #e5e5e5;
+}
+#screen10b .benefit-item:last-child { border-bottom: none; }
+#screen10b .benefit-icon {
+    width: 24px;
+    height: 24px;
+    color: #1a1a1a;
+    flex-shrink: 0;
+}
+#screen10b .benefit-text { font-size: 14px; color: #1a1a1a; }
+#screen10b .connect-btn {
+    width: 100%;
+    background: #1a1a1a;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    margin-bottom: 12px;
+    font-family: inherit;
+}
+#screen10b .connect-btn:active { transform: scale(0.98); }
+#screen10b .skip-payment-btn {
+    width: 100%;
+    background: none;
+    color: #6b6b6b;
+    font-size: 15px;
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+}
     </style>
 </head>
 <body>
@@ -2811,6 +2876,40 @@
             </div>
         </div>
 
+        <!-- ==================== SCREEN 10b: ENABLE PAYMENT ==================== -->
+        <div class="screen" id="screen10b">
+            <img src="../ninja-poses/ninja-coin.png" alt="Ninja" class="ninja-img small">
+            <h2>Enable accountability</h2>
+            <p class="subtitle">Connect a payment method to activate stakes.</p>
+
+            <div class="payment-card">
+                <div class="payment-title">Why connect payment?</div>
+                <div class="payment-desc">Without real stakes, this is just another habit tracker. With stakes, your success rate jumps to 95%.</div>
+
+                <div class="payment-benefits">
+                    <div class="benefit-item">
+                        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="benefit-text">Only charged when you miss a day</span>
+                    </div>
+                    <div class="benefit-item">
+                        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="benefit-text">Money goes to YOUR savings</span>
+                    </div>
+                    <div class="benefit-item">
+                        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="benefit-text">Withdraw anytime (small fee if early)</span>
+                    </div>
+                    <div class="benefit-item">
+                        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="benefit-text">Secured by Stripe</span>
+                    </div>
+                </div>
+
+                <button class="connect-btn" onclick="goNext()">Connect Payment Method</button>
+                <button class="skip-payment-btn" onclick="goNext()">I'll do this later</button>
+            </div>
+        </div>
+
         <!-- ==================== SCREEN 12: SUCCESS ==================== -->
         <div class="screen" id="screen12">
             <img src="../ninja-poses/ninja-thumbsup.png" alt="Ninja" class="ninja-img" id="successNinja">
@@ -2860,7 +2959,7 @@
 // STATE
 // ============================
 var currentScreen = 0;
-var totalScreens = 14;
+var totalScreens = 15;
 var userName = '';
 var userGoalAreas = [];
 var userExperience = '';
@@ -2911,7 +3010,7 @@ function goTo(idx) {
 
     // Screen-specific triggers
     if (currentScreen === 7) triggerPlanAnimation();
-    if (currentScreen === 12) triggerSuccess();
+    if (currentScreen === 13) triggerSuccess();
 }
 
 function goNext() { goTo(currentScreen + 1); }

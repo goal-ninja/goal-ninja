@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png?v=2">
+    <title>Goal Ninja - Enable Payment</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --text: #1a1a1a;
+            --text-secondary: #666666;
+            --accent: #E67E22;
+            --border: #e5e5e5;
+            --radius: 16px;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+            justify-content: center;
+            min-height: 100dvh;
+        }
+
+        /* Phone Frame */
+        .phone-wrap {
+            width: 100%;
+            max-width: 390px;
+            min-height: 100dvh;
+            background: var(--bg);
+            position: relative;
+        }
+        @media (min-width: 500px) {
+            body { background: #e0e0e0; padding: 20px; }
+            .phone-wrap {
+                max-height: 844px;
+                min-height: 844px;
+                border-radius: 32px;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+                overflow: hidden;
+            }
+        }
+
+        .screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 24px 100px;
+            min-height: 100%;
+        }
+
+        .ninja-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            animation: ninjaFloat 2.5s ease-in-out infinite;
+        }
+        @keyframes ninjaFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        h2 {
+            font-size: 26px;
+            font-weight: 700;
+            text-align: left;
+            line-height: 1.2;
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+            width: 100%;
+            max-width: 340px;
+        }
+        .subtitle {
+            font-size: 17px;
+            color: var(--text-secondary);
+            text-align: left;
+            line-height: 1.5;
+            margin-bottom: 24px;
+            max-width: 340px;
+            width: 100%;
+        }
+
+        .payment-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 340px;
+        }
+        .payment-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+        .payment-desc {
+            font-size: 14px;
+            color: #6b6b6b;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .payment-benefits {
+            text-align: left;
+            margin-bottom: 24px;
+        }
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        .benefit-item:last-child { border-bottom: none; }
+        .benefit-icon {
+            width: 24px;
+            height: 24px;
+            color: #1a1a1a;
+            flex-shrink: 0;
+        }
+        .benefit-text { font-size: 14px; color: #1a1a1a; }
+        .connect-btn {
+            width: 100%;
+            background: #1a1a1a;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            margin-bottom: 12px;
+            font-family: inherit;
+        }
+        .connect-btn:active { transform: scale(0.98); }
+        .skip-payment-btn {
+            width: 100%;
+            background: none;
+            color: #6b6b6b;
+            font-size: 15px;
+            padding: 12px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-wrap">
+        <div class="screen">
+            <img src="../ninja-poses/ninja-coin.png" alt="Ninja" class="ninja-img">
+            <h2>Enable accountability</h2>
+            <p class="subtitle">Connect a payment method to activate stakes.</p>
+
+            <div class="payment-card">
+                <div class="payment-title">Why connect payment?</div>
+                <div class="payment-desc">Without real stakes, this is just another habit tracker. With stakes, your success rate jumps to 95%.</div>
+
+                <div class="payment-benefits">
+                    <div class="benefit-item">
+                        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="benefit-text">Only charged when you miss a day</span>
+                    </div>
+                    <div class="benefit-item">
+                        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="benefit-text">Money goes to YOUR savings</span>
+                    </div>
+                    <div class="benefit-item">
+                        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="benefit-text">Withdraw anytime (small fee if early)</span>
+                    </div>
+                    <div class="benefit-item">
+                        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span class="benefit-text">Secured by Stripe</span>
+                    </div>
+                </div>
+
+                <button class="connect-btn">Connect Payment Method</button>
+                <button class="skip-payment-btn">I'll do this later</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="goal-ninja-data.js"></script>
+    <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('../sw.js');
+    }
+    </script>
+</body>
+</html>
