@@ -1259,7 +1259,7 @@
             width: 56px;
             height: 56px;
             border-radius: 16px;
-            background: var(--accent-light);
+            background: var(--bg);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1282,12 +1282,38 @@
         .summary-stat-value {
             font-size: 20px;
             font-weight: 700;
-            color: var(--accent);
+            color: var(--text);
         }
         .summary-stat-label {
             font-size: 11px;
             color: var(--text-secondary);
             margin-top: 2px;
+        }
+
+        /* Ninja Wisdom Tip */
+        .ninja-wisdom {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            width: 100%;
+            max-width: 340px;
+            margin-top: 4px;
+        }
+        .ninja-wisdom img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .ninja-wisdom p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .ninja-wisdom p strong {
+            color: var(--text);
+            font-weight: 600;
         }
 
         /* Quick Win Check-in */
@@ -2357,9 +2383,13 @@
         <!-- ==================== SCREEN 12: SUCCESS ==================== -->
         <div class="screen" id="screen12">
             <img src="../ninja-poses/ninja-thumbsup.png" alt="Ninja" class="ninja-img" id="successNinja">
-            <h1 id="successTitle">You're all set! 🎉</h1>
-            <p class="subtitle">Your first goal is live. Let's make it count.</p>
+            <h2 id="successTitle">You're all set!</h2>
+            <p class="subtitle">Your first goal is ready. Time to build that habit.</p>
             <div class="summary-card" id="summaryCard"></div>
+            <div class="ninja-wisdom">
+                <img src="../ninja-poses/ninja-mentor.png" alt="Ninja tip">
+                <p>Remember: if you miss days, the penalty goes into <strong>your savings</strong> — not ours. Hit your target to unlock your savings, or withdraw early for a small fee.</p>
+            </div>
             <button class="btn-primary" onclick="goNext()">Start Day 1 →</button>
         </div>
 
@@ -2476,7 +2506,7 @@ function applyName() {
     document.getElementById('goalAreaTitle').textContent = 'Alright ' + userName + ', let\'s dive into your goals';
     document.getElementById('commitTitle').textContent = 'Make it official, ' + userName;
     document.getElementById('planTitle').textContent = userName + ', here\'s your plan';
-    document.getElementById('successTitle').textContent = 'You\'re all set, ' + userName + '! 🎉';
+    document.getElementById('successTitle').textContent = 'You\'re all set, ' + userName + '!';
 }
 
 // ============================
