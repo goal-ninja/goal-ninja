@@ -1776,69 +1776,367 @@
 }
 #goalIconPickerOverlay.active { display: flex; }
 
-/* ===== Screen 10: Payment Card ===== */
-#screen10 .payment-card {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 24px 20px;
-    text-align: center;
+/* ===== Screen 10: Subscription Paywall ===== */
+#screen10 .sub-content {
     width: 100%;
+    background: var(--card-bg);
 }
-#screen10 .payment-title {
-    font-size: 18px;
-    font-weight: 600;
+#screen10 .sub-hero {
+    text-align: center;
+    padding: 0 0 24px;
+}
+#screen10 .sub-hero .ninja-img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 12px;
+}
+#screen10 .pro-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--text);
+    color: #ffffff;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    letter-spacing: 0.3px;
+}
+#screen10 .pro-badge svg {
+    width: 14px;
+    height: 14px;
+}
+#screen10 .sub-hero h2 {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.15;
     margin-bottom: 8px;
-    color: #1a1a1a;
+    letter-spacing: -0.5px;
+    text-align: center;
 }
-#screen10 .payment-desc {
-    font-size: 14px;
-    color: #6b6b6b;
-    margin-bottom: 20px;
-    line-height: 1.5;
+#screen10 .sub-hero .subtitle {
+    font-size: 15px;
+    color: var(--text-secondary);
+    text-align: center;
+    max-width: 300px;
+    margin: 0 auto;
 }
-#screen10 .payment-benefits {
-    text-align: left;
-    margin-bottom: 24px;
+#screen10 .sub-section-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+    margin-bottom: 14px;
 }
-#screen10 .benefit-item {
+#screen10 .sub-feature-card {
+    background: var(--bg);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+#screen10 .sub-feature-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid #e5e5e5;
-}
-#screen10 .benefit-item:last-child { border-bottom: none; }
-#screen10 .benefit-icon {
-    width: 24px;
-    height: 24px;
-    color: #1a1a1a;
+    justify-content: center;
     flex-shrink: 0;
 }
-#screen10 .benefit-text { font-size: 14px; color: #1a1a1a; }
-#screen10 .connect-btn {
-    width: 100%;
-    background: #1a1a1a;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    padding: 16px;
-    border: none;
-    border-radius: 14px;
-    cursor: pointer;
-    margin-bottom: 12px;
-    font-family: inherit;
+#screen10 .sub-feature-icon svg {
+    width: 24px;
+    height: 24px;
 }
-#screen10 .connect-btn:active { transform: scale(0.98); }
-#screen10 .skip-payment-btn {
-    width: 100%;
-    background: none;
-    color: #6b6b6b;
+#screen10 .sub-feature-icon.highlight {
+    background: var(--text);
+    color: #ffffff;
+}
+#screen10 .sub-feature-icon.amber {
+    background: var(--bg);
+    color: var(--text);
+}
+#screen10 .sub-feature-content {
+    flex: 1;
+}
+#screen10 .sub-feature-content h3 {
     font-size: 15px;
-    padding: 12px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+#screen10 .sub-feature-content p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+#screen10 .sub-comparison {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+#screen10 .sub-comparison-tag {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+#screen10 .sub-comparison-tag.free {
+    background: var(--border);
+    color: var(--text-secondary);
+}
+#screen10 .sub-comparison-tag.pro {
+    background: #f3f4f6;
+    color: var(--text);
+}
+/* Pricing */
+#screen10 .sub-pricing {
+    margin: 24px 0 20px;
+}
+#screen10 .sub-plan-toggle {
+    display: flex;
+    background: var(--bg);
+    border-radius: 14px;
+    padding: 4px;
+    margin-bottom: 20px;
+}
+#screen10 .sub-plan-option {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 12px;
     border: none;
+    background: none;
+    color: #999;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
     font-family: inherit;
 }
+#screen10 .sub-plan-option.active {
+    background: white;
+    color: var(--text);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+#screen10 .sub-plan-option .sub-plan-price {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 2px;
+    opacity: 0.7;
+}
+#screen10 .sub-plan-option.active .sub-plan-price {
+    opacity: 0.6;
+}
+#screen10 .sub-save-badge {
+    display: inline-block;
+    background: var(--text);
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 6px;
+    margin-left: 4px;
+    vertical-align: middle;
+}
+#screen10 .sub-price-display {
+    text-align: center;
+    margin-bottom: 6px;
+}
+#screen10 .sub-price-amount {
+    font-size: 56px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -2px;
+    line-height: 1;
+}
+#screen10 .sub-price-period {
+    font-size: 18px;
+    font-weight: 400;
+    color: #999;
+}
+#screen10 .sub-price-note {
+    text-align: center;
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 8px;
+}
+/* CTA */
+#screen10 .sub-cta {
+    margin-bottom: 24px;
+}
+#screen10 .sub-cta-btn {
+    width: 100%;
+    padding: 18px 24px;
+    border: none;
+    border-radius: 16px;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    background: var(--text);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 16px rgba(26,26,26,0.2);
+    font-family: inherit;
+}
+#screen10 .sub-cta-btn:active { transform: scale(0.98); }
+#screen10 .sub-cta-note {
+    text-align: center;
+    font-size: 13px;
+    color: #999;
+    margin-top: 12px;
+}
+/* Social Proof */
+#screen10 .sub-social-proof {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+#screen10 .sub-avatar-stack {
+    display: flex;
+}
+#screen10 .sub-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: -8px;
+    border: 2px solid var(--card-bg);
+}
+#screen10 .sub-avatar:first-child { margin-left: 0; }
+#screen10 .sub-avatar.a1 { background: var(--text); color: white; }
+#screen10 .sub-avatar.a2 { background: #666; color: white; }
+#screen10 .sub-avatar.a3 { background: #999; color: white; }
+#screen10 .sub-avatar.a4 { background: var(--bg); color: #999; font-size: 10px; }
+#screen10 .sub-social-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.3;
+}
+#screen10 .sub-social-text strong {
+    color: var(--text);
+    font-weight: 600;
+}
+/* Guarantee */
+#screen10 .sub-guarantee {
+    background: #f3f4f6;
+    border-radius: 16px;
+    padding: 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+#screen10 .sub-guarantee-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+#screen10 .sub-guarantee-icon svg {
+    width: 22px;
+    height: 22px;
+    color: var(--text);
+}
+#screen10 .sub-guarantee-content h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+#screen10 .sub-guarantee-content p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+/* FAQ */
+#screen10 .sub-faq {
+    margin-bottom: 24px;
+}
+#screen10 .sub-faq-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #999;
+    margin-bottom: 14px;
+}
+#screen10 .sub-faq-item {
+    background: var(--bg);
+    border-radius: 14px;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+#screen10 .sub-faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    cursor: pointer;
+}
+#screen10 .sub-faq-question span {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+}
+#screen10 .sub-faq-chevron {
+    width: 20px;
+    height: 20px;
+    color: #999;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+#screen10 .sub-faq-item.open .sub-faq-chevron {
+    transform: rotate(180deg);
+}
+#screen10 .sub-faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+#screen10 .sub-faq-item.open .sub-faq-answer {
+    max-height: 200px;
+}
+#screen10 .sub-faq-answer-inner {
+    padding: 0 16px 16px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+/* Skip link */
+#screen10 .sub-skip {
+    text-align: center;
+    padding-bottom: 20px;
+}
+#screen10 .sub-skip button {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 8px 16px;
+    font-family: inherit;
+}
+#screen10 .sub-skip button:active { opacity: 0.6; }
     </style>
 </head>
 <body>
@@ -2346,37 +2644,166 @@
             <button class="btn-primary" onclick="goNext()">Continue</button>
         </div>
 
-        <!-- ==================== SCREEN 10: PAYMENT SETUP ==================== -->
-        <div class="screen" id="screen10">
-            <img src="../ninja-poses/ninja-coin.png" alt="Ninja" class="ninja-img small">
-            <h2>Enable accountability</h2>
-            <p class="subtitle">Connect a payment method to activate stakes.</p>
+        <!-- ==================== SCREEN 10: SUBSCRIPTION PAYWALL ==================== -->
+        <div class="screen scrollable" id="screen10">
+            <div class="sub-content">
+                <!-- Hero -->
+                <div class="sub-hero">
+                    <img src="../ninja-poses/ninja-wealth.png" alt="Goal Ninja Pro" class="ninja-img">
+                    <div class="pro-badge">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                        Goal Ninja Pro
+                    </div>
+                    <h2>Unlock your full<br>potential</h2>
+                    <p class="subtitle">Lower fees, unlimited goals, and exclusive features to supercharge your habits.</p>
+                </div>
 
-            <div class="payment-card">
-                <div class="payment-title">Why connect payment?</div>
-                <div class="payment-desc">Without real stakes, this is just another habit tracker. With stakes, your success rate jumps to 95%.</div>
+                <!-- Features -->
+                <div class="sub-section-label">What you get</div>
 
-                <div class="payment-benefits">
-                    <div class="benefit-item">
-                        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span class="benefit-text">Only charged when you miss a day</span>
+                <!-- Feature 1: Zero withdrawal fee -->
+                <div class="sub-feature-card">
+                    <div class="sub-feature-icon highlight">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                            <polyline points="17 6 23 6 23 12"/>
+                        </svg>
                     </div>
-                    <div class="benefit-item">
-                        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span class="benefit-text">Money goes to YOUR savings</span>
-                    </div>
-                    <div class="benefit-item">
-                        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span class="benefit-text">Withdraw anytime (small fee if early)</span>
-                    </div>
-                    <div class="benefit-item">
-                        <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span class="benefit-text">Secured by Stripe</span>
+                    <div class="sub-feature-content">
+                        <h3><strong>Zero</strong> withdrawal fee</h3>
+                        <p>Keep every dollar of your savings when you cash out.</p>
+                        <div class="sub-comparison">
+                            <span class="sub-comparison-tag free">Free 10%</span>
+                            <span class="sub-comparison-tag pro">Pro 0%</span>
+                        </div>
                     </div>
                 </div>
 
-                <button class="connect-btn" onclick="savePaymentIntent(true); goNext()">Connect Payment Method</button>
-                <button class="skip-payment-btn" onclick="savePaymentIntent(false); goNext()">I'll do this later</button>
+                <!-- Feature 2: Unlimited goals -->
+                <div class="sub-feature-card">
+                    <div class="sub-feature-icon amber">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="16"/>
+                            <line x1="8" y1="12" x2="16" y2="12"/>
+                        </svg>
+                    </div>
+                    <div class="sub-feature-content">
+                        <h3>Unlimited goals</h3>
+                        <p>No cap on the number of active goals you can track.</p>
+                        <div class="sub-comparison">
+                            <span class="sub-comparison-tag free">Free 3 active</span>
+                            <span class="sub-comparison-tag pro">Pro unlimited</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature 3: Advanced analytics -->
+                <div class="sub-feature-card">
+                    <div class="sub-feature-icon amber">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10"/>
+                            <line x1="12" y1="20" x2="12" y2="4"/>
+                            <line x1="6" y1="20" x2="6" y2="14"/>
+                        </svg>
+                    </div>
+                    <div class="sub-feature-content">
+                        <h3>Advanced analytics</h3>
+                        <p>Detailed stats, trends, and insights to keep you on track.</p>
+                    </div>
+                </div>
+
+                <!-- Pricing -->
+                <div class="sub-pricing">
+                    <div class="sub-plan-toggle">
+                        <button class="sub-plan-option" id="subMonthlyPlan" onclick="selectSubPlan('monthly')">
+                            Monthly
+                            <span class="sub-plan-price">$9.99/mo</span>
+                        </button>
+                        <button class="sub-plan-option active" id="subYearlyPlan" onclick="selectSubPlan('yearly')">
+                            Yearly <span class="sub-save-badge">Save 50%</span>
+                            <span class="sub-plan-price">$4.99/mo</span>
+                        </button>
+                    </div>
+
+                    <div class="sub-price-display">
+                        <span class="sub-price-amount" id="subPriceAmount">$59.94</span>
+                        <span class="sub-price-period" id="subPricePeriod"> /year</span>
+                    </div>
+                    <p class="sub-price-note" id="subPriceNote">Billed annually. That's just $4.99/month.</p>
+                </div>
+
+                <!-- CTA -->
+                <div class="sub-cta">
+                    <button class="sub-cta-btn" id="subCtaBtn" onclick="savePaymentIntent(true); goNext()">
+                        Start Pro — 7 Days Free
+                    </button>
+                    <p class="sub-cta-note">Cancel anytime. No questions asked.</p>
+                </div>
+
+                <!-- Social Proof -->
+                <div class="sub-social-proof">
+                    <div class="sub-avatar-stack">
+                        <div class="sub-avatar a1">MR</div>
+                        <div class="sub-avatar a2">SK</div>
+                        <div class="sub-avatar a3">JL</div>
+                        <div class="sub-avatar a4">+</div>
+                    </div>
+                    <p class="sub-social-text"><strong>2,400+</strong> people upgraded this month</p>
+                </div>
+
+                <!-- Guarantee -->
+                <div class="sub-guarantee">
+                    <div class="sub-guarantee-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <div class="sub-guarantee-content">
+                        <h3>7-day free trial</h3>
+                        <p>Try Pro risk-free. You won't be charged until your trial ends, and you can cancel anytime before that.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ -->
+                <div class="sub-faq">
+                    <div class="sub-faq-label">Common questions</div>
+
+                    <div class="sub-faq-item" onclick="toggleSubFaq(this)">
+                        <div class="sub-faq-question">
+                            <span>Can I cancel anytime?</span>
+                            <svg class="sub-faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                        </div>
+                        <div class="sub-faq-answer">
+                            <div class="sub-faq-answer-inner">Yes, absolutely. You can cancel your subscription at any time from your account settings. No cancellation fees or lock-in contracts. Your Pro features remain active until the end of your billing period.</div>
+                        </div>
+                    </div>
+
+                    <div class="sub-faq-item" onclick="toggleSubFaq(this)">
+                        <div class="sub-faq-question">
+                            <span>What happens to my goals if I cancel?</span>
+                            <svg class="sub-faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                        </div>
+                        <div class="sub-faq-answer">
+                            <div class="sub-faq-answer-inner">Your goals and progress data are always safe. If you cancel, you'll keep up to 3 active goals. Any extra goals will be paused, not deleted. You can reactivate them anytime by upgrading again.</div>
+                        </div>
+                    </div>
+
+                    <div class="sub-faq-item" onclick="toggleSubFaq(this)">
+                        <div class="sub-faq-question">
+                            <span>Is my payment secure?</span>
+                            <svg class="sub-faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                        </div>
+                        <div class="sub-faq-answer">
+                            <div class="sub-faq-answer-inner">All payments are processed securely through the App Store or Google Play. We never store your credit card information directly. Your payment details are protected by industry-standard encryption.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skip -->
+                <div class="sub-skip">
+                    <button onclick="savePaymentIntent(false); goNext()">Maybe Later</button>
+                </div>
             </div>
         </div>
 
@@ -2953,10 +3380,43 @@ function toggleCommit(item) {
 }
 
 // ============================
-// SCREEN 10: PAYMENT
+// SCREEN 10: SUBSCRIPTION PAYWALL
 // ============================
 function savePaymentIntent(wantsPayment) {
     localStorage.setItem('goalNinjaPaymentIntent', wantsPayment ? 'true' : 'false');
+}
+
+function selectSubPlan(plan) {
+    var monthlyBtn = document.getElementById('subMonthlyPlan');
+    var yearlyBtn = document.getElementById('subYearlyPlan');
+    var priceAmount = document.getElementById('subPriceAmount');
+    var pricePeriod = document.getElementById('subPricePeriod');
+    var priceNote = document.getElementById('subPriceNote');
+
+    if (plan === 'monthly') {
+        monthlyBtn.classList.add('active');
+        yearlyBtn.classList.remove('active');
+        priceAmount.textContent = '$9.99';
+        pricePeriod.textContent = ' /month';
+        priceNote.textContent = 'Billed monthly. Cancel anytime.';
+    } else {
+        yearlyBtn.classList.add('active');
+        monthlyBtn.classList.remove('active');
+        priceAmount.textContent = '$59.94';
+        pricePeriod.textContent = ' /year';
+        priceNote.textContent = "Billed annually. That\u2019s just $4.99/month.";
+    }
+}
+
+function toggleSubFaq(item) {
+    var isOpen = item.classList.contains('open');
+    var allItems = document.querySelectorAll('#screen10 .sub-faq-item');
+    for (var i = 0; i < allItems.length; i++) {
+        allItems[i].classList.remove('open');
+    }
+    if (!isOpen) {
+        item.classList.add('open');
+    }
 }
 
 // ============================
