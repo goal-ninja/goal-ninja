@@ -144,7 +144,7 @@
     var currentPose = 'idle';
     var idleTimer = null;
     var speechTimer = null;
-    var state = { x: -1, y: -1, hidden: false };
+    var state = { x: -1, y: -1 };
 
     // ============================================================
     // CSS INJECTION
@@ -201,7 +201,6 @@
                 var s = JSON.parse(raw);
                 state.x = s.x || -1;
                 state.y = s.y || -1;
-                state.hidden = !!s.hidden;
             }
         } catch(e) {}
     }
@@ -212,8 +211,7 @@
         try {
             localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify({
                 x: parseInt(buddy.style.left) || 0,
-                y: parseInt(buddy.style.top) || 0,
-                hidden: state.hidden
+                y: parseInt(buddy.style.top) || 0
             }));
         } catch(e) {}
     }
@@ -544,18 +542,16 @@
         hide: function() {
             var buddy = document.getElementById('ninjaBuddy');
             if (buddy) buddy.classList.add('hidden');
-            state.hidden = true;
-            saveState();
         },
         show: function() {
             var buddy = document.getElementById('ninjaBuddy');
             if (buddy) buddy.classList.remove('hidden');
-            state.hidden = false;
-            saveState();
         },
         toggle: function() {
-            if (state.hidden) { window.NinjaBuddy.show(); }
-            else { window.NinjaBuddy.hide(); }
+            var buddy = document.getElementById('ninjaBuddy');
+            if (buddy) {
+                buddy.classList.toggle('hidden');
+            }
         }
     };
 
@@ -577,14 +573,12 @@
         hookDataLayer();
         preloadImages();
 
-        // Fade in after positioning (unless user manually hid it)
-        if (!state.hidden) {
-            var buddy = document.getElementById('ninjaBuddy');
-            if (buddy) {
-                setTimeout(function() {
-                    buddy.classList.remove('hidden');
-                }, 100);
-            }
+        // Fade in after positioning
+        var buddy = document.getElementById('ninjaBuddy');
+        if (buddy) {
+            setTimeout(function() {
+                buddy.classList.remove('hidden');
+            }, 100);
         }
 
         // Listen for custom events
