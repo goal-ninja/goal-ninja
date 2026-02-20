@@ -184,7 +184,7 @@
     // ============================================================
     function injectDOM() {
         var buddy = document.createElement('div');
-        buddy.className = 'ninja-buddy idle';
+        buddy.className = 'ninja-buddy idle hidden';
         buddy.id = 'ninjaBuddy';
         buddy.innerHTML = '<img src="' + CONFIG.IMAGE_BASE + POSES.idle + '" alt="Ninja Buddy" id="ninjaBuddyImg">' +
             '<div class="ninja-speech" id="ninjaSpeech"></div>';
@@ -239,9 +239,6 @@
             buddy.style.top = (fh - CONFIG.SIZE - bottomOffset) + 'px';
         }
 
-        if (state.hidden) {
-            buddy.classList.add('hidden');
-        }
     }
 
     // ============================================================
@@ -324,26 +321,38 @@
         var buddy = document.getElementById('ninjaBuddy');
         if (!img || !buddy) return;
 
-        // Remove all animation classes
-        buddy.classList.remove('idle', 'pose-change', 'big-celebration', 'shake');
-
-        // Preload then set
         var newSrc = CONFIG.IMAGE_BASE + POSES[poseKey];
-        img.src = newSrc;
-
-        // Apply animation
-        var animClass = animationType || 'pose-change';
-        buddy.classList.add(animClass);
-
-        var duration = animClass === 'big-celebration' ? 800 : 400;
-        setTimeout(function() {
-            buddy.classList.remove(animClass);
-            if (currentPose === 'idle') {
-                buddy.classList.add('idle');
-            }
-        }, duration);
-
         currentPose = poseKey;
+
+        function applyAnimation() {
+            buddy.classList.remove('idle', 'pose-change', 'big-celebration', 'shake');
+            var animClass = animationType || 'pose-change';
+            buddy.classList.add(animClass);
+            var duration = animClass === 'big-celebration' ? 800 : 400;
+            setTimeout(function() {
+                buddy.classList.remove(animClass);
+                if (currentPose === 'idle') {
+                    buddy.classList.add('idle');
+                }
+            }, duration);
+        }
+
+        // If same image already loaded, just animate
+        if (img.src && img.src.indexOf(POSES[poseKey]) > -1) {
+            applyAnimation();
+            return;
+        }
+
+        // Preload new image, then swap + animate
+        var preload = new Image();
+        preload.onload = function() {
+            img.src = newSrc;
+            applyAnimation();
+        };
+        preload.onerror = function() {
+            img.src = newSrc;
+        };
+        preload.src = newSrc;
     }
 
     // ============================================================
@@ -418,13 +427,6 @@
         if (idleTimer) clearTimeout(idleTimer);
         idleTimer = setTimeout(function() {
             setPose('idle', 'pose-change');
-            currentPose = 'idle';
-            var buddy = document.getElementById('ninjaBuddy');
-            if (buddy) {
-                setTimeout(function() {
-                    buddy.classList.add('idle');
-                }, CONFIG.BOUNCE_MS);
-            }
         }, CONFIG.IDLE_TIMEOUT);
     }
 
@@ -518,10 +520,16 @@
     // ============================================================
     // IMAGE PRELOADER
     // ============================================================
-    function preloadImages() {
+    function preloadImages(callback) {
         var keys = Object.keys(POSES);
-        for (var i = 0; i < keys.length; i++) {
+        var loaded = 0;
+        var total = keys.length;
+        for (var i = 0; i < total; i++) {
             var preImg = new Image();
+            preImg.onload = preImg.onerror = function() {
+                loaded++;
+                if (loaded >= total && callback) callback();
+            };
             preImg.src = CONFIG.IMAGE_BASE + POSES[keys[i]];
         }
     }
@@ -568,6 +576,16 @@
         initDrag();
         hookDataLayer();
         preloadImages();
+
+        // Fade in after positioning (unless user manually hid it)
+        if (!state.hidden) {
+            var buddy = document.getElementById('ninjaBuddy');
+            if (buddy) {
+                setTimeout(function() {
+                    buddy.classList.remove('hidden');
+                }, 100);
+            }
+        }
 
         // Listen for custom events
         document.addEventListener('ninjaEvent', function(e) {
